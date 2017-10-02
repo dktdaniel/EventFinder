@@ -1,0 +1,36 @@
+{
+  "name": "occa",
+  "version": "1.0.0",
+  "description": "Visually rich, location driven event discovery service",
+  "main": "index.js",
+  "scripts": {
+    "react-dev": "webpack -d --watch",
+    "start": "nodemon --inspect server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Funtastic4/Occa.git"
+  },
+  "author": "Funtastic4",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Funtastic4/Occa/issues"
+  },
+  "homepage": "https://github.com/Funtastic4/Occa#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.1",
+    "jquery": "^3.2.1",
+    "path": "^0.12.7",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "node-inspector": "^1.1.1",
+    "nodemon": "^1.12.1",
+    "webpack": "^3.6.0"
+  }
+}

@@ -16,7 +16,7 @@ class Map extends React.Component {
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 14,
         center: new google.maps.LatLng(37.774929, -122.419416),
-        disableDefaultUI: true
+        disableDefaultUI: false
       });
 
       var input = document.getElementById('search-input');

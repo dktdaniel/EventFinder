@@ -8,7 +8,7 @@ class Search extends React.Component {
   render() {
     return (
       <div>
-        <input type="text"></input><button type="button">Search</button>
+        <input type="text" id="search-input"></input>Search Here!
       </div>
     )
   }

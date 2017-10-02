@@ -1,42 +1,53 @@
 const React = require('react');
+const GoogleMapsLoader = require('google-maps');
+const KEY = require('../../config.js');
 
-export class Map extends React.Component {
+class Map extends React.Component {
   constructor(props) {
     super(props);
+
+    this.map = null;
   }
-  
-  componentDidUpdate(prevPros, prevState) {
-    if (prevProps.google !== this.props.google) {
-      this.loadMap()
-    }
+  componentDidMount() {
+    GoogleMapsLoader.KEY = KEY;
+    GoogleMapsLoader.LIBRARIES = ['places'];
+
+    GoogleMapsLoader.load(google => {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: new google.maps.LatLng(37.774929, -122.419416),
+        disableDefaultUI: true
+      });
+
+      var input = document.getElementById('search-input');
+      var searchBox = new google.maps.places.SearchBox(input);
+
+      searchBox.addListener('places_changed', () => {
+        var places = searchBox.getPlaces();
+        
+        var bounds = new google.maps.LatLngBounds();
+
+        places.forEach(place => {
+          if (place.geometry.viewport) {
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+        });
+
+        map.fitBounds(bounds);
+      });
+
+    });
   }
-  
-  loadMap() {
-    if (this.props && this.props.google) {
-      // google is available
-      const {google} = this.props;
-      const maps = google.maps;
-      
-      const mapRef = this.refs.map;
-      const node = React.DOM.findDOMNode(mapRef);
-      
-      let zoom = 14;
-      let lat = 37.774929;
-      let lng = -122.419416;
-      const center = new maps.LatLng(lat, lng);
-      const mapConfig = Object.assign({}, {
-        center: center,
-        zoom: zoom
-      })
-      this.map = new maps.Map(node, mapConfig);
-    }
-  }
-  
+
   render() {
+  
     return (
-      <div ref='map'>
-        Loading map...
-      </div>
+      <div id="map"></div>
     )
   }
+  
 }
+
+module.exports = Map;

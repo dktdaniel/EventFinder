@@ -8,6 +8,7 @@ class Map extends React.Component {
 
     this.map = null;
   }
+
   componentDidMount() {
     GoogleMapsLoader.KEY = KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
@@ -55,6 +56,19 @@ class Map extends React.Component {
         });
 
         map.fitBounds(bounds);
+      });
+
+      map.addListener('click', (event) => {
+        var lat = event.latLng.lat();
+        var lng = event.latLng.lng();
+
+        var place = [lat, lng];
+
+        markers.push(new google.maps.Marker({
+          map: map,
+          position: new google.maps.LatLng(place[0], place[1])
+        }));
+
       });
 
     });

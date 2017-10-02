@@ -21,6 +21,7 @@ class Map extends React.Component {
 
       var input = document.getElementById('search-input');
       var searchBox = new google.maps.places.SearchBox(input);
+      var markers = [];
 
       searchBox.addListener('places_changed', () => {
         var places = searchBox.getPlaces();
@@ -28,6 +29,24 @@ class Map extends React.Component {
         var bounds = new google.maps.LatLngBounds();
 
         places.forEach(place => {
+
+          // Create icon based on search place
+          var icon = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+          };
+
+          // Create a new marker for each place
+          markers.push(new google.maps.Marker({
+            map: map,
+            icon: icon,
+            title: place.name,
+            position: place.geometry.location
+          }));
+
           if (place.geometry.viewport) {
             bounds.union(place.geometry.viewport);
           } else {

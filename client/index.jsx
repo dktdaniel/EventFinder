@@ -1,5 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
+const Search = require('./components/Search.jsx');
 
 class App extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Occa</h1>
+        <Search />
       </div>
     )
   }

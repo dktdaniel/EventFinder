@@ -1,6 +1,7 @@
 const React = require('react');
 const GoogleMapsLoader = require('google-maps');
 const KEY = require('../../config.js');
+const mapStyles = require('../mapStyles.js');
 
 class Map extends React.Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class Map extends React.Component {
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 14,
         center: new google.maps.LatLng(37.774929, -122.419416),
-        disableDefaultUI: false
+        disableDefaultUI: false,
+        styles: mapStyles
       });
 
       var input = document.getElementById('search-input');

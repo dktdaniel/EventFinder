@@ -2,6 +2,7 @@ const React = require('react');
 const GoogleMapsLoader = require('google-maps');
 const KEY = require('../../config.js');
 const mapStyles = require('../mapStyles.js');
+const sampleData = require('../sampleData.js');
 
 class Map extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class Map extends React.Component {
 
     GoogleMapsLoader.load(google => {
       var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 14,
+        zoom: 13,
         center: new google.maps.LatLng(37.774929, -122.419416),
         disableDefaultUI: false,
         styles: mapStyles
@@ -25,6 +26,16 @@ class Map extends React.Component {
       var input = document.getElementById('search-input');
       var searchBox = new google.maps.places.SearchBox(input);
       var markers = [];
+
+      sampleData.forEach(event => {
+        var lat = Number(event.venue.lat);
+        var lng = Number(event.venue.lng);
+
+        markers.push(new google.maps.Marker({
+          map: map,
+          position: new google.maps.LatLng(lat, lng)
+        }));
+      });
 
       searchBox.addListener('places_changed', () => {
         var places = searchBox.getPlaces();
@@ -58,19 +69,6 @@ class Map extends React.Component {
         });
 
         map.fitBounds(bounds);
-      });
-
-      map.addListener('click', (event) => {
-        var lat = event.latLng.lat();
-        var lng = event.latLng.lng();
-
-        var place = [lat, lng];
-
-        markers.push(new google.maps.Marker({
-          map: map,
-          position: new google.maps.LatLng(place[0], place[1])
-        }));
-
       });
 
     });

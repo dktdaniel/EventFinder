@@ -36,13 +36,13 @@ app.get('/', (req, res) => {
     })
     .then(apiEvents => {
       return Promise.all(apiEvents.map( event => {
-        return db.searchOrCreateVenue(event.venue)
-              .then( id => {
-                event.event.venueId = id
-              })
-              .then( () => {
-                db.addNewEvents(event)
-              })
+        db.searchOrCreateVenue(event.venue)
+        .then( id => {
+          event.event.venueId = id
+        })
+        .then( () => {
+          return db.addNewEvents(event.event)
+        })
       }))
 
     })

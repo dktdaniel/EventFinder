@@ -3,10 +3,12 @@ const Promise = require('bluebird');
 const bodyParser = require('body-parser');
 const ticketmaster = require('./ticketmaster.js');
 const db = require('../db/index.js');
+const cors = require('cors');
 
 const app = Express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 //Serve up static html
 app.use(express.static(__dirname + '/../client'));

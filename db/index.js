@@ -4,8 +4,9 @@ var Promise = require('bluebird');
 var cbMysql = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'plantlife',
-  database : 'Occa'
+  password : '',
+  database : 'Occa',
+  port: '3000'
 });
 
 cbMysql.connect();

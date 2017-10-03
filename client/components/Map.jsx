@@ -1,8 +1,9 @@
 const React = require('react');
 const GoogleMapsLoader = require('google-maps');
-const KEY = require('../../config.js');
+const KEY = require('../../config.js').KEY;
 const mapStyles = require('../mapStyles.js');
 const sampleData = require('../sampleData.js');
+const $ = require('jquery');
 
 class Map extends React.Component {
   constructor(props) {
@@ -27,14 +28,17 @@ class Map extends React.Component {
       var searchBox = new google.maps.places.SearchBox(input);
       var markers = [];
 
-      sampleData.forEach(event => {
-        var lat = Number(event.venue.lat);
-        var lng = Number(event.venue.lng);
+      $.ajax('http://localhost:3000').done(data => {
+        console.log('DATA:', data);
+        data.forEach(event => {
+          var lat = Number(event.venue.lat);
+          var lng = Number(event.venue.lng);
 
-        markers.push(new google.maps.Marker({
-          map: map,
-          position: new google.maps.LatLng(lat, lng)
-        }));
+          markers.push(new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(lat, lng)
+          }));
+        });
       });
 
       searchBox.addListener('places_changed', () => {

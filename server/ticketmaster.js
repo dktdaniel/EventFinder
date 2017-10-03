@@ -38,7 +38,7 @@ const getEvents = ({lat, lng, rad = '2'}) => {
           startDate: event.dates.start.localDate,
           startTime: event.dates.start.localTime,
           image: event.images[0].url,
-          category: event.classifications[0].name,
+          category: event.classifications[0].segment.name,
           url: event.url          
         },
 

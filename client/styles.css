@@ -21,9 +21,12 @@
 }
 
 #nav {
+	font-family: Pacifico;
 	background-color: #00bcd4; 
 }
 
-#app-container h1, #nav {
+#app-container h1 {
+	font-size: 75px;
 	font-family: Pacifico;
+	color: #808e95
 }

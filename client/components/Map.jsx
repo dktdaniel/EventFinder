@@ -43,11 +43,26 @@ class Map extends React.Component {
           var lat = Number(event.venue.lat);
           var lng = Number(event.venue.lng);
 
-          markers.push(new google.maps.Marker({
+          var infowindow = new google.maps.InfoWindow({
+            content: 
+              `<div class='content'>
+                <h2> ${event.venue.name}</h2>
+                <img src=${event.venue.image} height='100px' width='auto'/>
+                <p> Hey! Here's some information! </p>
+              </div>`
+          });
+
+          var marker = new google.maps.Marker({
             map: map,
             icon: eventTypes[event.event.category],
             position: new google.maps.LatLng(lat, lng)
-          }));
+          });
+
+          marker.addListener('click', () => {
+            infowindow.open(map, marker);
+          })
+
+          markers.push(marker);
         });
       });
 

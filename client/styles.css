@@ -10,3 +10,20 @@
 	width: 80%;
 }
 
+#app-container, #map {
+	background-color: #e2f1f8; 
+	text-align: center;
+	margin: 0 auto;
+}
+
+#search {
+	text-align: center;
+}
+
+#nav {
+	background-color: #00bcd4; 
+}
+
+#app-container h1, #nav {
+	font-family: Pacifico;
+}

@@ -5,6 +5,15 @@ const mapStyles = require('../mapStyles.js');
 const sampleData = require('../sampleData.js');
 const $ = require('jquery');
 
+const eventTypes = {
+  'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+  'Arts & Theatre': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
+  'Film': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+  'Sports': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+  'Miscellaneous': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+  'Undefined': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+}
+
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -36,42 +45,22 @@ class Map extends React.Component {
 
           markers.push(new google.maps.Marker({
             map: map,
+            icon: eventTypes[event.event.category],
             position: new google.maps.LatLng(lat, lng)
           }));
         });
       });
 
       searchBox.addListener('places_changed', () => {
-        var places = searchBox.getPlaces();
-        
+        var places = searchBox.getPlaces();  
         var bounds = new google.maps.LatLngBounds();
-
         places.forEach(place => {
-
-          // Create icon based on search place
-          var icon = {
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(25, 25)
-          };
-
-          // Create a new marker for each place
-          markers.push(new google.maps.Marker({
-            map: map,
-            icon: icon,
-            title: place.name,
-            position: place.geometry.location
-          }));
-
           if (place.geometry.viewport) {
             bounds.union(place.geometry.viewport);
           } else {
             bounds.extend(place.geometry.location);
           }
         });
-
         map.fitBounds(bounds);
       });
 

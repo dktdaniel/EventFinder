@@ -12,6 +12,7 @@ cbMysql.connect();
 var connection = Promise.promisifyAll(cbMysql);
 
 const searchEvents = ({center_lat, center_lng, range}) => {
+  console.log('in search events')
   var today = new Date();
   var month = today.getMonth();
   var date = today.getDate();
@@ -44,14 +45,21 @@ const searchEvents = ({center_lat, center_lng, range}) => {
     latMax = latMin;
     latMin = temp;
   }
+<<<<<<< 1496964b5097ce58e83d3ffc9625474b822b888d
   
   var joinQuery = 
     `SELECT events.*, venues.name AS venueName, venues.lat, venues.lng, 
     venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg 
+=======
+
+  var joinQuery =
+    `SELECT events.*, venues.name AS venueName, venues.lat, venues.lng,
+    venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg
+>>>>>>> Events populated on location search
     FROM events INNER JOIN venues ON venues.givenId = events.venueId`;
 
   return connection.queryAsync(
-    `SELECT * FROM (${joinQuery})joined WHERE 
+    `SELECT * FROM (${joinQuery})joined WHERE
     (lat >= ${latMin} AND lat <= ${latMax}) AND
     (lng >= ${lngMin} AND lng <= ${lngMax}) AND
     (startDate >= ${todayDate})`)
@@ -106,11 +114,11 @@ const searchOrCreateVenue = (venueObj) => {
 
 
 const addNewEvents = (eventObj) => {
-  return connection.queryAsync(`INSERT INTO events 
+  return connection.queryAsync(`INSERT INTO events
     (name, startDate, startTime, image, category, url, venueId, givenId) VALUES
-    ("${eventObj.event.name}", "${eventObj.event.startDate}", 
-    "${eventObj.event.startTime}", "${eventObj.event.image}", 
-    "${eventObj.event.category}", "${eventObj.event.url}", 
+    ("${eventObj.event.name}", "${eventObj.event.startDate}",
+    "${eventObj.event.startTime}", "${eventObj.event.image}",
+    "${eventObj.event.category}", "${eventObj.event.url}",
     "${eventObj.event.venueId}", "${eventObj.event.givenId}")`)
   .then((response) => {
     return {

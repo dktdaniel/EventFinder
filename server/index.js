@@ -7,6 +7,7 @@ const cors = require('cors');
 
 const app = Express();
 
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -16,8 +17,7 @@ app.use(Express.static(__dirname + '/../client'));
 
 
 app.get('/events', (req, res) => {
-
-
+  console.log('incoming search body', req.body)
   var requestBody = Object.keys(req.body).length ? req.body : {
     lat: 37.788799,
     lng: -122.394798,
@@ -33,6 +33,10 @@ app.get('/events', (req, res) => {
 
   db.searchEvents(options)
     .then(events => {
+<<<<<<< 1496964b5097ce58e83d3ffc9625474b822b888d
+=======
+      //console.log('In Events');
+>>>>>>> Events populated on location search
       if (events.length !== 0) {
         throw events;
       }
@@ -42,6 +46,11 @@ app.get('/events', (req, res) => {
       return Promise.all(apiEvents.map( event => {
         return db.searchOrCreateVenue(event.venue)
         .then( id => {
+<<<<<<< 1496964b5097ce58e83d3ffc9625474b822b888d
+=======
+          // console.log('IS THE ID COMING BACK?', id);
+          // console.log('After ID, we add ID to event:', event);
+>>>>>>> Events populated on location search
           event.event.venueId = id;
           return db.addNewEvents(event);
         });
@@ -49,10 +58,14 @@ app.get('/events', (req, res) => {
 
     })
     .then( events => {
+<<<<<<< 1496964b5097ce58e83d3ffc9625474b822b888d
+=======
+      //console.log('Returning this to client:', events);
+>>>>>>> Events populated on location search
       res.send(events)
     })
     .catch( events => {
-      console.log('What am I catching?', events);
+      //console.log('What am I catching?', events);
       res.send(events)
     })
   // ticketmaster.getEvents(requestBody)
@@ -64,6 +77,45 @@ app.get('/events', (req, res) => {
   //   console.error(err);
   // });
 
+})
+
+app.post('/events', (req, res) => {
+  var params = JSON.parse(req.body.data);
+  var range = 0.0145 * params.rad;
+  var options = {
+    center_lat: params.lat,
+    center_lng: params.lng,
+    range: range
+  };
+console.log(options)
+ db.searchEvents(options)
+   .then(events => {
+     if (events.length !== 0) {
+       throw events;
+     }
+     return ticketmaster.getEvents(params)
+   })
+   .then(apiEvents => {
+     console.log('apievents', apiEvents)
+     return Promise.all(apiEvents.map( event => {
+       return db.searchOrCreateVenue(event.venue)
+       .then( id => {
+         // console.log('IS THE ID COMING BACK?', id);
+         // console.log('After ID, we add ID to event:', event);
+         event.event.venueId = id;
+         return db.addNewEvents(event);
+       });
+     }))
+
+   })
+   .then( events => {
+     //console.log('Returning this to client:', events);
+     res.send(events)
+   })
+   .catch( events => {
+     console.log('What am I catching?', events);
+     res.send(events)
+   })
 })
 
 app.listen(3000, () => {

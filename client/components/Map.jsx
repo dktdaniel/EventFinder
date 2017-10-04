@@ -67,14 +67,62 @@ class Map extends React.Component {
       searchBox.addListener('places_changed', () => {
         var places = searchBox.getPlaces();
         var bounds = new google.maps.LatLngBounds();
+        var searchLat;
+        var searchLng;
         places.forEach(place => {
           if (place.geometry.viewport) {
             bounds.union(place.geometry.viewport);
+            searchLat = place.geometry.location.lat();
+            searchLng = place.geometry.location.lng();
+
           } else {
             bounds.extend(place.geometry.location);
           }
         });
         map.fitBounds(bounds);
+        console.log(typeof searchLat)
+        console.log(typeof searchLng)
+
+        $.ajax({
+          method: 'POST',
+          url: 'http://localhost:3000/events',
+          data: {data: JSON.stringify({
+            lat: searchLat,
+            lng: searchLng,
+            rad: 5
+          })},
+          success: (data) => {
+
+            console.log('success', data)
+            data.forEach(event => {
+              var lat = Number(event.venue.lat);
+              var lng = Number(event.venue.lng);
+
+              var infowindow = new google.maps.InfoWindow({
+                content:
+                  `<div class='content'>
+                    <h3> ${event.venue.name}</h3>
+                    <img src=${event.venue.image} height='75px' width='auto'/>
+                    <p> <a href=${event.venue.url} target='_blank'>Venue Details</a</p>
+                  </div>`,
+                  maxWidth: 150
+              });
+
+              var marker = new google.maps.Marker({
+                map: map,
+                icon: eventTypes[event.event.category],
+                position: new google.maps.LatLng(lat, lng)
+              });
+
+              marker.addListener('click', () => {
+                infowindow.open(map, marker);
+              })
+
+              markers.push(marker);
+            });
+          }
+        })
+
       });
 
     });

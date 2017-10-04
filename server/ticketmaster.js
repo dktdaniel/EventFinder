@@ -1,4 +1,4 @@
-// make GET requests to ticketmaster API 
+// make GET requests to ticketmaster API
 const api = require('../config.js').API_KEY;
 const request = require('request-promise');
 
@@ -17,19 +17,21 @@ const getEvents = ({lat, lng, rad = '2'}) => {
     method: 'GET',
     uri: 'https://app.ticketmaster.com/discovery/v2/events.json?apikey=' + api +
           '&latlong=' + lat + ',' + lng +
-          '&radius=' + rad + 
+          '&radius=' + rad +
           '&unit=miles' +
           '&startDateTime=' + iso_date +
           '&endDateTime=' + iso_endDate
   }
-// &startDateTime=2017-10-02T15:19:00Z
-// &endDateTime=2017-10-09T15:18:00Z
+  console.log(options)
 
   return request(options)
   .then(data => {
     data = JSON.parse(data);
+    console.log(data)
     var events = data._embedded.events;
+    console.log(events, events.length)
     return events.map( event => {
+      console.log(event)
       return {
         event: {
           name: event.name,
@@ -37,8 +39,8 @@ const getEvents = ({lat, lng, rad = '2'}) => {
           startDate: event.dates.start.localDate,
           startTime: event.dates.start.localTime,
           image: event.images[0].url,
-          category: event.classifications[0].segment.name,
-          url: event.url          
+          category: event.classifications ? event.classifications[0].segment.name : "Undefined",
+          url: event.url
         },
 
         venue: {

@@ -11,11 +11,10 @@ const eventTypes = {
 
 var actions = {
   get: function(google, map) {
-    $.ajax('http://localhost:3000/events')
-    .done(data => {
+    return $.ajax('http://localhost:3000/events')
+    .then(data => {
       console.log('DATA:', data);
       var markers = data.map( event => {
-        console.log(this);
         var marker = this._createMarker(event, google, map);
         this._createInfoWindow(marker, event, google, map);
         return marker;
@@ -25,8 +24,7 @@ var actions = {
   },
 
   post: (lat, lng, google, map) => {
-    var context = this;
-    $.ajax({
+    return $.ajax({
       method: 'POST',
       url: 'http://localhost:3000/events',
       data: {
@@ -37,10 +35,9 @@ var actions = {
         })
       }
     })
-    .done(data => {
+    .then(data => {
       console.log(data);
       var markers = data.map( event => {
-        console.log(this, context);
         var marker = this.a._createMarker(event, google, map);
         this.a._createInfoWindow(marker, event, google, map);
         return marker;
@@ -52,10 +49,9 @@ var actions = {
     });
   },
 
-  _createMarker: function(event, google, map) {
+  _createMarker: (event, google, map) => {
       var lat = Number(event.venue.lat);
       var lng = Number(event.venue.lng);
-      console.log('Google Maps Obj:', google);
       var marker = new google.maps.Marker({
         map: map,
         icon: eventTypes[event.event.category],
@@ -79,6 +75,10 @@ var actions = {
     marker.addListener('click', () => {
       infowindow.open(map, marker);
     });
+  },
+
+  removeMarkers: markers => {
+    markers.forEach(marker => marker.setMap(null))
   }
 }
 

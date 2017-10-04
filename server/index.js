@@ -33,10 +33,6 @@ app.get('/events', (req, res) => {
 
   db.searchEvents(options)
     .then(events => {
-<<<<<<< 1496964b5097ce58e83d3ffc9625474b822b888d
-=======
-      //console.log('In Events');
->>>>>>> Events populated on location search
       if (events.length !== 0) {
         throw events;
       }
@@ -46,11 +42,6 @@ app.get('/events', (req, res) => {
       return Promise.all(apiEvents.map( event => {
         return db.searchOrCreateVenue(event.venue)
         .then( id => {
-<<<<<<< 1496964b5097ce58e83d3ffc9625474b822b888d
-=======
-          // console.log('IS THE ID COMING BACK?', id);
-          // console.log('After ID, we add ID to event:', event);
->>>>>>> Events populated on location search
           event.event.venueId = id;
           return db.addNewEvents(event);
         });
@@ -58,10 +49,6 @@ app.get('/events', (req, res) => {
 
     })
     .then( events => {
-<<<<<<< 1496964b5097ce58e83d3ffc9625474b822b888d
-=======
-      //console.log('Returning this to client:', events);
->>>>>>> Events populated on location search
       res.send(events)
     })
     .catch( events => {

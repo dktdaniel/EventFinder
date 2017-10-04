@@ -45,17 +45,10 @@ const searchEvents = ({center_lat, center_lng, range}) => {
     latMax = latMin;
     latMin = temp;
   }
-<<<<<<< 1496964b5097ce58e83d3ffc9625474b822b888d
-  
-  var joinQuery = 
-    `SELECT events.*, venues.name AS venueName, venues.lat, venues.lng, 
-    venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg 
-=======
 
   var joinQuery =
     `SELECT events.*, venues.name AS venueName, venues.lat, venues.lng,
     venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg
->>>>>>> Events populated on location search
     FROM events INNER JOIN venues ON venues.givenId = events.venueId`;
 
   return connection.queryAsync(

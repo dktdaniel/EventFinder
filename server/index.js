@@ -106,7 +106,7 @@ console.log(options)
      res.send(events)
    })
    .catch( events => {
-     console.log('What am I catching?', events);
+     //console.log('What am I catching?', events);
      res.send(events)
    })
 })

@@ -1,30 +1,32 @@
-var mysql = require('promise-mysql');
-var connection = mysql.createConnection({
+var mysql = require('mysql');
+var Promise = require('bluebird');
+
+var cbMysql = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'plantlife',
   database : 'Occa'
 });
 
-connection.connect();
-
-// Helper Functions
-// 1. searchEvents - by lat lng range and date in DB - return array of results to server
-// 2. searchOrCreateVenue
-// 3. addNewEvents - to DB - return if addition was successful or not
+cbMysql.connect();
+var connection = Promise.promisifyAll(cbMysql);
 
 const searchEvents = ({center_lat, center_lng, range}) => {
   var today = new Date();
+  var month = today.getMonth();
+  var date = today.getDate();
+  month = month.toString().length === 1 ? '0' + month : month;
+  date = date.toString().length === 1 ? '0' + date : date;
 
-  var todayDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
+  var todayDate = today.getFullYear() + '-' + month + '-' + date;
 
   var hours = today.getHours();
   var minutes = today.getMinutes();
   var seconds = today.getSeconds();
 
-  hours = hours.length === 1 ? '0' + hours : hours;
-  minutes = minutes.length === 1 ? '0' + minutes : minutes;
-  seconds = seconds.length === 1 ? '0' + seconds : seconds;
+  hours = hours.toString().length === 1 ? '0' + hours : hours;
+  minutes = minutes.toString().length === 1 ? '0' + minutes : minutes;
+  seconds = seconds.toString().length === 1 ? '0' + seconds : seconds;
 
   var todayTime = `${hours}:${minutes}:${seconds}`;
   var latMin = center_lat - range;
@@ -32,41 +34,96 @@ const searchEvents = ({center_lat, center_lng, range}) => {
   var lngMin = center_lng - range;
   var lngMax = center_lng + range;
 
-  connection.query('SELECT * FROM events WHERE ' +
-    '(lat => ' + latMin + ' AND lat <= ' + latMax + ') AND ' +
-    '(lng >= ' + lngMin + ' AND lng <= ' + lngMax + ') AND ' +
-    '(startDate >= ' + todayDate + ' AND startTime >= ' + todayTime + ')')
-  .then((err, data) => {
-    if (err) throw err;
-    return data;
+  if (lngMin > lngMax) {
+    var temp = lngMax;
+    lngMax = lngMin;
+    lngMin = temp;
+  }
+  if (latMin > latMax) {
+    var temp = latMax;
+    latMax = latMin;
+    latMin = temp;
+  }
+  
+  var joinQuery = 
+    `SELECT events.*, venues.name AS venueName, venues.lat, venues.lng, 
+    venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg 
+    FROM events INNER JOIN venues ON venues.givenId = events.venueId`;
+
+  return connection.queryAsync(
+    `SELECT * FROM (${joinQuery})joined WHERE 
+    (lat >= ${latMin} AND lat <= ${latMax}) AND
+    (lng >= ${lngMin} AND lng <= ${lngMax}) AND
+    (startDate >= ${todayDate})`)
+  .then((response) => {
+    
+    return response.map(event => {
+      return {
+        event: {
+          name: event.name,
+          givenId: event.givenId,
+          startDate: event.startDate,
+          startTime: event.startTime,
+          image: event.image,
+          category: event.category,
+          url: event.url
+        },
+        venue: {
+          givenId: event.venueId,
+          name: event.venueName,
+          lat: event.lat,
+          lng: event.lng,
+          url: event.venueUrl,
+          postalCode: event.postalCode,
+          image: event.venueImg
+        }
+      };
+    });
+  });
+}
+
+const _addNewVenue = ({givenId, name, lat, lng, url, postalCode, image}) => {
+  console.log('addNewVenue HERE');
+  return connection.queryAsync(
+    `INSERT INTO venues (givenId, name, lat, lng, url, postalCode, image)
+    VALUES ("${givenId}", "${name}", ${lat}, ${lng}, "${url}", ${postalCode}, "${image}")`)
+  .then((response) => {
+    console.log('addNewVenue response:', response);
+    console.log('addNewVenue givenId', givenId);
+    return givenId;
+  })
+  .catch((response) => {
+    console.log('Duplicate entry, so ignore', response);
+    return givenId;
   });
 }
 
 const searchOrCreateVenue = (venueObj) => {
-  connection.query('SELECT * FROM venues WHERE givenId=' + venueObj.givenId)
-  .then((err, data) => {
-    if (err) throw err;
+  return connection.queryAsync(`SELECT * FROM venues WHERE givenId="${venueObj.givenId}"`)
+  .then((data) => {
     if (data.length) {
       return data[0].givenId;
     } else {
       return _addNewVenue(venueObj);
     }
   })
-  .catch((err) => {
-    console.error('DB query error:', err);
-  });
 }
 
-const _addNewVenue = ({givenId, name, lat, lng, url, postalCode, image}) => {
-  connection.query('INSERT INTO venues (givenId, name, lat, lng, url, postalCode, image) ' +
-    ' VALUES (' + givenId + ',' + name + ',' + lat + ',' + lng + ',' + url + ',' + postalCode + ',' + image + ')')
-  .then(() => givenId);
-}
 
 const addNewEvents = (eventObj) => {
-  connection.query('INSERT INTO events (name, startDate, startTime, image, category, url) VALUES' +
-  '(' + eventObj.name + ',' + eventObj.startDate + ',' + eventObj.startTime + ',' + eventObj.image + ',' + eventObj.category + ',' + eventObj.url + ')')
-  .then(() => eventObj);
+  return connection.queryAsync(`INSERT INTO events 
+    (name, startDate, startTime, image, category, url, venueId, givenId) VALUES
+    ("${eventObj.name}", "${eventObj.startDate}", 
+    "${eventObj.startTime}", "${eventObj.image}", 
+    "${eventObj.category}", "${eventObj.url}", 
+    "${eventObj.venueId}", "${eventObj.givenId}")`)
+  .then((response) => {
+    console.log('INSERT SUCCESS LOOOOOOL', response);
+    return eventObj;
+  })
+  .catch((error) => {
+    console.error('Issue inserting new event:', error);
+  });
 }
 
 
@@ -76,7 +133,7 @@ const addNewEvents = (eventObj) => {
 // });
 
 module.exports = {
-  searchEvents
-  searchOrCreateVenue
+  searchEvents,
+  searchOrCreateVenue,
   addNewEvents
 }

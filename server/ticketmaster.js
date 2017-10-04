@@ -35,6 +35,7 @@ const getEvents = ({lat, lng, rad = '2'}) => {
       return {
         event: {
           name: event.name,
+          givenId: event.id,
           startDate: event.dates.start.localDate,
           startTime: event.dates.start.localTime,
           image: event.images[0].url,

@@ -24,8 +24,6 @@ app.get('/events', (req, res) => {
     rad: 5
   };
 
-  console.log('BODY:', requestBody);
-
    var range = 0.0145 * requestBody.rad;
    var options = {
      center_lat: requestBody.lat,
@@ -35,7 +33,6 @@ app.get('/events', (req, res) => {
 
   db.searchEvents(options)
     .then(events => {
-      console.log('In Events');
       if (events.length !== 0) {
         throw events;
       }
@@ -45,8 +42,6 @@ app.get('/events', (req, res) => {
       return Promise.all(apiEvents.map( event => {
         return db.searchOrCreateVenue(event.venue)
         .then( id => {
-          console.log('IS THE ID COMING BACK?', id);
-          console.log('After ID, we add ID to event:', event);
           event.event.venueId = id;
           return db.addNewEvents(event);
         });
@@ -54,7 +49,6 @@ app.get('/events', (req, res) => {
 
     })
     .then( events => {
-      console.log('Returning this to client:', events);
       res.send(events)
     })
     .catch( events => {

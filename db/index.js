@@ -4,7 +4,7 @@ var Promise = require('bluebird');
 var cbMysql = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'plantlife',
+  password : '',
   database : 'Occa'
 });
 
@@ -49,9 +49,6 @@ const searchEvents = ({center_lat, center_lng, range}) => {
     `SELECT events.*, venues.name AS venueName, venues.lat, venues.lng, 
     venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg 
     FROM events INNER JOIN venues ON venues.givenId = events.venueId`;
-  
-
-  console.log('About to query');
 
   return connection.queryAsync(
     `SELECT * FROM (${joinQuery})joined WHERE 
@@ -59,7 +56,6 @@ const searchEvents = ({center_lat, center_lng, range}) => {
     (lng >= ${lngMin} AND lng <= ${lngMax}) AND
     (startDate >= ${todayDate})`)
   .then((response) => {
-    console.log('POST query', response);
     return response.map(event => {
       return {
         event: {
@@ -86,17 +82,13 @@ const searchEvents = ({center_lat, center_lng, range}) => {
 }
 
 const _addNewVenue = ({givenId, name, lat, lng, url, postalCode, image}) => {
-  console.log('addNewVenue HERE');
   return connection.queryAsync(
     `INSERT INTO venues (givenId, name, lat, lng, url, postalCode, image)
     VALUES ("${givenId}", "${name}", ${lat}, ${lng}, "${url}", ${postalCode}, "${image}")`)
   .then((response) => {
-    console.log('addNewVenue response:', response);
-    console.log('addNewVenue givenId', givenId);
     return givenId;
   })
   .catch((response) => {
-    console.log('Duplicate entry, so ignore', response);
     return givenId;
   });
 }
@@ -121,8 +113,6 @@ const addNewEvents = (eventObj) => {
     "${eventObj.event.category}", "${eventObj.event.url}", 
     "${eventObj.event.venueId}", "${eventObj.event.givenId}")`)
   .then((response) => {
-    console.log('INSERT SUCCESS LOOOOOOL', response);
-    console.log('event Obj:', eventObj);
     return {
         event: {
           name: eventObj.event.name,

@@ -36,7 +36,6 @@ class Map extends React.Component {
       var markers = [];
 
       $.ajax('http://localhost:3000/events').done(data => {
-        console.log('DATA:', data);
         data.forEach(event => {
           var lat = Number(event.venue.lat);
           var lng = Number(event.venue.lng);

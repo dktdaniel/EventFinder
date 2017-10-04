@@ -13,6 +13,7 @@ cbMysql.connect();
 var connection = Promise.promisifyAll(cbMysql);
 
 const searchEvents = ({center_lat, center_lng, range}) => {
+  console.log('in search events')
   var today = new Date();
   var month = today.getMonth();
   var date = today.getDate();

@@ -9,17 +9,18 @@ const app = Express();
 app.use(bodyParser.json());
 
 //Serve up static html
-// app.use(express.static(__dirname + '/../client'));
+app.use(express.static(__dirname + '/../client'));
 
 
 
-app.get('/', (req, res) => {
+app.get('/events', (req, res) => {
 
-  var requestBody = {
+  var requestBody = req.body || {
     lat: 37.788799,
     lng: -122.394798,
     rad: 5
   };
+
    var range = 0.0145 * requestBody.rad;
    var options = {
      center_lat: requestBody.lat,

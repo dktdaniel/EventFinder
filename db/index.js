@@ -3,10 +3,10 @@ var Promise = require('bluebird');
 var JAWSDB_URL = require('../config.js').JAWSDB_URL;
 
 var cbMysql = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'plantlife',
-  database: 'Occa'
+  host     : 'localhost',
+  user     : 'root',
+  password : 'plantlife',
+  database : 'Occa'
 });
 
 cbMysql.connect();
@@ -126,7 +126,6 @@ const addNewEvents = (eventObj) => {
     "${eventObj.event.category}", "${eventObj.event.url}",
     "${eventObj.event.venueId}", "${eventObj.event.givenId}")`)
   .then((response) => {
-    console.log()
     return {
         event: {
           name: eventObj.event.name,

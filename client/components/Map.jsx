@@ -27,14 +27,15 @@ class Map extends React.Component {
 
     GoogleMapsLoader.load(google => {
       var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 13,
-        center: new google.maps.LatLng(37.774929, -122.419416),
+        zoom: 14,
+        center: new google.maps.LatLng(37.791419, -122.413293),
         disableDefaultUI: false,
         styles: mapStyles
       });
 
       var input = document.getElementById('search-input');
       var searchBox = new google.maps.places.SearchBox(input);
+
       searchBox.addListener('places_changed', () => {
         this.search(searchBox.getPlaces(), google, map);
       });

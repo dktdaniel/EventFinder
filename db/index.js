@@ -83,17 +83,13 @@ const searchEvents = ({center_lat, center_lng, range}) => {
 }
 
 const _addNewVenue = ({givenId, name, lat, lng, url, postalCode, image}) => {
-  console.log('addNewVenue HERE');
   return connection.queryAsync(
     `INSERT INTO venues (givenId, name, lat, lng, url, postalCode, image)
     VALUES ("${givenId}", "${name}", ${lat}, ${lng}, "${url}", ${postalCode}, "${image}")`)
   .then((response) => {
-    console.log('addNewVenue response:', response);
-    console.log('addNewVenue givenId', givenId);
     return givenId;
   })
   .catch((response) => {
-    console.log('Duplicate entry, so ignore', response);
     return givenId;
   });
 }
@@ -118,8 +114,6 @@ const addNewEvents = (eventObj) => {
     "${eventObj.event.category}", "${eventObj.event.url}",
     "${eventObj.event.venueId}", "${eventObj.event.givenId}")`)
   .then((response) => {
-    console.log('INSERT SUCCESS LOOOOOOL', response);
-    console.log('event Obj:', eventObj);
     return {
         event: {
           name: eventObj.event.name,

@@ -1,7 +1,7 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const Search = require('./components/Search.jsx');
-const Map = require('./components/Map.jsx');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Search from './components/Search.jsx';
+import Map from './components/Map.jsx';
 
 class App extends React.Component {
   constructor(props) {

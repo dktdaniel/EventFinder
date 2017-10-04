@@ -49,6 +49,9 @@ const searchEvents = ({center_lat, center_lng, range}) => {
     `SELECT events.*, venues.name AS venueName, venues.lat, venues.lng, 
     venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg 
     FROM events INNER JOIN venues ON venues.givenId = events.venueId`;
+  
+
+  console.log('About to query');
 
   return connection.queryAsync(
     `SELECT * FROM (${joinQuery})joined WHERE 
@@ -56,7 +59,7 @@ const searchEvents = ({center_lat, center_lng, range}) => {
     (lng >= ${lngMin} AND lng <= ${lngMax}) AND
     (startDate >= ${todayDate})`)
   .then((response) => {
-    
+    console.log('POST query', response);
     return response.map(event => {
       return {
         event: {
@@ -113,13 +116,33 @@ const searchOrCreateVenue = (venueObj) => {
 const addNewEvents = (eventObj) => {
   return connection.queryAsync(`INSERT INTO events 
     (name, startDate, startTime, image, category, url, venueId, givenId) VALUES
-    ("${eventObj.name}", "${eventObj.startDate}", 
-    "${eventObj.startTime}", "${eventObj.image}", 
-    "${eventObj.category}", "${eventObj.url}", 
-    "${eventObj.venueId}", "${eventObj.givenId}")`)
+    ("${eventObj.event.name}", "${eventObj.event.startDate}", 
+    "${eventObj.event.startTime}", "${eventObj.event.image}", 
+    "${eventObj.event.category}", "${eventObj.event.url}", 
+    "${eventObj.event.venueId}", "${eventObj.event.givenId}")`)
   .then((response) => {
     console.log('INSERT SUCCESS LOOOOOOL', response);
-    return eventObj;
+    console.log('event Obj:', eventObj);
+    return {
+        event: {
+          name: eventObj.event.name,
+          givenId: eventObj.event.givenId,
+          startDate: eventObj.event.startDate,
+          startTime: eventObj.event.startTime,
+          image: eventObj.event.image,
+          category: eventObj.event.category,
+          url: eventObj.event.url
+        },
+        venue: {
+          givenId: eventObj.venue.givenId,
+          name: eventObj.venue.name,
+          lat: eventObj.venue.lat,
+          lng: eventObj.venue.lng,
+          url: eventObj.venue.url,
+          postalCode: eventObj.venue.postalCode,
+          image: eventObj.venue.image
+        }
+      };;
   })
   .catch((error) => {
     console.error('Issue inserting new event:', error);

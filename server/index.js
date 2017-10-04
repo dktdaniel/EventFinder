@@ -3,23 +3,28 @@ const Promise = require('bluebird');
 const bodyParser = require('body-parser');
 const ticketmaster = require('./ticketmaster.js');
 const db = require('../db/index.js');
+const cors = require('cors');
 
 const app = Express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 //Serve up static html
-app.use(express.static(__dirname + '/../client'));
+app.use(Express.static(__dirname + '/../client'));
 
 
 
 app.get('/events', (req, res) => {
 
-  var requestBody = req.body || {
+
+  var requestBody = Object.keys(req.body).length ? req.body : {
     lat: 37.788799,
     lng: -122.394798,
     rad: 5
   };
+
+  console.log('BODY:', requestBody);
 
    var range = 0.0145 * requestBody.rad;
    var options = {
@@ -30,6 +35,7 @@ app.get('/events', (req, res) => {
 
   db.searchEvents(options)
     .then(events => {
+      console.log('In Events');
       if (events.length !== 0) {
         throw events;
       }
@@ -42,7 +48,7 @@ app.get('/events', (req, res) => {
           console.log('IS THE ID COMING BACK?', id);
           console.log('After ID, we add ID to event:', event);
           event.event.venueId = id;
-          return db.addNewEvents(event.event);
+          return db.addNewEvents(event);
         });
       }))
 

@@ -1,4 +1,4 @@
-#app, html, body, [data-reactroot], #app-container{
+#app, html, body, [data-reactroot], #app-container, #container{
 	height: 100%;
 	width: 100%;
 	margin: 0;
@@ -10,3 +10,29 @@
 	width: 80%;
 }
 
+#app-container, #map {
+	background-color: #e2f1f8; 
+	text-align: center;
+	margin: 0 auto;
+}
+
+#search {
+	text-align: center;
+}
+
+#nav {
+	font-family: Pacifico;
+	background-color: #00bcd4; 
+}
+
+#app-container h1 {
+	font-size: 75px;
+	font-family: Pacifico;
+	color: #808e95
+}
+
+.content {
+	line-height: 1.35;
+  overflow: scroll;
+  white-space: nowrap;
+}

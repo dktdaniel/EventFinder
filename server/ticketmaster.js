@@ -2,6 +2,8 @@
 const api = require('../config.js').API_KEY;
 const request = require('request-promise');
 
+console.log('API:', api);
+
 const getEvents = ({lat, lng, rad = '2'}) => {
   var date = new Date();
   var endDate = new Date();
@@ -10,10 +12,7 @@ const getEvents = ({lat, lng, rad = '2'}) => {
   var iso_endDate = endDate.toISOString();
   iso_date = iso_date.slice(0, iso_date.length - 5) + 'Z';
   iso_endDate = iso_endDate.slice(0, iso_endDate.length - 5) + 'Z';
-  console.log('ISO:', iso_date, 'JSON:', date.toJSON());
-  console.log('ISO:', iso_endDate, 'JSON:', endDate.toJSON());
-  // console.log(iso_endDate);
-  console.log('api', api);
+
   const options = {
     method: 'GET',
     uri: 'https://app.ticketmaster.com/discovery/v2/events.json?apikey=' + api +
@@ -28,7 +27,6 @@ const getEvents = ({lat, lng, rad = '2'}) => {
 
   return request(options)
   .then(data => {
-    console.log('Data from request:', JSON.parse(data));
     data = JSON.parse(data);
     var events = data._embedded.events;
     return events.map( event => {

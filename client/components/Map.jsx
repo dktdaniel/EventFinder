@@ -1,18 +1,26 @@
-const React = require('react');
-const GoogleMapsLoader = require('google-maps');
-const KEY = require('../../config.js');
-const mapStyles = require('../mapStyles.js');
-const sampleData = require('../sampleData.js');
+import React from 'react';
+import GoogleMapsLoader from 'google-maps';
+import KEY from '../../config.js';
+import mapStyles from '../mapStyles.js';
+import sampleData from '../sampleData.js';
+import $ from 'jquery';
+
+const eventTypes = {
+  'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+  'Arts & Theatre': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
+  'Film': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+  'Sports': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+  'Miscellaneous': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+  'Undefined': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+}
 
 class Map extends React.Component {
   constructor(props) {
     super(props);
-
-    this.map = null;
   }
 
   componentDidMount() {
-    GoogleMapsLoader.KEY = KEY;
+    GoogleMapsLoader.KEY = KEY.KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 
     GoogleMapsLoader.load(google => {
@@ -27,47 +35,46 @@ class Map extends React.Component {
       var searchBox = new google.maps.places.SearchBox(input);
       var markers = [];
 
-      sampleData.forEach(event => {
-        var lat = Number(event.venue.lat);
-        var lng = Number(event.venue.lng);
+      $.ajax('http://localhost:3000/events').done(data => {
+        console.log('DATA:', data);
+        data.forEach(event => {
+          var lat = Number(event.venue.lat);
+          var lng = Number(event.venue.lng);
 
-        markers.push(new google.maps.Marker({
-          map: map,
-          position: new google.maps.LatLng(lat, lng)
-        }));
+          var infowindow = new google.maps.InfoWindow({
+            content: 
+              `<div class='content'>
+                <h3> ${event.venue.name}</h3>
+                <img src=${event.venue.image} height='75px' width='auto'/>
+                <p> <a href=${event.venue.url} target='_blank'>Venue Details</a</p>
+              </div>`,
+              maxWidth: 150
+          });
+
+          var marker = new google.maps.Marker({
+            map: map,
+            icon: eventTypes[event.event.category],
+            position: new google.maps.LatLng(lat, lng)
+          });
+
+          marker.addListener('click', () => {
+            infowindow.open(map, marker);
+          })
+
+          markers.push(marker);
+        });
       });
 
       searchBox.addListener('places_changed', () => {
-        var places = searchBox.getPlaces();
-        
+        var places = searchBox.getPlaces();  
         var bounds = new google.maps.LatLngBounds();
-
         places.forEach(place => {
-
-          // Create icon based on search place
-          var icon = {
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(25, 25)
-          };
-
-          // Create a new marker for each place
-          markers.push(new google.maps.Marker({
-            map: map,
-            icon: icon,
-            title: place.name,
-            position: place.geometry.location
-          }));
-
           if (place.geometry.viewport) {
             bounds.union(place.geometry.viewport);
           } else {
             bounds.extend(place.geometry.location);
           }
         });
-
         map.fitBounds(bounds);
       });
 
@@ -77,10 +84,12 @@ class Map extends React.Component {
   render() {
   
     return (
-      <div id="map"></div>
+      <div id="container">
+        <div id="map"></div>
+      </div>
     )
   }
   
 }
 
-module.exports = Map;
+export default Map;

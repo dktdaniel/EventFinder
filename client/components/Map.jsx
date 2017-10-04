@@ -6,8 +6,6 @@ import sampleData from '../sampleData.js';
 import $ from 'jquery';
 import actions from '../sendLocation.js';
 
-
-
 const eventTypes = {
   'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
   'Arts & Theatre': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',

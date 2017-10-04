@@ -2,6 +2,8 @@
 const api = require('../config.js').API_KEY;
 const request = require('request-promise');
 
+console.log('API:', api);
+
 const getEvents = ({lat, lng, rad = '2'}) => {
   var date = new Date();
   var endDate = new Date();

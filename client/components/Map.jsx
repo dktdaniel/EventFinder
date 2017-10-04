@@ -1,10 +1,9 @@
 import React from 'react';
 import GoogleMapsLoader from 'google-maps';
-import KEYS from '../../config.js';
+import KEY from '../../config.js';
 import mapStyles from '../mapStyles.js';
 import sampleData from '../sampleData.js';
 import $ from 'jquery';
-import SidebarRightOverlay from './Sidebar.jsx'
 
 const eventTypes = {
   'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
@@ -23,7 +22,7 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    GoogleMapsLoader.KEY = KEYS.KEY;
+    GoogleMapsLoader.KEY = KEY.KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 
     GoogleMapsLoader.load(google => {
@@ -38,7 +37,7 @@ class Map extends React.Component {
       var searchBox = new google.maps.places.SearchBox(input);
       var markers = [];
 
-      $.ajax('http://localhost:3000').done(data => {
+      $.ajax('http://localhost:3000/events').done(data => {
         console.log('DATA:', data);
         data.forEach(event => {
           var lat = Number(event.venue.lat);
@@ -89,7 +88,6 @@ class Map extends React.Component {
     return (
       <div id="container">
         <div id="map"></div>
-        <SidebarRightOverlay />
       </div>
     )
   }

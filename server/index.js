@@ -9,7 +9,7 @@ const app = Express();
 app.use(bodyParser.json());
 
 //Serve up static html
-app.use(express.static(__dirname + '/../client'));
+// app.use(express.static(__dirname + '/../client'));
 
 
 
@@ -18,12 +18,12 @@ app.get('/', (req, res) => {
   var requestBody = {
     lat: 37.788799,
     lng: -122.394798,
-    rad: '5'
+    rad: 5
   };
    var range = 0.0145 * requestBody.rad;
    var options = {
-     lat: requestBody.lat,
-     lng: requestBody.lng,
+     center_lat: requestBody.lat,
+     center_lng: requestBody.lng,
      range: range
    };
 
@@ -36,20 +36,22 @@ app.get('/', (req, res) => {
     })
     .then(apiEvents => {
       return Promise.all(apiEvents.map( event => {
-        db.searchOrCreateVenue(event.venue)
+        return db.searchOrCreateVenue(event.venue)
         .then( id => {
-          event.event.venueId = id
-        })
-        .then( () => {
-          return db.addNewEvents(event.event)
-        })
+          console.log('IS THE ID COMING BACK?', id);
+          console.log('After ID, we add ID to event:', event);
+          event.event.venueId = id;
+          return db.addNewEvents(event.event);
+        });
       }))
 
     })
     .then( events => {
+      console.log('Returning this to client:', events);
       res.send(events)
     })
     .catch( events => {
+      console.log('What am I catching?', events);
       res.send(events)
     })
   // ticketmaster.getEvents(requestBody)

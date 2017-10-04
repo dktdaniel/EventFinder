@@ -1,9 +1,10 @@
-const React = require('react');
-const GoogleMapsLoader = require('google-maps');
-const KEY = require('../../config.js').KEY;
-const mapStyles = require('../mapStyles.js');
-const sampleData = require('../sampleData.js');
-const $ = require('jquery');
+import React from 'react';
+import GoogleMapsLoader from 'google-maps';
+import KEYS from '../../config.js';
+import mapStyles from '../mapStyles.js';
+import sampleData from '../sampleData.js';
+import $ from 'jquery';
+import SidebarRightOverlay from './Sidebar.jsx'
 
 const eventTypes = {
   'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
@@ -22,7 +23,7 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    GoogleMapsLoader.KEY = KEY;
+    GoogleMapsLoader.KEY = KEYS.KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 
     GoogleMapsLoader.load(google => {
@@ -46,10 +47,11 @@ class Map extends React.Component {
           var infowindow = new google.maps.InfoWindow({
             content: 
               `<div class='content'>
-                <h2> ${event.venue.name}</h2>
-                <img src=${event.venue.image} height='100px' width='auto'/>
-                <p> Hey! Here's some information! </p>
-              </div>`
+                <h3> ${event.venue.name}</h3>
+                <img src=${event.venue.image} height='75px' width='auto'/>
+                <p> <a href=${event.venue.url} target='_blank'>Venue Details</a</p>
+              </div>`,
+              maxWidth: 150
           });
 
           var marker = new google.maps.Marker({
@@ -85,10 +87,13 @@ class Map extends React.Component {
   render() {
   
     return (
-      <div id="map"></div>
+      <div id="container">
+        <div id="map"></div>
+        <SidebarRightOverlay />
+      </div>
     )
   }
   
 }
 
-module.exports = Map;
+export default Map;

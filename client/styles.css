@@ -1,4 +1,4 @@
-#app, html, body, [data-reactroot], #app-container{
+#app, html, body, [data-reactroot], #app-container, #container{
 	height: 100%;
 	width: 100%;
 	margin: 0;
@@ -29,4 +29,10 @@
 	font-size: 75px;
 	font-family: Pacifico;
 	color: #808e95
+}
+
+.content {
+	line-height: 1.35;
+  overflow: scroll;
+  white-space: nowrap;
 }

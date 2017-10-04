@@ -3,7 +3,7 @@
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	background-color: #e2f1f8; 
+	background-color: #e2f1f8;
 	z-index: 0;
 }
 
@@ -16,7 +16,7 @@
 }
 
 #app-container, #map , .container{
-	background-color: #e2f1f8; 
+	background-color: #e2f1f8;
 	text-align: center;
 	margin: 10px auto 50px auto;
 }
@@ -27,7 +27,7 @@
 
 #nav {
 	font-family: Pacifico;
-	background-color: #00bcd4; 
+	background-color: #00bcd4;
 }
 
 #app-container h1 {

@@ -48,7 +48,7 @@ app.get('/events', (req, res) => {
           console.log('IS THE ID COMING BACK?', id);
           console.log('After ID, we add ID to event:', event);
           event.event.venueId = id;
-          return db.addNewEvents(event.event);
+          return db.addNewEvents(event);
         });
       }))
 

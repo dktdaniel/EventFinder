@@ -50,6 +50,7 @@ const searchEvents = ({center_lat, center_lng, range}) => {
   var joinQuery =
     `SELECT events.*, venues.name AS venueName, venues.lat, venues.lng,
     venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg, venues.address AS venueAddress
+>>>>>>> Events populated on location search
     FROM events INNER JOIN venues ON venues.givenId = events.venueId`;
 
   return connection.queryAsync(
@@ -118,7 +119,6 @@ const searchOrCreateVenue = (venueObj) => {
 
 
 const addNewEvents = (eventObj) => {
-  console.log('Add New Events, EVENT OBJ: ', eventObj);
   return connection.queryAsync(`INSERT INTO events
     (name, startDate, startTime, image, category, url, venueId, givenId) VALUES
     ("${eventObj.event.name}", "${eventObj.event.startDate}",

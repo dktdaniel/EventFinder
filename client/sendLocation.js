@@ -36,7 +36,6 @@ var actions = {
       }
     })
     .then(data => {
-      console.log(data);
       var markers = data.map( event => {
         var marker = this.a._createMarker(event, google, map);
         this.a._createInfoWindow(marker, event, google, map);

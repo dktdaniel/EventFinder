@@ -6,8 +6,8 @@
 }
 
 #map {
-	height: 70%;
-	width: 70%;
+	height: 80%;
+	width: 80%;
 }
 
 #app-container, #map , #container{
@@ -35,4 +35,18 @@
 	line-height: 1.35;
   overflow: scroll;
   white-space: nowrap;
+}
+
+#sidebar {
+	float: right;
+	display: inline;
+	width: 20%;
+	height: 100%;
+	background-color: #e2f1f8;
+}
+
+#container {
+	float: left;
+	display: inline;
+	width: 80%;
 }

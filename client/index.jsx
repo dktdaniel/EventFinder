@@ -4,7 +4,7 @@ import Search from './components/Search.jsx';
 import Map from './components/Map.jsx';
 import actions from './sendLocation.js';
 import Navbar from './components/Navbar.jsx';
-
+import Sidebar from './components/Sidebar.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class App extends React.Component {
         <h1>Occa</h1>
         <Search />
         <Map />
+        <Sidebar />
       </div>
     )
   }

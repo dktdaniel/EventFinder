@@ -34,8 +34,13 @@ class App extends React.Component {
         <Navbar />
         <h1>Occa</h1>
         <Search />
-        <Map displayEvents={this.displayEvents.bind(this)} />
-        <Sidebar events={this.state.events} />
+        {this.state.display ?
+          <div className="container">
+            <Map displayEvents={this.displayEvents.bind(this)} style="splitMap"/>
+            <Sidebar events={this.state.events} />
+          </div>
+          : <Map displayEvents={this.displayEvents.bind(this)} />
+        }
       </div>
     )
   }

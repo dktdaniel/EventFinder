@@ -76,7 +76,7 @@ class Map extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className={this.props.style || "container"}>
         <div id="map"></div>
       </div>
     )

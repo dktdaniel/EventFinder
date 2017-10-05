@@ -66,7 +66,13 @@ class Map extends React.Component {
 
   render() {
     return (
+<<<<<<< 9b93362c768896091ac485c094b3f84ebd95ee4d
       <div id="map"></div>
+=======
+      <div className={this.props.style || "container"}>
+        <div id="map"></div>
+      </div>
+>>>>>>> Get sidebar and map components to occupy the whole screen
     )
   }
 

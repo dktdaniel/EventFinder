@@ -10,12 +10,15 @@ const eventTypes = {
 }
 
 var actions = {
-  get: function(google, map) {
+  get: function(google, map, cb) {
     return $.ajax('http://localhost:3000/events')
     .then(data => {
       console.log('DATA:', data);
-      var markers = data.map( event => {
-        var marker = this._createMarker(event, google, map);
+      var markers = data.map(event => {
+        var marker = this._createMarker(event, google, map, cb);
+        marker.addListener('click', () => {
+          cb(data, marker.venueId);
+        });
         this._createInfoWindow(marker, event, google, map);
         return marker;
       });
@@ -23,7 +26,7 @@ var actions = {
     });
   },
 
-  post: (lat, lng, google, map) => {
+  post: (lat, lng, google, map, cb) => {
     return $.ajax({
       method: 'POST',
       url: 'http://localhost:3000/events',
@@ -36,9 +39,11 @@ var actions = {
       }
     })
     .then(data => {
-      console.log(data);
       var markers = data.map( event => {
         var marker = this.a._createMarker(event, google, map);
+        marker.addListener('click', () => {
+          cb(data, marker.venueId);
+        });
         this.a._createInfoWindow(marker, event, google, map);
         return marker;
       });
@@ -55,7 +60,8 @@ var actions = {
       var marker = new google.maps.Marker({
         map: map,
         icon: eventTypes[event.event.category],
-        position: new google.maps.LatLng(lat, lng)
+        position: new google.maps.LatLng(lat, lng),
+        venueId: event.venue.givenId
       });
 
       return marker;

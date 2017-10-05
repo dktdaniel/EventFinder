@@ -1,11 +1,12 @@
 var mysql = require('mysql');
 var Promise = require('bluebird');
+var JAWSDB_URL = require('../config.js').JAWSDB_URL;
 
 var cbMysql = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'Occa'
+  host: 'localhost',
+  user: 'root',
+  password: 'plantlife',
+  database: 'Occa'
 });
 
 cbMysql.connect();
@@ -48,7 +49,7 @@ const searchEvents = ({center_lat, center_lng, range}) => {
 
   var joinQuery =
     `SELECT events.*, venues.name AS venueName, venues.lat, venues.lng,
-    venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg
+    venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg, venues.address AS venueAddress
     FROM events INNER JOIN venues ON venues.givenId = events.venueId`;
 
   return connection.queryAsync(
@@ -71,6 +72,7 @@ const searchEvents = ({center_lat, center_lng, range}) => {
         venue: {
           givenId: event.venueId,
           name: event.venueName,
+          address: event.venueAddress,
           lat: event.lat,
           lng: event.lng,
           url: event.venueUrl,
@@ -79,13 +81,17 @@ const searchEvents = ({center_lat, center_lng, range}) => {
         }
       };
     });
+  })
+  .catch((err) => {
+    console.error(err);
+    return err;
   });
 }
 
-const _addNewVenue = ({givenId, name, lat, lng, url, postalCode, image}) => {
+const _addNewVenue = ({givenId, name, address, lat, lng, url, postalCode, image}) => {
   return connection.queryAsync(
-    `INSERT INTO venues (givenId, name, lat, lng, url, postalCode, image)
-    VALUES ("${givenId}", "${name}", ${lat}, ${lng}, "${url}", ${postalCode}, "${image}")`)
+    `INSERT INTO venues (givenId, name, address, lat, lng, url, postalCode, image)
+    VALUES ("${givenId}", "${name}", "${address}", ${lat}, ${lng}, "${url}", ${postalCode}, "${image}")`)
   .then((response) => {
     return givenId;
   })
@@ -97,16 +103,22 @@ const _addNewVenue = ({givenId, name, lat, lng, url, postalCode, image}) => {
 const searchOrCreateVenue = (venueObj) => {
   return connection.queryAsync(`SELECT * FROM venues WHERE givenId="${venueObj.givenId}"`)
   .then((data) => {
+    console.log('Search Or Create Venue obj:', venueObj);
     if (data.length) {
       return data[0].givenId;
     } else {
       return _addNewVenue(venueObj);
     }
   })
+  .catch((err) => {
+    console.error(err);
+    return err;
+  })
 }
 
 
 const addNewEvents = (eventObj) => {
+  console.log('Add New Events, EVENT OBJ: ', eventObj);
   return connection.queryAsync(`INSERT INTO events
     (name, startDate, startTime, image, category, url, venueId, givenId) VALUES
     ("${eventObj.event.name}", "${eventObj.event.startDate}",
@@ -114,6 +126,7 @@ const addNewEvents = (eventObj) => {
     "${eventObj.event.category}", "${eventObj.event.url}",
     "${eventObj.event.venueId}", "${eventObj.event.givenId}")`)
   .then((response) => {
+    console.log()
     return {
         event: {
           name: eventObj.event.name,
@@ -127,6 +140,7 @@ const addNewEvents = (eventObj) => {
         venue: {
           givenId: eventObj.venue.givenId,
           name: eventObj.venue.name,
+          address: eventObj.venue.address,
           lat: eventObj.venue.lat,
           lng: eventObj.venue.lng,
           url: eventObj.venue.url,

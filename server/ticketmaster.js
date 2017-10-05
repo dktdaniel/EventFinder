@@ -37,7 +37,7 @@ const getEvents = ({lat, lng, rad = '2'}) => {
           name: event.name,
           givenId: event.id,
           startDate: event.dates.start.localDate,
-          startTime: event.dates.start.localTime,
+          startTime: event.dates.start.localTime || "00:00:00",
           image: event.images[0].url,
           category: event.classifications ? event.classifications[0].segment.name : "Undefined",
           url: event.url
@@ -46,6 +46,7 @@ const getEvents = ({lat, lng, rad = '2'}) => {
         venue: {
           givenId: event._embedded.venues[0].id,
           name: event._embedded.venues[0].name,
+          address: event._embedded.venues[0].address.line1,
           lat: event._embedded.venues[0].location.latitude,
           lng: event._embedded.venues[0].location.longitude,
           url: event._embedded.venues[0].url,
@@ -54,6 +55,10 @@ const getEvents = ({lat, lng, rad = '2'}) => {
         }
       };
     });
+  })
+  .catch((err) => {
+    console.error(err);
+    return err;
   });
 };
 

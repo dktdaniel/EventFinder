@@ -7,6 +7,7 @@ USE Occa;
 CREATE TABLE venues (
   givenId VARCHAR(200) NOT NULL,
   name VARCHAR(200) NOT NULL,
+  address VARCHAR(200) NOT NULL,
   lat DECIMAL(9,6) NOT NULL,
   lng DECIMAL(9,6) NOT NULL,
   url TEXT,
@@ -30,8 +31,8 @@ CREATE TABLE events (
 );
 
 -- INSERT INTO venues(givenId, name, lat, lng, url, postalCode, image)
---   VALUES ("KovZpaKope", "Bill Graham Civic Auditorium", 37.778479, 
---   -122.417473, "url", "94102", 
+--   VALUES ("KovZpaKope", "Bill Graham Civic Auditorium", 37.778479,
+--   -122.417473, "url", "94102",
 --   "imageUrl");
 
 -- INSERT INTO events(name, startDate, startTime, image, category, url, venueId) VALUES

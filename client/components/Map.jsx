@@ -23,10 +23,10 @@ class Map extends React.Component {
     this.markers = null;
   }
 
- 
+
 
   componentDidMount() {
-   
+
     GoogleMapsLoader.KEY = KEY.KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Item } from 'semantic-ui-react';
+import Entry from './Entry.jsx';
 
 class Sidebar extends React.Component {
 	constructor(props) {
@@ -9,31 +9,9 @@ class Sidebar extends React.Component {
 	render() {
 		return (
 			<div id="sidebar">
-				<Item>
-		      <Item.Image size='tiny' src='/assets/images/wireframe/image.png' />
-
-		      <Item.Content>
-		        <Item.Header as='a'>Header</Item.Header>
-		        <Item.Meta>Description</Item.Meta>
-		        <Item.Description>
-		          <Image src='/assets/images/wireframe/short-paragraph.png' />
-		        </Item.Description>
-		        <Item.Extra>Additional Details</Item.Extra>
-		      </Item.Content>
-		    </Item>
-
-		    <Item>
-		      <Item.Image size='tiny' src='/assets/images/wireframe/image.png' />
-
-		      <Item.Content>
-		        <Item.Header as='a'>Header</Item.Header>
-		        <Item.Meta>Description</Item.Meta>
-		        <Item.Description>
-		          <Image src='/assets/images/wireframe/short-paragraph.png' />
-		        </Item.Description>
-		        <Item.Extra>Additional Details</Item.Extra>
-		      </Item.Content>
-		    </Item>
+				<Entry />
+				<Entry />
+				<Entry />  
 		  </div>
 		)
 	}

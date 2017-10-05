@@ -5,7 +5,7 @@ var JAWSDB_URL = require('../config.js').JAWSDB_URL;
 var cbMysql = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'plantlife',
+  password: '',
   database: 'Occa'
 });
 

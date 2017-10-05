@@ -42,7 +42,7 @@ class Map extends React.Component {
           var lng = Number(event.venue.lng);
 
           var infowindow = new google.maps.InfoWindow({
-            content: 
+            content:
               `<div class='content'>
                 <h3> ${event.venue.name}</h3>
                 <img src=${event.venue.image} height='75px' width='auto'/>
@@ -66,7 +66,7 @@ class Map extends React.Component {
       });
 
       searchBox.addListener('places_changed', () => {
-        var places = searchBox.getPlaces();  
+        var places = searchBox.getPlaces();
         var bounds = new google.maps.LatLngBounds();
         places.forEach(place => {
           if (place.geometry.viewport) {
@@ -82,14 +82,14 @@ class Map extends React.Component {
   }
 
   render() {
-  
+
     return (
       <div id="container">
         <div id="map"></div>
       </div>
     )
   }
-  
+
 }
 
 export default Map;

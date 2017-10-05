@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Search from './components/Search.jsx';
 import Map from './components/Map.jsx';
+import actions from './sendLocation.js';
 import Navbar from './components/Navbar.jsx';
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
   }
-  
+
   render() {
     return (
       <div id="app-container">

@@ -31,6 +31,8 @@ class Entry extends React.Component {
 			ampm = 'am';
 		} else if (hours < 12){
 			ampm = 'am';
+		} else if (hours === 12) {
+			ampm = 'pm';
 		}
 
 		if (mins < 10) {

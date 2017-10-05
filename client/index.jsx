@@ -10,7 +10,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: []
+      events: [],
+      display: false
     }
   }
 
@@ -21,7 +22,8 @@ class App extends React.Component {
       }
     });
     this.setState({
-      events: events
+      events: events,
+      display: true
     });
     console.log('THIS:', this);
   }
@@ -32,8 +34,8 @@ class App extends React.Component {
         <Navbar />
         <h1>Occa</h1>
         <Search />
-        <Map displayEvents={this.displayEvents.bind(this)}/>
-        <Sidebar events={this.state.events}/>
+        <Map displayEvents={this.displayEvents.bind(this)} />
+        <Sidebar events={this.state.events} />
       </div>
     )
   }

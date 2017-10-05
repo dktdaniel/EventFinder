@@ -1,4 +1,4 @@
-#app, html, body, [data-reactroot], #app-container, #container{
+#app, html, body, [data-reactroot], #app-container, .container{
 	height: 100%;
 	width: 100%;
 	margin: 0;
@@ -10,7 +10,7 @@
 	width: 80%;
 }
 
-#app-container, #map , #container{
+#app-container, #map , .container{
 	background-color: #e2f1f8; 
 	text-align: center;
 	margin: 0 auto;
@@ -45,7 +45,7 @@
 	background-color: #e2f1f8;
 }
 
-#container {
+.container {
 	float: left;
 	display: inline;
 	width: 80%;

@@ -4,19 +4,20 @@ import { Image, Item } from 'semantic-ui-react';
 class Entry extends React.Component {
 	constructor(props) {
 		super(props);
+		console.log('PROPS:', this);
 	}
 
 	render() {
 		return (
 			<Item>
-	      <Item.Image size='tiny' src='/assets/images/wireframe/image.png' />
 	      <Item.Content>
-	        <Item.Header as='a'>Header</Item.Header>
-	        <Item.Meta>Description</Item.Meta>
+	        <Item.Header>{this.props.event.event.name}</Item.Header>
+	        <Item.Meta>{this.props.event.event.startDate}</Item.Meta>
+	        <Item.Meta>{this.props.event.event.startTime}</Item.Meta>
 	        <Item.Description>
-	          <Image src='/assets/images/wireframe/short-paragraph.png' />
+	          <Image src={this.props.event.event.image} />
 	        </Item.Description>
-	        <Item.Extra>Additional Details</Item.Extra>
+	        <Item.Extra><a href={this.props.event.event.url} target="_blank">Event Details</a></Item.Extra>
 	      </Item.Content>
 	    </Item>
     )

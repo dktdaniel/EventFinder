@@ -50,3 +50,10 @@
 	background-color: #e2f1f8;
 	overflow: scroll;
 }
+
+.splitMap {
+	float: left;
+	display: inline;
+	width: 80%;
+	height: 100%;
+}

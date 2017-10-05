@@ -4,11 +4,11 @@ class Search extends React.Component {
   constructor(props) {
     super(props)
   }
-  
+
   render() {
     return (
       <div id="search">
-        <input type="text" id="search-input"></input>Search Here!
+        Enter Location: <input type="text" id="search-input"></input>
       </div>
     )
   }

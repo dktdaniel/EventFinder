@@ -9,6 +9,21 @@ import Sidebar from './components/Sidebar.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      events: []
+    }
+  }
+
+  displayEvents(data, id) {
+    var events = data.filter((event) => {
+      if (event.venue.givenId === id) {
+        return event.event;
+      }
+    });
+    this.setState({
+      events: events
+    });
+    console.log('THIS:', this);
   }
 
   render() {
@@ -17,8 +32,8 @@ class App extends React.Component {
         <Navbar />
         <h1>Occa</h1>
         <Search />
-        <Map />
-        <Sidebar />
+        <Map displayEvents={this.displayEvents.bind(this)}/>
+        <Sidebar events={this.state.events}/>
       </div>
     )
   }

@@ -10,13 +10,16 @@ const eventTypes = {
 }
 
 var actions = {
-  get: function(google, map) {
+  get: function(google, map, cb) {
     return $.ajax('http://localhost:3000/events')
     .then(data => {
       console.log('DATA:', data);
-      var markers = data.map( event => {
-        var marker = this._createMarker(event, google, map);
+      var markers = data.map(event => {
+        var marker = this._createMarker(event, google, map, cb);
         this._createInfoWindow(marker, event, google, map);
+        marker.addListener('click', () => {
+          cb(data, marker.venueId);
+        });
         return marker;
       });
       return {events: data, markers: markers};
@@ -54,7 +57,8 @@ var actions = {
       var marker = new google.maps.Marker({
         map: map,
         icon: eventTypes[event.event.category],
-        position: new google.maps.LatLng(lat, lng)
+        position: new google.maps.LatLng(lat, lng),
+        venueId: event.venue.givenId
       });
 
       return marker;

@@ -39,7 +39,7 @@ class Map extends React.Component {
       searchBox.addListener('places_changed', () => {
         this.search(searchBox.getPlaces(), google, map);
       });
-      var results = actions.get(google, map)
+      var results = actions.get(google, map, this.props.displayEvents.bind(this))
       .then((results) => {
         console.log('Results:', results);
         this.markers = results.markers;
@@ -65,7 +65,6 @@ class Map extends React.Component {
     actions.removeMarkers(this.markers);
     actions.post(searchLat, searchLng, google, map)
     .then((results) => {
-      console.log('POST request results:', results);
       this.markers = results.markers;
     });
     // var markers = results.markers;

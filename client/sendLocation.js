@@ -16,17 +16,17 @@ var actions = {
       console.log('DATA:', data);
       var markers = data.map(event => {
         var marker = this._createMarker(event, google, map, cb);
-        this._createInfoWindow(marker, event, google, map);
         marker.addListener('click', () => {
           cb(data, marker.venueId);
         });
+        this._createInfoWindow(marker, event, google, map);
         return marker;
       });
       return {events: data, markers: markers};
     });
   },
 
-  post: (lat, lng, google, map) => {
+  post: (lat, lng, google, map, cb) => {
     return $.ajax({
       method: 'POST',
       url: 'http://localhost:3000/events',
@@ -41,6 +41,9 @@ var actions = {
     .then(data => {
       var markers = data.map( event => {
         var marker = this.a._createMarker(event, google, map);
+        marker.addListener('click', () => {
+          cb(data, marker.venueId);
+        });
         this.a._createInfoWindow(marker, event, google, map);
         return marker;
       });

@@ -63,7 +63,7 @@ class Map extends React.Component {
     map.fitBounds(bounds);
 
     actions.removeMarkers(this.markers);
-    actions.post(searchLat, searchLng, google, map)
+    actions.post(searchLat, searchLng, google, map, this.props.displayEvents.bind(this))
     .then((results) => {
       this.markers = results.markers;
     });

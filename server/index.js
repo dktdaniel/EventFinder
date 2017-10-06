@@ -17,7 +17,6 @@ app.use(Express.static(__dirname + '/../client'));
 
 
 app.get('/events', (req, res) => {
-  console.log('incoming search body', req.body)
   var requestBody = Object.keys(req.body).length ? req.body : {
     lat: 37.788799,
     lng: -122.394798,
@@ -74,7 +73,6 @@ app.post('/events', (req, res) => {
     center_lng: params.lng,
     range: range
   };
-console.log(options)
  db.searchEvents(options)
    .then(events => {
      if (events.length !== 0) {
@@ -83,7 +81,6 @@ console.log(options)
      return ticketmaster.getEvents(params)
    })
    .then(apiEvents => {
-     console.log('apievents', apiEvents)
      return Promise.all(apiEvents.map( event => {
        return db.searchOrCreateVenue(event.venue)
        .then( id => {

@@ -62,7 +62,7 @@ class Entry extends React.Component {
 	        <Item.Meta>{this.state.formattedDate}</Item.Meta>
 	        <Item.Meta>{this.state.formattedTime}</Item.Meta>
 	        <Item.Description>
-	          <Image src={this.props.event.event.image} />
+	          <Image shape="rounded" size="medium" src={this.props.event.event.image} />
 	        </Item.Description>
 	        <Item.Extra><a href={this.props.event.event.url} target="_blank">Event Details</a></Item.Extra>
 	      </Item.Content>

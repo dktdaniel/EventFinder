@@ -51,10 +51,3 @@
 	overflow: scroll;
 	position: relative;
 }
-
-.splitMap {
-	float: left;
-	display: inline;
-	width: 80%;
-	height: 100%;
-}

@@ -6,6 +6,8 @@ import sampleData from '../sampleData.js';
 import $ from 'jquery';
 import actions from '../sendLocation.js';
 
+
+
 const eventTypes = {
   'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
   'Arts & Theatre': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
@@ -21,7 +23,10 @@ class Map extends React.Component {
     this.markers = null;
   }
 
+ 
+
   componentDidMount() {
+   
     GoogleMapsLoader.KEY = KEY.KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 
@@ -32,7 +37,6 @@ class Map extends React.Component {
         disableDefaultUI: false,
         styles: mapStyles
       });
-
       var input = document.getElementById('search-input');
       var searchBox = new google.maps.places.SearchBox(input);
 

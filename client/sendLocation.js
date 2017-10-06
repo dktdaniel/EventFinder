@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import KEY from '../config.js';
 
 const eventTypes = {
   'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
@@ -14,15 +15,12 @@ var actions = {
     return $.ajax('http://localhost:3000/events')
     .then(data => {
       console.log('DATA:', data);
-      var markers = data.map(event => {
-        var marker = this._createMarker(event, google, map, cb);
-        marker.addListener('click', () => {
-          cb(data, marker.venueId);
-        });
-        this._createInfoWindow(marker, event, google, map);
-        return marker;
+      return this._prepMarkers(data, cb, google, map)
+      .then(markers => {
+        console.log('Markers:', markers);
+        console.log('IS data still here?', data);
+        return {events: data, markers: markers}
       });
-      return {events: data, markers: markers};
     });
   },
 
@@ -39,32 +37,44 @@ var actions = {
       }
     })
     .then(data => {
-      var markers = data.map( event => {
-        var marker = this.a._createMarker(event, google, map);
-        marker.addListener('click', () => {
-          cb(data, marker.venueId);
-        });
-        this.a._createInfoWindow(marker, event, google, map);
-        return marker;
+      return this.a._prepMarkers(data, cb, google, map)
+      .then(markers => {
+        console.log('Markers:', markers);
+        return {events: data, markers: markers}
       });
-      return {events: data, markers: markers};
     })
     .fail((err) => {
       console.error(err);
     });
   },
 
-  _createMarker: (event, google, map) => {
-      var lat = Number(event.venue.lat);
-      var lng = Number(event.venue.lng);
-      var marker = new google.maps.Marker({
-        map: map,
-        icon: eventTypes[event.event.category],
-        position: new google.maps.LatLng(lat, lng),
-        venueId: event.venue.givenId
-      });
+  _pinMarker: (lat, lng, event, google, map) => {
+    console.log('Event:', event);
+    console.log('Google Obj', google);
+    console.log('Maps Obj', map);
+    return new google.maps.Marker({
+      map: map,
+      icon: eventTypes[event.event.category],
+      position: new google.maps.LatLng(lat, lng),
+      venueId: event.venue.givenId
+    });
+  },
 
-      return marker;
+  _prepMarkers: (data, cb, google, map) => {
+    return Promise.all(data.map(event => {
+      console.log('THIS keyword before getCoordinate:', this)
+      return this.a.getCoordinate(event.venue.address, event.venue.postalCode)
+      .then(({lat, lng}) => {
+        console.log('Lat Lng:', lat, lng);
+        console.log('This keyword before _pinMarker', this);
+        var marker = this.a._pinMarker(lat, lng, event, google, map);
+        marker.addListener('click', () => {
+          cb(data, marker.venueId);
+        });
+        this.a._createInfoWindow(marker, event, google, map);
+        return marker;
+      })
+    }));
   },
 
   _createInfoWindow: (marker, event, google, map) => {
@@ -85,7 +95,22 @@ var actions = {
 
   removeMarkers: markers => {
     markers.forEach(marker => marker.setMap(null))
+  },
+
+  getCoordinate(address, postalCode) {
+    return $.ajax({
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address+postalCode},+CA&key=${KEY.KEY}`,
+      type: "GET",
+      format: 'application/JSON'
+    })
+    .then(data => data.results[0].geometry.location)
+    .catch(err => {
+      console.error(err);
+    });
+
   }
 }
+
+
 
 export default actions;

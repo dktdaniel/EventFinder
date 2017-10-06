@@ -72,8 +72,9 @@ class Map extends React.Component {
     .then((results) => {
       this.markers = results.markers;
     });
-    // var markers = results.markers;
-    // var events = results.events;
+
+    // Hide sidebar display upon new location search
+    this.props.changeDisplay();
   }
 
   render() {

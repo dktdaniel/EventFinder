@@ -36,13 +36,19 @@ class App extends React.Component {
     });
   }
 
+  changeDisplay() {
+    this.setState({
+      display: false
+    });
+  }
+
   render() {
     return (
       <div id="app-container">
         <Navbar />
         <h1>Occa</h1>
         <Search />
-        <Map displayEvents={this.displayEvents.bind(this)} />
+        <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
         {this.state.display ?
             <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)}/>
           : null

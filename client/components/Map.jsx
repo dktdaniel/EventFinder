@@ -23,10 +23,7 @@ class Map extends React.Component {
     this.markers = null;
   }
 
- 
-
   componentDidMount() {
-   
     GoogleMapsLoader.KEY = KEY.KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 
@@ -45,7 +42,6 @@ class Map extends React.Component {
       });
       var results = actions.get(google, map, this.props.displayEvents.bind(this))
       .then((results) => {
-        console.log('Results:', results);
         this.markers = results.markers;
       });
     });

@@ -49,24 +49,5 @@
 	height: 80%;
 	background-color: #e2f1f8;
 	overflow: scroll;
-}
-
-.container {
-	float: left;
-	display: inline;
-	width: 100%;
-}
-
-.splitMap {
-	float: left;
-	display: inline;
-	width: 80%;
-	height: 100%;
-}
-
-.splitMap {
-	float: left;
-	display: inline;
-	width: 80%;
-	height: 100%;
+	position: relative;
 }

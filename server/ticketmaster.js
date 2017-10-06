@@ -2,8 +2,6 @@
 const api = require('../config.js').API_KEY;
 const request = require('request-promise');
 
-console.log('API:', api);
-
 const getEvents = ({lat, lng, rad = '2'}) => {
   var date = new Date();
   var endDate = new Date();
@@ -22,16 +20,12 @@ const getEvents = ({lat, lng, rad = '2'}) => {
           '&startDateTime=' + iso_date +
           '&endDateTime=' + iso_endDate
   }
-  console.log(options)
 
   return request(options)
   .then(data => {
     data = JSON.parse(data);
-    console.log(data)
     var events = data._embedded.events;
-    console.log(events, events.length)
     return events.map( event => {
-      console.log(event)
       return {
         event: {
           name: event.name,

@@ -23,6 +23,7 @@ class App extends React.Component {
     }).sort(function(event1, event2){
       return new Date(event1.event.startDate) - new Date(event2.event.startDate);
     });
+    console.log('EVENTS:', events);
     this.setState({
       events: events,
       display: true
@@ -49,7 +50,7 @@ class App extends React.Component {
         <Search />
         <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
         {this.state.display ?
-            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)}/>
+          <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)}/>
           : null
         }
       </div>

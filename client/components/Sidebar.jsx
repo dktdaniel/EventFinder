@@ -11,7 +11,7 @@ class Sidebar extends React.Component {
 	render() {
 		return (
 			<div id="sidebar">
-				<Button secondary>Hide Events</Button>
+				<Button secondary onClick={() => this.props.hideEvents()}>Hide Events</Button>
 				{this.props.events.map((event, key) => 
 					<Entry event={event} key={key} />
 				)} 

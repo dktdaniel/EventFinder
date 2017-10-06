@@ -20,12 +20,20 @@ class App extends React.Component {
       if (event.venue.givenId === id) {
         return event.event;
       }
+    }).sort(function(event1, event2){
+      return new Date(event1.event.startDate) - new Date(event2.event.startDate);
     });
+    console.log('EVENTS:', events);
     this.setState({
       events: events,
       display: true
     });
-    console.log('THIS:', this);
+  }
+
+  hideEvents() {
+    this.setState({
+      display: false
+    });
   }
 
   render() {
@@ -37,7 +45,7 @@ class App extends React.Component {
         {this.state.display ?
           <div className="container">
             <Map displayEvents={this.displayEvents.bind(this)} style="splitMap"/>
-            <Sidebar events={this.state.events} />
+            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)}/>
           </div>
           : <Map displayEvents={this.displayEvents.bind(this)} />
         }

@@ -43,6 +43,7 @@
 	width: 20%;
 	height: 100%;
 	background-color: #e2f1f8;
+	overflow: scroll;
 }
 
 .container {

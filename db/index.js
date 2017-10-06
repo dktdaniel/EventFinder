@@ -5,7 +5,7 @@ var JAWSDB_URL = require('../config.js').JAWSDB_URL;
 var cbMysql = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '',
+  password : 'plantlife',
   database : 'Occa'
 });
 
@@ -50,7 +50,6 @@ const searchEvents = ({center_lat, center_lng, range}) => {
   var joinQuery =
     `SELECT events.*, venues.name AS venueName, venues.lat, venues.lng,
     venues.url AS venueUrl, venues.postalCode, venues.image AS venueImg, venues.address AS venueAddress
->>>>>>> Events populated on location search
     FROM events INNER JOIN venues ON venues.givenId = events.venueId`;
 
   return connection.queryAsync(

@@ -1,16 +1,30 @@
 var mysql = require('mysql');
 var Promise = require('bluebird');
-var JAWSDB_URL = require('../config.js').JAWSDB_URL;
+var JAWSDB_URL = require('../config.js').JAWSDB_PUCE_URL;
+// var { Client } = require('pg-promise');
+// var DATABASE_URL = require('../config.js').DATABASE_URL;
 
-var cbMysql = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'Occa'
-});
+// Local connection, development purposes only
+// var cbMysql = mysql.createConnection({
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : 'plantlife',
+//   database : 'Occa'
+// });
+
+//
+var cbMysql = mysql.createConnection(JAWSDB_URL);
 
 cbMysql.connect();
 var connection = Promise.promisifyAll(cbMysql);
+
+// const connection = new Client({
+//   connectionString: DATABASE_URL,
+//   ssl: true
+// });
+//
+// connection.connect();
+
 
 const searchEvents = ({center_lat, center_lng, range}) => {
   console.log('in search events')

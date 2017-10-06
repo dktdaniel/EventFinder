@@ -27,7 +27,6 @@ var connection = Promise.promisifyAll(cbMysql);
 
 
 const searchEvents = ({center_lat, center_lng, range}) => {
-  console.log('in search events')
   var today = new Date();
   var month = today.getMonth();
   var date = today.getDate();
@@ -117,7 +116,6 @@ const _addNewVenue = ({givenId, name, address, lat, lng, url, postalCode, image}
 const searchOrCreateVenue = (venueObj) => {
   return connection.queryAsync(`SELECT * FROM venues WHERE givenId="${venueObj.givenId}"`)
   .then((data) => {
-    console.log('Search Or Create Venue obj:', venueObj);
     if (data.length) {
       return data[0].givenId;
     } else {

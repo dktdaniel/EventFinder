@@ -23,7 +23,6 @@ class App extends React.Component {
     }).sort(function(event1, event2){
       return new Date(event1.event.startDate) - new Date(event2.event.startDate);
     });
-    console.log('EVENTS:', events);
     this.setState({
       events: events,
       display: true

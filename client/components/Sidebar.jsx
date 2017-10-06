@@ -5,7 +5,6 @@ import { Button } from 'semantic-ui-react';
 class Sidebar extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log('PROPS:', this);
 	}
 
 	render() {

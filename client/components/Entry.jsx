@@ -4,7 +4,6 @@ import { Image, Item } from 'semantic-ui-react';
 class Entry extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log('PROPS:', this);
 		this.state = {
 			formattedTime: '',
 			formattedDate: ''

@@ -14,11 +14,8 @@ var actions = {
   get: function(google, map, cb) {
     return $.ajax('https://occa.herokuapp.com/events')
     .then(data => {
-      console.log('DATA:', data);
       return this._prepMarkers(data, cb, google, map)
       .then(markers => {
-        console.log('Markers:', markers);
-        console.log('IS data still here?', data);
         return {events: data, markers: markers}
       });
     });
@@ -39,7 +36,6 @@ var actions = {
     .then(data => {
       return this.a._prepMarkers(data, cb, google, map)
       .then(markers => {
-        console.log('Markers:', markers);
         return {events: data, markers: markers}
       });
     })
@@ -49,9 +45,6 @@ var actions = {
   },
 
   _pinMarker: (lat, lng, event, google, map) => {
-    console.log('Event:', event);
-    console.log('Google Obj', google);
-    console.log('Maps Obj', map);
     return new google.maps.Marker({
       map: map,
       icon: eventTypes[event.event.category],
@@ -62,11 +55,8 @@ var actions = {
 
   _prepMarkers: (data, cb, google, map) => {
     return Promise.all(data.map(event => {
-      console.log('THIS keyword before getCoordinate:', this)
       return this.a.getCoordinate(event.venue.address, event.venue.postalCode)
       .then(({lat, lng}) => {
-        console.log('Lat Lng:', lat, lng);
-        console.log('This keyword before _pinMarker', this);
         var marker = this.a._pinMarker(lat, lng, event, google, map);
         marker.addListener('click', () => {
           cb(data, marker.venueId);

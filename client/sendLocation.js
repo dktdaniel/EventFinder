@@ -12,7 +12,7 @@ const eventTypes = {
 
 var actions = {
   get: function(google, map, cb) {
-    return $.ajax('https://occa.heroku.com/3000/events')
+    return $.ajax('http://occa.heroku.com/3000/events')
     .then(data => {
       return this._prepMarkers(data, cb, google, map)
       .then(markers => {
@@ -24,7 +24,7 @@ var actions = {
   post: (lat, lng, google, map, cb) => {
     return $.ajax({
       method: 'POST',
-      url: 'https://occa.heroku.com/3000/events',
+      url: 'http://occa.heroku.com/3000/events',
       data: {
         data: JSON.stringify({
           lat: lat,

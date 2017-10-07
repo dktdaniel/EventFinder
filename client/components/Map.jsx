@@ -6,27 +6,13 @@ import sampleData from '../sampleData.js';
 import $ from 'jquery';
 import actions from '../sendLocation.js';
 
-
-
-const eventTypes = {
-  'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-  'Arts & Theatre': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
-  'Film': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-  'Sports': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-  'Miscellaneous': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
-  'Undefined': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
-}
-
 class Map extends React.Component {
   constructor(props) {
     super(props);
     this.markers = null;
   }
 
- 
-
   componentDidMount() {
-   
     GoogleMapsLoader.KEY = KEY.KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 
@@ -45,7 +31,6 @@ class Map extends React.Component {
       });
       var results = actions.get(google, map, this.props.displayEvents.bind(this))
       .then((results) => {
-        console.log('Results:', results);
         this.markers = results.markers;
       });
     });
@@ -74,8 +59,9 @@ class Map extends React.Component {
     .then((results) => {
       this.markers = results.markers;
     });
-    // var markers = results.markers;
-    // var events = results.events;
+
+    // Hide sidebar display upon new location search
+    this.props.changeDisplay();
   }
 
   render() {

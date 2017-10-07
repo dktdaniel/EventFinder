@@ -16,14 +16,7 @@ class App extends React.Component {
   }
 
   displayEvents(data, id) {
-    var events = data.filter((event) => {
-      if (event.venue.givenId === id) {
-        return event.event;
-      }
-    }).sort(function(event1, event2){
-      return new Date(event1.event.startDate) - new Date(event2.event.startDate);
-    });
-    console.log('EVENTS:', events);
+    var events = actions.formatEvents(data, id);
     this.setState({
       events: events,
       display: true
@@ -36,15 +29,21 @@ class App extends React.Component {
     });
   }
 
+  changeDisplay() {
+    this.setState({
+      display: false
+    });
+  }
+
   render() {
     return (
       <div id="app-container">
         <Navbar />
         <h1>Occa</h1>
         <Search />
-        <Map displayEvents={this.displayEvents.bind(this)} />
+        <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
         {this.state.display ?
-            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)}/>
+          <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)}/>
           : null
         }
       </div>

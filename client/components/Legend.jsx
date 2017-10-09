@@ -4,7 +4,6 @@ class Legend extends React.Component {
 	constructor(props) {
 		super(props);
 		this.markers = Object.keys(this.props.markers);
-		console.log('MARKERS:', this.markers);
 	}
 
 	render() {

@@ -32,6 +32,8 @@
 	position: absolute;
 	left: 50px;
 	right: 50px;
+	border-radius: 20px;
+	
 }
 
 #app-container, #map , .container{
@@ -42,12 +44,14 @@
 
 #search {
 	text-align: center;
+	border-color: none;
+
 }
 
 #nav {
 	font-family: Pacifico;
 	background-color: #00bcd4;
-}
+}r
 
 #app-container h1 {
 	font-size: 75px;
@@ -80,3 +84,35 @@
 #legendList li {
 	display: inline;
 }
+
+#search input {
+	height: 30px;
+    width: 30%;
+    border:1px solid #d0d0d0;
+	background-color:#fcfcfc;
+}
+
+#search-input {
+	border-radius:15px; 
+	-moz-border-radius:15px; 
+	-webkit-border-radius:15px;
+	text-align: center; 
+}
+
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+input:focus::-webkit-input-placeholder {
+    opacity: 0;
+}
+
+#search-input:focus {
+   
+    box-shadow: 0 0 0 2pt skyblue;
+
+   
+    outline: none;
+
+}
+

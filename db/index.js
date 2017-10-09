@@ -5,15 +5,17 @@ var JAWSDB_URL = require('../config.js').JAWSDB_PUCE_URL;
 // var DATABASE_URL = require('../config.js').DATABASE_URL;
 
 // Local connection, development purposes only
-var cbMysql = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'Occa'
-});
+// var cbMysql = mysql.createConnection({
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : '',
+//   database : 'Occa'
+// });
 
 //
-// var cbMysql = mysql.createConnection(JAWSDB_URL);
+
+var cbMysql = mysql.createConnection(JAWSDB_URL);
+
 
 cbMysql.connect();
 var connection = Promise.promisifyAll(cbMysql);

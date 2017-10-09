@@ -78,6 +78,8 @@ var actions = {
         maxWidth: 150
     });
 
+    marker.info = infowindow;
+
     marker.addListener('click', () => {
       infowindow.open(map, marker);
     });
@@ -107,6 +109,22 @@ var actions = {
       }
     }).sort(function(event1, event2){
       return new Date(event1.event.startDate) - new Date(event2.event.startDate);
+    });
+  },
+
+  addInfowindowClose: markers => {
+    markers.forEach((marker) => {
+      marker.addListener('click', (event) => {
+        var lat = event.latLng.lat();
+        var lng = event.latLng.lng();
+        for (var venue of markers) {
+          if (venue.position.lat() !== lat && venue.position.lng()) {
+            console.log('VENUE:', venue);
+            console.log('INFO:', venue.info);
+            venue.info.close();
+          }
+        }
+      });
     });
   }
 }

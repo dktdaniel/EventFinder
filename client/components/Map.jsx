@@ -32,6 +32,7 @@ class Map extends React.Component {
       var results = actions.get(google, map, this.props.displayEvents.bind(this))
       .then((results) => {
         this.markers = results.markers;
+        actions.addInfowindowClose(this.markers);
       });
     });
   }

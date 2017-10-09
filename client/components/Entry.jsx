@@ -57,14 +57,11 @@ class Entry extends React.Component {
 	render() {
 		return (
 			<Item>
+				<Item.Image size="tiny" src={this.props.event.event.image}/>
 	      <Item.Content>
-	        <Item.Header>{this.props.event.event.name}</Item.Header>
+	        <Item.Header as="a" href={this.props.event.event.url}>{this.props.event.event.name}</Item.Header>
 	        <Item.Meta>{this.state.formattedDate}</Item.Meta>
 	        <Item.Meta>{this.state.formattedTime}</Item.Meta>
-	        <Item.Description>
-	          <Image shape="rounded" size="medium" src={this.props.event.event.image} />
-	        </Item.Description>
-	        <Item.Extra><a href={this.props.event.event.url} target="_blank">Event Details</a></Item.Extra>
 	      </Item.Content>
 	    </Item>
     )

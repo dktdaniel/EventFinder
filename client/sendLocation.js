@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import KEY from '../config.js';
 
-const eventTypes = {
+window.eventTypes = {
   'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
   'Arts & Theatre': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
   'Film': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',

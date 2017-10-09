@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Item } from 'semantic-ui-react';
+import { Image, Item, Divider } from 'semantic-ui-react';
 
 class Entry extends React.Component {
 	constructor(props) {
@@ -56,8 +56,8 @@ class Entry extends React.Component {
 
 	render() {
 		return (
-			<Item>
-				<Item.Image size="tiny" src={this.props.event.event.image}/>
+			<Item id="entry">
+				<Item.Image size="tiny" floated="left"  as="a" href={this.props.event.event.url} src={this.props.event.event.image}/>
 	      <Item.Content>
 	        <Item.Header as="a" href={this.props.event.event.url}>{this.props.event.event.name}</Item.Header>
 	        <Item.Meta>{this.state.formattedDate}</Item.Meta>

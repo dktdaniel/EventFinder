@@ -4,7 +4,11 @@ var JAWSDB_URL = require('../config.js').JAWSDB_PUCE_URL;
 // var { Client } = require('pg-promise');
 // var DATABASE_URL = require('../config.js').DATABASE_URL;
 
+<<<<<<< HEAD
 // Local connection, development purposes only
+=======
+//Local connection, development purposes only
+>>>>>>> update sidebar style, remove scrolls
 var cbMysql = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -13,7 +17,11 @@ var cbMysql = mysql.createConnection({
 });
 
 //
+<<<<<<< HEAD
 // var cbMysql = mysql.createConnection(JAWSDB_URL);
+=======
+//var cbMysql = mysql.createConnection(JAWSDB_URL);
+>>>>>>> update sidebar style, remove scrolls
 
 cbMysql.connect();
 var connection = Promise.promisifyAll(cbMysql);

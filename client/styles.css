@@ -1,3 +1,27 @@
+#entry a {
+	color: black;
+	font-weight: bold;
+}
+
+#entry ::-webkit-scrollbar-track {
+	background: none;
+}
+
+#entry ::-webkit-scrollbar-thumb {
+    background: none;
+}
+
+#entry {
+	margin: 10px;
+	border-color: #808e95;
+	border-width: 2px;
+}
+
+#entry :hover {
+	background-color: rgba(0, 0, 0, 0.2)
+}
+
+
 #app, html, body, [data-reactroot], #app-container {
 	height: 100%;
 	width: 100%;
@@ -38,7 +62,7 @@
 
 .content {
 	line-height: 1.35;
-  overflow: scroll;
+  overflow: hidden;
   white-space: nowrap;
 }
 

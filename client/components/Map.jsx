@@ -59,6 +59,7 @@ class Map extends React.Component {
     actions.post(searchLat, searchLng, google, map, this.props.displayEvents.bind(this))
     .then((results) => {
       this.markers = results.markers;
+      actions.addInfowindowClose(this.markers);
     });
 
     // Hide sidebar display upon new location search

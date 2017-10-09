@@ -56,6 +56,7 @@ class Entry extends React.Component {
 
 	render() {
 		return (
+			<div id="entrydiv">
 			<Item id="entry">
 				<Item.Image size="tiny" floated="left"  as="a" href={this.props.event.event.url} src={this.props.event.event.image}/>
 	      <Item.Content>
@@ -64,6 +65,7 @@ class Entry extends React.Component {
 	        <Item.Meta>{this.state.formattedTime}</Item.Meta>
 	      </Item.Content>
 	    </Item>
+		</div>
     )
 	}
 }

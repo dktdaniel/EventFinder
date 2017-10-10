@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import Search from './components/Search.jsx';
 import Map from './components/Map.jsx';
 import actions from './utils/sendLocation.js';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
+import FacebookButton from './FacebookButton.jsx';
 import { Container, Image, Header, Grid, Icon } from 'semantic-ui-react';
+
 
 
 class App extends React.Component {
@@ -39,10 +42,13 @@ class App extends React.Component {
     });
   }
 
+
   render() {
     return (
       <div id="app-container">
         <Navbar />
+        <FacebookButton fb={FB} />
+        <Search />
         <Container fluid style={{ backgroundImage: "url('http://i64.tinypic.com/2r7stqh.jpg')", height: '550px'}}>
             <div><Icon name='arrow down' size='mini'/></div>
             <div><Icon name='arrow down' size='tiny'/></div>

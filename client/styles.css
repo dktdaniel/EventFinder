@@ -65,6 +65,7 @@
 	height: 80%;
 	overflow: scroll;
 	position: relative;
+    background-color: white;
 }
 
 #legendList {

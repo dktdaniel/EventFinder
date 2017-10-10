@@ -1,10 +1,10 @@
 import React from 'react';
 import GoogleMapsLoader from 'google-maps';
 import KEY from '../../config.js';
-import mapStyles from '../mapStyles.js';
-import sampleData from '../sampleData.js';
+import mapStyles from '../utils/mapStyles.js';
+import sampleData from '../utils/sampleData.js';
 import $ from 'jquery';
-import actions from '../sendLocation.js';
+import actions from '../utils/sendLocation.js';
 
 class Map extends React.Component {
   constructor(props) {

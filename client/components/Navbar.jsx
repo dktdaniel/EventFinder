@@ -14,12 +14,6 @@ class Navbar extends React.Component {
       <Menu.Item>
         <Header as='h1'><Icon name='search' verticalAlign='center'/>EventFinder</Header>
       </Menu.Item>
-
-      <Menu.Menu position='right'>
-        <Menu.Item name='fb login'>
-          <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true"></div>
-        </Menu.Item>
-      </Menu.Menu>
       </Menu>
     )
 	}

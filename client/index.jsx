@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import Search from './components/Search.jsx';
 import Map from './components/Map.jsx';
 import actions from './utils/sendLocation.js';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
+import FacebookButton from './FacebookButton.jsx';
 
 
 class App extends React.Component {
@@ -38,10 +40,12 @@ class App extends React.Component {
     });
   }
 
+
   render() {
     return (
       <div id="app-container">
         <Navbar />
+        <FacebookButton fb={FB} />
         <Search />
         <Legend markers={window.eventTypes}/>
         <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>

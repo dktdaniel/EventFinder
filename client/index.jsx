@@ -7,6 +7,8 @@ import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
 
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +32,7 @@ class App extends React.Component {
     });
   }
 
+
   changeDisplay() {
     this.setState({
       display: false
@@ -44,9 +47,8 @@ class App extends React.Component {
         <Search />
         <Legend markers={window.eventTypes}/>
         <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
-        {this.state.display ?
+        { this.state.display &&
           <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)}/>
-          : null
         }
       </div>
     )

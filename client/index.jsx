@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Search from './components/Search.jsx';
 import Map from './components/Map.jsx';
-import actions from './sendLocation.js';
+import actions from './utils/sendLocation.js';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
@@ -40,7 +40,7 @@ class App extends React.Component {
     return (
       <div id="app-container">
         <Navbar />
-        <h1>Occa</h1>
+        <h1>EventFinder</h1>
         <Search />
         <Legend markers={window.eventTypes}/>
         <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>

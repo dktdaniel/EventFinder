@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import KEY from '../config.js';
+import KEY from '../../config.js';
 
 window.eventTypes = {
   'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',

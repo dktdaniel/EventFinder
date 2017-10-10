@@ -29,12 +29,3 @@ CREATE TABLE events (
   PRIMARY KEY (id),
   FOREIGN KEY (venueId) REFERENCES venues(givenId)
 );
-
--- INSERT INTO venues(givenId, name, lat, lng, url, postalCode, image)
---   VALUES ("KovZpaKope", "Bill Graham Civic Auditorium", 37.778479,
---   -122.417473, "url", "94102",
---   "imageUrl");
-
--- INSERT INTO events(name, startDate, startTime, image, category, url, venueId) VALUES
---   ("Zedd", "2017-10-07", "20:00:00", "imageUrl",
---   "Music", "url", "KovZpaKope");

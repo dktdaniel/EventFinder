@@ -7,11 +7,9 @@ import actions from './utils/sendLocation.js';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
-<<<<<<< HEAD
 import FacebookButton from './FacebookButton.jsx';
-=======
 import { Container, Image, Header, Grid, Icon } from 'semantic-ui-react';
->>>>>>> upstream/master
+
 
 
 class App extends React.Component {
@@ -49,10 +47,8 @@ class App extends React.Component {
     return (
       <div id="app-container">
         <Navbar />
-<<<<<<< HEAD
         <FacebookButton fb={FB} />
         <Search />
-=======
         <Container fluid style={{ backgroundImage: "url('http://i64.tinypic.com/2r7stqh.jpg')", height: '550px'}}>
             <div><Icon name='arrow down' size='mini'/></div>
             <div><Icon name='arrow down' size='tiny'/></div>
@@ -65,7 +61,6 @@ class App extends React.Component {
             <div><Icon name='arrow up' size='big'/></div>
             <div><Icon name='arrow up' size='huge'/></div>
         </Container>
->>>>>>> upstream/master
         <Legend markers={window.eventTypes}/>
         <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
         { this.state.display &&

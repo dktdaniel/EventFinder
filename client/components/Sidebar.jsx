@@ -1,7 +1,6 @@
 import React from 'react';
 import Entry from './Entry.jsx';
-import { Button } from 'semantic-ui-react';
-import { Item } from 'semantic-ui-react';
+import { Button, Item } from 'semantic-ui-react';
 
 class Sidebar extends React.Component {
 	constructor(props) {

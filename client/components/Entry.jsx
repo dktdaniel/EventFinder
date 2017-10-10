@@ -58,7 +58,7 @@ class Entry extends React.Component {
 		return (
 			<div id="entrydiv">
 			<Item id="entry">
-				<Item.Image size="tiny" floated="left"  as="a" href={this.props.event.event.url} src={this.props.event.event.image}/>
+				<Item.Image size="tiny" as="a" href={this.props.event.event.url} src={this.props.event.event.image}/>
 	      <Item.Content>
 	        <Item.Header as="a" href={this.props.event.event.url}>{this.props.event.event.name}</Item.Header>
 	        <Item.Meta>{this.state.formattedDate}</Item.Meta>

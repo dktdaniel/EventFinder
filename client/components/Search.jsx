@@ -9,7 +9,7 @@ class Search extends React.Component {
   render() {
     return (
       <Container id="search" text>
-        <input type="text" id="search-input" placeholder="Where are you going?"></input>
+        <input type="text" id="search-input" placeholder="Enter location"></input>
       </Container>
     )
   }

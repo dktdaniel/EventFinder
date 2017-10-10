@@ -40,7 +40,6 @@ class App extends React.Component {
     return (
       <div id="app-container">
         <Navbar />
-        <h1>EventFinder</h1>
         <Search />
         <Legend markers={window.eventTypes}/>
         <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>

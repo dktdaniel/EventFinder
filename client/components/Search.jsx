@@ -1,4 +1,5 @@
 const React= require('react');
+import { Container } from 'semantic-ui-react';
 
 class Search extends React.Component {
   constructor(props) {
@@ -7,11 +8,11 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div id="search">
-        <input type="text" id="search-input" placeholder="Enter Location..."></input>
-      </div>
+      <Container id="search" text>
+        <input type="text" id="search-input" placeholder="Where are you going?"></input>
+      </Container>
     )
   }
 }
 
-module.exports = Search;
+export default Search;

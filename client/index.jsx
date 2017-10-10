@@ -8,6 +8,7 @@ import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
 import { Container, Image, Header, Grid, Icon } from 'semantic-ui-react';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +31,7 @@ class App extends React.Component {
       display: false
     });
   }
+
 
   changeDisplay() {
     this.setState({

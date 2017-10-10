@@ -10,7 +10,7 @@ class Navbar extends React.Component {
 		return (
       <Menu id="nav">
         <Menu.Item name='editorials'>
-          Occa
+          EventFinder
         </Menu.Item>
       </Menu>
     )

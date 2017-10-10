@@ -22,8 +22,8 @@
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	background-color: #e2f1f8;
 	z-index: 0;
+    font-family: Montserrat;
 }
 
 #map {
@@ -37,7 +37,6 @@
 }
 
 #app-container, #map , .container{
-	background-color: #e2f1f8;
 	text-align: center;
 	margin: 10px auto 50px auto;
 }
@@ -48,21 +47,15 @@
 
 }
 
-#nav {
-	font-family: Pacifico;
-	background-color: #00bcd4;
-}r
-
 #app-container h1 {
 	font-size: 75px;
-	font-family: Pacifico;
-	color: #808e95
+	font-family: Montserrat;
 }
 
 .content {
 	line-height: 1.35;
-  overflow: hidden;
-  white-space: wrap;
+    overflow: hidden;
+    white-space: wrap;
 }
 
 #sidebar {
@@ -70,7 +63,6 @@
 	display: inline;
 	width: 20%;
 	height: 80%;
-	background-color: #e2f1f8;
 	overflow: scroll;
 	position: relative;
 }
@@ -108,11 +100,7 @@ input:focus::-webkit-input-placeholder {
 }
 
 #search-input:focus {
-   
     box-shadow: 0 0 0 2pt skyblue;
-
-   
     outline: none;
-
 }
 

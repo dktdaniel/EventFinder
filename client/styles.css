@@ -47,8 +47,7 @@
 
 }
 
-#app-container h1 {
-	font-size: 75px;
+#app-container {
 	font-family: Montserrat;
 }
 
@@ -79,16 +78,16 @@
 }
 
 #search input {
-	height: 30px;
-    width: 30%;
+	height: 35px;
+    width: 100%;
     border:1px solid #d0d0d0;
 	background-color:#fcfcfc;
 }
 
 #search-input {
-	border-radius:15px; 
+/*	border-radius:15px; 
 	-moz-border-radius:15px; 
-	-webkit-border-radius:15px;
+	-webkit-border-radius:15px;*/
 	text-align: center; 
 }
 

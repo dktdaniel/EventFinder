@@ -8,7 +8,6 @@ import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
 
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +42,6 @@ class App extends React.Component {
     return (
       <div id="app-container">
         <Navbar />
-        <h1>EventFinder</h1>
         <Search />
         <Legend markers={window.eventTypes}/>
         <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>

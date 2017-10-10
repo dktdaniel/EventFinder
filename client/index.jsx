@@ -7,6 +7,7 @@ import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -29,6 +30,7 @@ class App extends React.Component {
       display: false
     });
   }
+
 
   changeDisplay() {
     this.setState({

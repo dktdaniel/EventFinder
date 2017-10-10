@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS Occa;
+DROP DATABASE IF EXISTS eventfinder;
 
-CREATE DATABASE Occa;
+CREATE DATABASE eventfinder;
 
-USE Occa;
+USE eventfinder;
 
 CREATE TABLE venues (
   givenId VARCHAR(200) NOT NULL,

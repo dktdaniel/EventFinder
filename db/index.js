@@ -1,21 +1,21 @@
 var mysql = require('mysql');
 var Promise = require('bluebird');
-var JAWSDB_URL = require('../config.js').JAWSDB_PUCE_URL;
+// var JAWSDB_URL = require('../config.js').JAWSDB_PUCE_URL;
 // var { Client } = require('pg-promise');
 // var DATABASE_URL = require('../config.js').DATABASE_URL;
 
 // Local connection, development purposes only
-// var cbMysql = mysql.createConnection({
-//   host     : 'localhost',
-//   user     : 'root',
-//   password : '',
-//   database : 'Occa'
-// });
+var cbMysql = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'eventfinder'
+});
 
 //
 
 
-var cbMysql = mysql.createConnection(JAWSDB_URL);
+// var cbMysql = mysql.createConnection(JAWSDB_URL);
 
 
 cbMysql.connect();

@@ -42,7 +42,7 @@ class FacebookButton extends React.Component {
             <div 
                className="fb-login-button" 
                data-max-rows="1" 
-               data-size="xlarge" 
+               data-size="medium" 
                data-show-faces="false" 
                data-auto-logout-link="true"
                >

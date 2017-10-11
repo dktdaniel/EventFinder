@@ -45,6 +45,8 @@
     font-family: Montserrat;
 	text-align: center;
 	border-color: none;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 #app-container {
@@ -60,8 +62,8 @@
 #sidebar {
 	float: right;
 	display: inline;
-	width: 20%;
-	height: 80%;
+	width: 25%;
+	height: 100%;
 	overflow: scroll;
 	position: relative;
     background-color: white;

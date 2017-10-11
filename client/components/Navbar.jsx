@@ -1,6 +1,6 @@
 import React from 'react';
 import Search from './Search.jsx';
-import { Menu, Icon, Header } from 'semantic-ui-react';
+import { Menu, Icon, Header, Transition } from 'semantic-ui-react';
 import FacebookButton from './FacebookButton.jsx';
 
 class Navbar extends React.Component {
@@ -10,6 +10,7 @@ class Navbar extends React.Component {
 
 	render () {
 		return (
+      
       <Menu id="nav" widths={3} secondary >
 
       <Menu.Item>

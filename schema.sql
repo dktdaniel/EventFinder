@@ -29,3 +29,19 @@ CREATE TABLE events (
   PRIMARY KEY (id),
   FOREIGN KEY (venueId) REFERENCES venues(givenId)
 );
+
+CREATE TABLE favvenues (
+  id int AUTO_INCREMENT NOT NULL,
+  userId VARCHAR(25),
+  venueId VARCHAR(200) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (venueId) REFERENCES venues(givenId)
+);
+
+CREATE TABLE schedule (
+  id int AUTO_INCREMENT NOT NULL,
+  userId VARCHAR(200),
+  eventId INT,
+  PRIMARY KEY (id),
+  FOREIGN KEY (eventId) REFERENCES events(id)
+);

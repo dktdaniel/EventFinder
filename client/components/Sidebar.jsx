@@ -11,7 +11,7 @@ class Sidebar extends React.Component {
 		return (
 			<div id="sidebar">
 				<Button circular icon='close' floated='right' onClick={() => this.props.hideEvents()}/>
-				<Item.Group divided relaxed style={{clear:'both'}}/>
+				<Item.Group divided style={{clear:'both'}}/>
 					{this.props.events.map((event, key) =>
 						<Entry event={event} key={key} />
 					)}

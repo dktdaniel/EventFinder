@@ -1,13 +1,11 @@
 import React from 'react';
 
-export default class FacebookButton extends React.Component {
+class FacebookButton extends React.Component {
    constructor(props) {
       super(props);
-
       this.FB = props.fb;
-
       this.state = {
-         message: ""
+         name: ''
       };
 
    }
@@ -20,16 +18,14 @@ export default class FacebookButton extends React.Component {
    }
       
    onStatusChange(response) {
-      console.log( response );
       var self = this;
-
       if( response.status === "connected" ) {
          this.FB.api('/me', function(response) {
             console.log(response)
-            var message = "Welcome " + response.name;
             self.setState({
-               message: message
+               name: response.name
             });
+            self.props.updateName(response.name);
          })
       }
    }
@@ -55,4 +51,6 @@ export default class FacebookButton extends React.Component {
          </div>
       );
    }
-};
+}
+
+export default FacebookButton;

@@ -27,24 +27,25 @@
 }
 
 #map {
-	height: 80%;
-	width: 90%;
+	height: 100%;
+	width: 100%;
 	position: absolute;
-	left: 50px;
-	right: 50px;
+	/*left: 50px;
+	right: 50px;*/
 	/*border-radius: 20px;*/
 	
 }
 
 #app-container, #map , .container{
 	text-align: center;
-	margin: 10px auto 50px auto;
+	/*margin: 10px auto 50px auto;*/
 }
 
-/*#search {
+#search {
+    font-family: Montserrat;
 	text-align: center;
 	border-color: none;
-}*/
+}
 
 #app-container {
 	font-family: Montserrat;
@@ -81,13 +82,15 @@
     width: 100%;
     border:1px solid #d0d0d0;
 	background-color:#fcfcfc;
+    font-family: Montserrat;
 }
 
 #search-input {
-/*	border-radius:15px; 
+	border-radius:15px; 
 	-moz-border-radius:15px; 
-	-webkit-border-radius:15px;*/
+	-webkit-border-radius:15px;
 	text-align: center; 
+    font-family: Montserrat;
 }
 
 ::-webkit-input-placeholder {
@@ -101,5 +104,9 @@ input:focus::-webkit-input-placeholder {
 #search-input:focus {
     box-shadow: 0 0 0 2pt skyblue;
     outline: none;
+}
+
+#welcome {
+    padding-top: 30px;
 }
 

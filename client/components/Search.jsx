@@ -8,7 +8,7 @@ class Search extends React.Component {
 
   render() {
     return (
-      <Container id="search" text>
+      <Container id="search" text verticalAlign='middle'>
         <input type="text" id="search-input" placeholder="Enter location"></input>
       </Container>
     )

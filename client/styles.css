@@ -27,18 +27,18 @@
 }
 
 #map {
-	height: 80%;
-	width: 90%;
+	height: 100%;
+	width: 100%;
 	position: absolute;
-	left: 50px;
-	right: 50px;
+	/*left: 50px;
+	right: 50px;*/
 	/*border-radius: 20px;*/
 	
 }
 
 #app-container, #map , .container{
 	text-align: center;
-	margin: 10px auto 50px auto;
+	/*margin: 10px auto 50px auto;*/
 }
 
 #search {

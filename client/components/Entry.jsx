@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Item, Divider } from 'semantic-ui-react';
+import { Image, Item, Button, Icon, Label } from 'semantic-ui-react';
 
 class Entry extends React.Component {
 	constructor(props) {
@@ -55,18 +55,29 @@ class Entry extends React.Component {
 	}
 
 	render() {
-		return (
-			<div id="entrydiv">
-			<Item id="entry">
-				<Item.Image size="tiny" as="a" href={this.props.event.event.url} src={this.props.event.event.image}/>
-	      <Item.Content>
-	        <Item.Header as="a" href={this.props.event.event.url}>{this.props.event.event.name}</Item.Header>
-	        <Item.Meta>{this.state.formattedDate}</Item.Meta>
-	        <Item.Meta>{this.state.formattedTime}</Item.Meta>
-	      </Item.Content>
-	    </Item>
-		</div>
-    )
+		return (<div id="entrydiv">
+            <Item id='entry'>
+              <Item.Image src={this.props.event.event.image} size='small'/>
+
+              <Item.Content>
+                <Item.Header as='a'>{this.props.event.event.name}</Item.Header>
+                <Item.Meta>
+                  <span className='cinema'>IFC Cinema</span>
+                </Item.Meta>
+                <Item.Description>{this.state.formattedDate} - {this.state.formattedTime}</Item.Description>
+                <Item.Extra>
+                  <Button primary size='tiny'>
+                    Add event
+                    <Icon name='right chevron' />
+                  </Button>
+                  <Button secondary size='tiny' href={this.props.event.event.url}>
+                    Buy tickets
+                    <Icon name='right chevron' />
+                  </Button>
+                </Item.Extra>
+              </Item.Content>
+            </Item>
+		</div>)
 	}
 }
 

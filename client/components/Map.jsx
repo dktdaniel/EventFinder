@@ -25,7 +25,7 @@ class Map extends React.Component {
       });
       var input = document.getElementById('search-input');
       var searchBox = new google.maps.places.SearchBox(input);
-
+      console.log(searchBox)
       searchBox.addListener('places_changed', () => {
         this.search(searchBox.getPlaces(), google, map);
       });
@@ -41,6 +41,7 @@ class Map extends React.Component {
     var bounds = new google.maps.LatLngBounds();
     var searchLat;
     var searchLng;
+    console.log(places, google, map)
     places.forEach(place => {
       if (place.geometry.viewport) {
         bounds.union(place.geometry.viewport);

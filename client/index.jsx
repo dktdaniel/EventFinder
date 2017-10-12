@@ -47,8 +47,30 @@ class App extends React.Component {
     this.setState({name, userId});
   }
 
-  favVenue() {
+  addVenue() {
+    // if they are not logged in, give an error message
+    if (!this.state.name) {
+      alert('Please login')
+    } else {
     //make ajax call to server and send user ID and venue info
+      $.ajax({
+        method: 'POST',
+        url: '/addVenue',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          userId: this.state.userId,
+          givenId: this.state.venue.givenId,
+          venueName: this.state.venue.name,
+          address: this.state.venue.address, 
+          lat: this.state.venue.lat,
+          lng: this.state.venue.lng, 
+          url: this.state.venue.url,
+          postalCode: this.state.venue.postalCode, 
+          image: this.state.venue.image
+        }),
+        success: data => console.log('add venue req sent to server!')
+      });
+    }
   }
 
   render() {
@@ -76,7 +98,7 @@ class App extends React.Component {
           <Legend markers={window.eventTypes}/>
           <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
           { this.state.display &&
-            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)}/>
+            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} addVenue={this.addVenue.bind(this)}/>
           }
         </div>
       </Transition>

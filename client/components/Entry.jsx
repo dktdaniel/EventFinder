@@ -67,7 +67,7 @@ class Entry extends React.Component {
                     Add event
                     <Icon name='right chevron' />
                   </Button>
-                  <Button secondary size='tiny'>
+                  <Button secondary size='tiny' onClick={() => {this.props.addVenue()}}>
                     Add venue
                     <Icon name='right chevron' />
                   </Button>

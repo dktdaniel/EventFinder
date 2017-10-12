@@ -192,6 +192,31 @@ const searchOrCreateFavVenue = (venueObj) => {
   })
 }
 
+
+const _saveToSchedule = (eventObj) => {
+  return connection.queryAsync(`INSERT INTO schedule (userId, eventId) VALUES ("${eventObj.userId}", "${eventObj.eventId}")`)
+  .then(success => success)
+  .catch((err) => {
+    console.error(err);
+    return err;
+  })
+}
+
+const searchOrCreateSchedule = (eventObj) => {
+  return connection.queryAsync(`SELECT * FROM schedule WHERE eventId="${eventObj.eventId}" AND userId="${eventObj.userId}"`)
+  .then((data) => {
+    if (data.length) {
+      return data[0].eventId;
+    } else {
+      return _saveToSchedule(eventObj);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+    return err;
+  })
+}
+
 // connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
 //   if (error) throw error;
 //   console.log('The solution is: ', results[0].solution);
@@ -201,5 +226,6 @@ module.exports = {
   searchEvents,
   searchOrCreateVenue,
   addNewEvents,
-  searchOrCreateFavVenue
+  searchOrCreateFavVenue,
+  searchOrCreateSchedule
 }

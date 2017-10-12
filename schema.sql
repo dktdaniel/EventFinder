@@ -17,7 +17,6 @@ CREATE TABLE venues (
 );
 
 CREATE TABLE events (
-  id INT AUTO_INCREMENT NOT NULL,
   givenId VARCHAR(200) NOT NULL,
   name VARCHAR(200) NOT NULL,
   startDate DATE NOT NULL,
@@ -26,7 +25,7 @@ CREATE TABLE events (
   category VARCHAR(200),
   url TEXT,
   venueId VARCHAR(200) NOT NULL,
-  PRIMARY KEY (id),
+  PRIMARY KEY (givenId),
   FOREIGN KEY (venueId) REFERENCES venues(givenId)
 );
 
@@ -40,8 +39,8 @@ CREATE TABLE favvenues (
 
 CREATE TABLE schedule (
   id int AUTO_INCREMENT NOT NULL,
-  userId VARCHAR(200),
-  eventId INT,
+  userId VARCHAR(25),
+  eventId VARCHAR(200),
   PRIMARY KEY (id),
-  FOREIGN KEY (eventId) REFERENCES events(id)
+  FOREIGN KEY (eventId) REFERENCES events(givenId)
 );

@@ -39,7 +39,7 @@ class FacebookButton extends React.Component {
       return (
          <div>
             <div
-            class="fb-login-button" 
+            className="fb-login-button" 
             data-max-rows="1" 
             data-size="medium" 
             data-button-type="login_with" 

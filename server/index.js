@@ -15,7 +15,6 @@ app.use(cors());
 app.use(Express.static(__dirname + '/../client'));
 
 app.get('/events', (req, res) => {
-  console.log('there')
   var requestBody = Object.keys(req.body).length ? req.body : {
     lat: 37.788799,
     lng: -122.394798,
@@ -104,10 +103,15 @@ app.post('/events', (req, res) => {
 })
 
 app.post('/favVenue', (req, res) => {
-  var venueData = req.body;
-  return new Promise((resolve, reject) => resolve(db.searchOrCreateFavVenue(venueData)))
+  var venueObj = req.body;
+  return new Promise((resolve, reject) => resolve(db.searchOrCreateFavVenue(venueObj)))
     .then(success => res.send(success))
+});
 
+app.post('/addSchedule', (req, res) => {
+  var eventObj = req.body;
+  return new Promise((resolve, reject) => resolve(db.searchOrCreateSchedule(eventObj)))
+    .then(success => res.send(success))
 });
 
 app.listen(process.env.PORT || 3000, () => {

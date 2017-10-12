@@ -107,6 +107,7 @@ var actions = {
 
   formatEvents: (events, id) => {
     return events.filter((event) => {
+      console.log("WOWOWOWOWOWOWOW", event)
       if (event.venue.givenId === id) {
         return event.event;
       }

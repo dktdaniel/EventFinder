@@ -31,7 +31,7 @@ app.get('/events', (req, res) => {
 
   db.searchEvents(options)
     .then(events => {
-      console.log('blargh', events)
+      // console.log('blargh', events)
       if (events.length !== 0) {
         throw events;
       }
@@ -66,8 +66,8 @@ app.get('/events', (req, res) => {
 })
 
 app.post('/events', (req, res) => {
-  console.log('here')
   var params = JSON.parse(req.body.data);
+  console.log('params are here', params)
   var range = 0.0145 * params.rad;
   var options = {
     center_lat: params.lat,

@@ -63,11 +63,11 @@ class Entry extends React.Component {
                 <Item.Header as='a' href={this.props.event.event.url}>{this.props.event.event.name}</Item.Header>
                 <Item.Description>{this.state.formattedDate} - {this.state.formattedTime}</Item.Description>
                 <Item.Extra>
-                  <Button primary size='tiny'>
+                  <Button primary size='tiny' onClick={() => this.props.selectEvent(this.props.event.event)}>
                     Add event
                     <Icon name='right chevron' />
                   </Button>
-                  <Button secondary size='tiny' onClick={() => {this.props.favVenue()}}>
+                  <Button secondary size='tiny' onClick={() => this.props.favVenue()}>
                     Add venue
                     <Icon name='right chevron' />
                   </Button>

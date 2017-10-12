@@ -18,7 +18,8 @@ class App extends React.Component {
       display: false,
       name: '',
       userId: '',
-      venue: ''
+      venue: '',
+      selectedEvent: {}
     }
   }
 
@@ -28,7 +29,7 @@ class App extends React.Component {
       events: events,
       venue: events[0].venue,
       display: true
-    }, () => console.log('index venue', this.state.venue));
+    }, () => console.log('index events', this.state.events));
   }
 
   hideEvents() {
@@ -60,17 +61,42 @@ class App extends React.Component {
         data: JSON.stringify({
           userId: this.state.userId,
           givenId: this.state.venue.givenId,
-          venueName: this.state.venue.name,
-          address: this.state.venue.address, 
-          lat: this.state.venue.lat,
-          lng: this.state.venue.lng, 
-          url: this.state.venue.url,
-          postalCode: this.state.venue.postalCode, 
-          image: this.state.venue.image
+          venueName: this.state.venue.name
+          // address: this.state.venue.address, 
+          // lat: this.state.venue.lat,
+          // lng: this.state.venue.lng, 
+          // url: this.state.venue.url,
+          // postalCode: this.state.venue.postalCode, 
+          // image: this.state.venue.image
         }),
         success: data => alert('Added to favorite venues!')
       });
     }
+  }
+
+  addEventToSchedule() {
+    console.log(this.state.selectedEvent)
+    // if they are not logged in, give an error message
+    if (!this.state.name) {
+      alert('Please login')
+    } else {
+    //make ajax call to server and send user ID and venue info
+      $.ajax({
+        method: 'POST',
+        url: '/addSchedule',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          userId: this.state.userId,
+          eventId: this.state.selectedEvent.givenId
+        }),
+        success: data => alert('Added to favorite events!')
+      });
+    }
+    // need to save to both event and schedule tables
+  }
+
+  selectEvent(selectedEvent) {
+    this.setState({selectedEvent}, this.addEventToSchedule);
   }
 
   render() {
@@ -98,7 +124,7 @@ class App extends React.Component {
           <Legend markers={window.eventTypes}/>
           <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
           { this.state.display &&
-            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} favVenue={this.favVenue.bind(this)}/>
+            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} favVenue={this.favVenue.bind(this)} selectEvent={this.selectEvent.bind(this)}/>
           }
         </div>
       </Transition>

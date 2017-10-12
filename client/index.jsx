@@ -68,7 +68,7 @@ class App extends React.Component {
           postalCode: this.state.venue.postalCode, 
           image: this.state.venue.image
         }),
-        success: data => console.log('fav venue req sent to server!')
+        success: data => alert('Added to favorite venues!')
       });
     }
   }

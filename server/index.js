@@ -109,7 +109,8 @@ app.post('/favVenue', (req, res) => {
   // console.log('*req body data*', venueData);
 
   //call database method to save to favvenues
-  db.saveToFavVenues(venueData);
+  return new Promise((resolve, reject) => resolve(db.saveToFavVenues(venueData)))
+    .then(success => res.send(success))
 
 });
 

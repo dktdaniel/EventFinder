@@ -170,6 +170,7 @@ const addNewEvents = (eventObj) => {
 
 const saveToFavVenues = (venueObj) => {
   return connection.queryAsync(`INSERT INTO favVenues (userId, venueId) VALUES ("${venueObj.userId}", "${venueObj.givenId}")`)
+  .then(success => success)
   .catch((err) => {
     console.error(err);
     return err;

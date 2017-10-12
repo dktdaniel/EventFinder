@@ -178,7 +178,7 @@ const _saveToFavVenues = (venueObj) => {
 }
 
 const searchOrCreateFavVenue = (venueObj) => {
-  return connection.queryAsync(`SELECT * FROM favvenues WHERE venueId="${venueObj.givenId}"`)
+  return connection.queryAsync(`SELECT * FROM favvenues WHERE venueId="${venueObj.givenId}" AND userId="${venueObj.userId}"`)
   .then((data) => {
     if (data.length) {
       return data[0].givenId;

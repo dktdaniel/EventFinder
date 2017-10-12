@@ -43,11 +43,11 @@ class App extends React.Component {
     });
   }
 
-  getUser({name, userId}) {
-    this.setState({name, userId});
+  getUser({name, id}) {
+    this.setState({name, userId: id});
   }
 
-  addVenue() {
+  favVenue() {
     // if they are not logged in, give an error message
     if (!this.state.name) {
       alert('Please login')
@@ -55,7 +55,7 @@ class App extends React.Component {
     //make ajax call to server and send user ID and venue info
       $.ajax({
         method: 'POST',
-        url: '/addVenue',
+        url: '/favVenue',
         contentType: 'application/json',
         data: JSON.stringify({
           userId: this.state.userId,
@@ -68,7 +68,7 @@ class App extends React.Component {
           postalCode: this.state.venue.postalCode, 
           image: this.state.venue.image
         }),
-        success: data => console.log('add venue req sent to server!')
+        success: data => console.log('fav venue req sent to server!')
       });
     }
   }
@@ -98,7 +98,7 @@ class App extends React.Component {
           <Legend markers={window.eventTypes}/>
           <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
           { this.state.display &&
-            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} addVenue={this.addVenue.bind(this)}/>
+            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} favVenue={this.favVenue.bind(this)}/>
           }
         </div>
       </Transition>

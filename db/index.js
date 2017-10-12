@@ -168,9 +168,24 @@ const addNewEvents = (eventObj) => {
   });
 }
 
-const saveToFavVenues = (venueObj) => {
+const _saveToFavVenues = (venueObj) => {
   return connection.queryAsync(`INSERT INTO favVenues (userId, venueId) VALUES ("${venueObj.userId}", "${venueObj.givenId}")`)
   .then(success => success)
+  .catch((err) => {
+    console.error(err);
+    return err;
+  })
+}
+
+const searchOrCreateFavVenue = (venueObj) => {
+  return connection.queryAsync(`SELECT * FROM favvenues WHERE venueId="${venueObj.givenId}" AND userId="${venueObj.userId}"`)
+  .then((data) => {
+    if (data.length) {
+      return data[0].givenId;
+    } else {
+      return _saveToFavVenues(venueObj);
+    }
+  })
   .catch((err) => {
     console.error(err);
     return err;
@@ -186,5 +201,5 @@ module.exports = {
   searchEvents,
   searchOrCreateVenue,
   addNewEvents,
-  saveToFavVenues
+  searchOrCreateFavVenue
 }

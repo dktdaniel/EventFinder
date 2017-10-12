@@ -168,6 +168,13 @@ const addNewEvents = (eventObj) => {
   });
 }
 
+const saveToVenues = (favVenueObj) => {
+  return connection.queryAsync(`INSERT INTO favVenues (userId, venueId) VALUES ("${favVenueObj.userId}", "${favVenueObj.givenId}")`)
+  .catch((err) => {
+    console.error(err);
+    return err;
+  })
+}
 
 // connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
 //   if (error) throw error;
@@ -177,5 +184,7 @@ const addNewEvents = (eventObj) => {
 module.exports = {
   searchEvents,
   searchOrCreateVenue,
-  addNewEvents
+  addNewEvents,
+  saveToVenues,
+  _addNewVenue
 }

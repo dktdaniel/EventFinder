@@ -16,7 +16,9 @@ class App extends React.Component {
     this.state = {
       events: [],
       display: false,
-      name: ''
+      name: '',
+      userId: '',
+      venue: ''
     }
   }
 
@@ -24,8 +26,9 @@ class App extends React.Component {
     var events = actions.formatEvents(data, id);
     this.setState({
       events: events,
+      venue: events[0].venue,
       display: true
-    });
+    }, () => console.log('index venue', this.state.venue));
   }
 
   hideEvents() {
@@ -40,15 +43,19 @@ class App extends React.Component {
     });
   }
 
-  updateName(name) {
-    this.setState({name});
+  getUser({name, userId}) {
+    this.setState({name, userId});
+  }
+
+  favVenue() {
+    //make ajax call to server and send user ID and venue info
   }
 
   render() {
     return (
       <Transition animation='fade up' duration={2000} transitionOnMount={true}>
         <div id="app-container">
-          <Navbar updateName={this.updateName.bind(this)}/>
+          <Navbar getUser={this.getUser.bind(this)}/>
           <Container fluid style={{ backgroundImage: "url('http://i64.tinypic.com/2r7stqh.jpg')", height: '550px'}}>
               <Header size='huge' id='welcome'>Welcome {this.state.name}</Header>
               <p></p>

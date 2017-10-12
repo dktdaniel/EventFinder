@@ -15,10 +15,11 @@ app.use(cors());
 app.use(Express.static(__dirname + '/../client'));
 
 app.get('/events', (req, res) => {
+  console.log('there')
   var requestBody = Object.keys(req.body).length ? req.body : {
     lat: 37.788799,
     lng: -122.394798,
-    rad: 5
+    rad: 25
   };
 
    var range = 0.0145 * requestBody.rad;
@@ -30,6 +31,7 @@ app.get('/events', (req, res) => {
 
   db.searchEvents(options)
     .then(events => {
+      console.log('blargh', events)
       if (events.length !== 0) {
         throw events;
       }
@@ -64,6 +66,7 @@ app.get('/events', (req, res) => {
 })
 
 app.post('/events', (req, res) => {
+  console.log('here')
   var params = JSON.parse(req.body.data);
   var range = 0.0145 * params.rad;
   var options = {

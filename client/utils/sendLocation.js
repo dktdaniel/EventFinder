@@ -30,7 +30,7 @@ var actions = {
         data: JSON.stringify({
           lat: lat,
           lng: lng,
-          rad: 5
+          rad: 2
         })
       }
     })
@@ -42,6 +42,7 @@ var actions = {
       });
     })
     .fail((err) => {
+      console.log('here')
       console.error(err);
     });
   },

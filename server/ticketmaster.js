@@ -2,7 +2,7 @@
 const api = require('../config.js').API_KEY;
 const request = require('request-promise');
 
-const getEvents = ({lat, lng, rad = '2'}) => {
+const getEvents = ({lat, lng, rad = '10'}) => {
   var date = new Date();
   var endDate = new Date();
   endDate.setDate(endDate.getDate() + 7);
@@ -18,15 +18,13 @@ const getEvents = ({lat, lng, rad = '2'}) => {
           '&radius=' + rad +
           '&unit=miles' +
           '&startDateTime=' + iso_date +
-          '&endDateTime=' + iso_endDate
+          '&endDateTime=' + iso_endDate +
+          '&size=50'
   }
-
   return request(options)
   .then(data => {
     data = JSON.parse(data);
-    console.log(data)
     var events = data._embedded.events;
-    console.log(events, events.length)
     return events.map( event => {
       console.log(event)
       return {

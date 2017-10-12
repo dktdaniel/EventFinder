@@ -12,8 +12,9 @@ window.eventTypes = {
 
 var actions = {
   get: function(google, map, cb) {
-    return $.ajax('https://occa.herokuapp.com/events')
+    return $.ajax('/events')
     .then(data => {
+      console.log('events', data)
       return this._prepMarkers(data, cb, google, map)
       .then(markers => {
         return {events: data, markers: markers}
@@ -24,22 +25,24 @@ var actions = {
   post: (lat, lng, google, map, cb) => {
     return $.ajax({
       method: 'POST',
-      url: 'https://occa.herokuapp.com/events',
+      url: '/events',
       data: {
         data: JSON.stringify({
           lat: lat,
           lng: lng,
-          rad: 5
+          rad: 2
         })
       }
     })
     .then(data => {
+      console.log('after', data)
       return this.a._prepMarkers(data, cb, google, map)
       .then(markers => {
         return {events: data, markers: markers}
       });
     })
     .fail((err) => {
+      console.log('here')
       console.error(err);
     });
   },

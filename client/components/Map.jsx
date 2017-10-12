@@ -26,6 +26,7 @@ class Map extends React.Component {
       var input = document.getElementById('search-input');
       var searchBox = new google.maps.places.SearchBox(input);
 
+
       map.addListener('dragend', () => {
         console.log('i was dragged!');
         searchBox.setBounds(map.getBounds());
@@ -48,6 +49,7 @@ class Map extends React.Component {
 
       var results = actions.get(google, map, this.props.displayEvents.bind(this))
       .then((results) => {
+        console.log('results', results)
         this.markers = results.markers;
         actions.addInfowindowClose(this.markers);
       });
@@ -58,6 +60,7 @@ class Map extends React.Component {
     var bounds = new google.maps.LatLngBounds();
     var searchLat;
     var searchLng;
+    console.log(places, google, map)
     places.forEach(place => {
       if (place.geometry.viewport) {
         bounds.union(place.geometry.viewport);
@@ -75,6 +78,7 @@ class Map extends React.Component {
     actions.removeMarkers(this.markers);
     actions.post(searchLat, searchLng, google, map, this.props.displayEvents.bind(this))
     .then((results) => {
+      console.log('herro', results)
       this.markers = results.markers;
       actions.addInfowindowClose(this.markers);
     });

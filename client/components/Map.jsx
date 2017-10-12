@@ -26,9 +26,26 @@ class Map extends React.Component {
       var input = document.getElementById('search-input');
       var searchBox = new google.maps.places.SearchBox(input);
 
+      map.addListener('dragend', () => {
+        console.log('i was dragged!');
+        searchBox.setBounds(map.getBounds());
+        var newLat = map.getBounds().getCenter().lat();
+        var newLng = map.getBounds().getCenter().lng();
+        var newLocation = { lat: newLat, lng: newLng };
+        var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch({
+          location: newLocation,
+          radius: 500
+        }, (places, service, pagination) => {
+          this.search(places, google, map);
+        });
+      });
+
       searchBox.addListener('places_changed', () => {
+        console.log('text', searchBox);
         this.search(searchBox.getPlaces(), google, map);
       });
+
       var results = actions.get(google, map, this.props.displayEvents.bind(this))
       .then((results) => {
         this.markers = results.markers;

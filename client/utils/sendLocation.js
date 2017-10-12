@@ -30,7 +30,7 @@ var actions = {
         data: JSON.stringify({
           lat: lat,
           lng: lng,
-          rad: 2
+          rad: 4
         })
       }
     })
@@ -107,11 +107,12 @@ var actions = {
 
   formatEvents: (events, id) => {
     return events.filter((event) => {
-      console.log("WOWOWOWOWOWOWOW", event)
       if (event.venue.givenId === id) {
         return event.event;
       }
     }).sort(function(event1, event2){
+      console.log('first event', event1)
+      console.log('second event', event2)
       return new Date(event1.event.startDate) - new Date(event2.event.startDate);
     });
   },

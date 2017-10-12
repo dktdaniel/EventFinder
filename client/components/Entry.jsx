@@ -60,22 +60,15 @@ class Entry extends React.Component {
               <Item.Image src={this.props.event.event.image} size='small'/>
 
               <Item.Content>
-                <Item.Header as='a'>{this.props.event.event.name}</Item.Header>
-                <Item.Meta>
-                  <span className='cinema'>IFC Cinema</span>
-                </Item.Meta>
+                <Item.Header as='a' href={this.props.event.event.url}>{this.props.event.event.name}</Item.Header>
                 <Item.Description>{this.state.formattedDate} - {this.state.formattedTime}</Item.Description>
                 <Item.Extra>
                   <Button primary size='tiny'>
                     Add event
                     <Icon name='right chevron' />
                   </Button>
-                  <Button secondary size='tiny' href={this.props.event.event.url}>
-                    Buy tickets
-                    <Icon name='right chevron' />
-                  </Button>
-                  <Button primary size='tiny'>
-                    Fav venue
+                  <Button secondary size='tiny'>
+                    Add venue
                     <Icon name='right chevron' />
                   </Button>
                 </Item.Extra>

@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const app = Express();
 
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -103,8 +103,17 @@ app.post('/events', (req, res) => {
    })
 })
 
-app.post('/favEvent', (req, res) => {
+app.post('/addVenue', (req, res) => {
   //call db _addNewVenue & saveToFavVenues
+  var venueData = req.body;
+  console.log('*req body data*', venueData);
+
+  //call database method to save to venues
+  db.searchOrCreateVenue(venueData);
+
+  //call database method to save to favvenues
+  
+
 });
 
 app.listen(process.env.PORT || 3000, () => {

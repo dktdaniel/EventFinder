@@ -23,11 +23,10 @@ const getEvents = ({lat, lng, rad = '10'}) => {
   }
   return request(options)
   .then(data => {
-    console.log('location here', data)
     data = JSON.parse(data);
     var events = data._embedded.events;
+    console.log('here are the events!', events)
     return events.map( event => {
-      console.log(event)
       return {
         event: {
           name: event.name,

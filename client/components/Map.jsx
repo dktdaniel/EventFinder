@@ -58,6 +58,7 @@ class Map extends React.Component {
 
   search(places, google, map) {
     var bounds = new google.maps.LatLngBounds();
+    console.log('bounds', bounds)
     var searchLat;
     var searchLng;
     console.log(places, google, map)
@@ -73,7 +74,7 @@ class Map extends React.Component {
 
     map.fitBounds(bounds);
     map.setCenter({lat: searchLat, lng: searchLng})
-    map.setZoom(13);
+    map.setZoom(14);
 
     actions.removeMarkers(this.markers);
     actions.post(searchLat, searchLng, google, map, this.props.displayEvents.bind(this))

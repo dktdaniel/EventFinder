@@ -103,16 +103,13 @@ app.post('/events', (req, res) => {
    })
 })
 
-app.post('/addVenue', (req, res) => {
+app.post('/favVenue', (req, res) => {
   //call db _addNewVenue & saveToFavVenues
   var venueData = req.body;
-  console.log('*req body data*', venueData);
-
-  //call database method to save to venues
-  db.searchOrCreateVenue(venueData);
+  // console.log('*req body data*', venueData);
 
   //call database method to save to favvenues
-  
+  db.saveToFavVenues(venueData);
 
 });
 

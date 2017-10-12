@@ -74,6 +74,10 @@ class Entry extends React.Component {
                     Buy tickets
                     <Icon name='right chevron' />
                   </Button>
+                  <Button primary size='tiny'>
+                    Fav venue
+                    <Icon name='right chevron' />
+                  </Button>
                 </Item.Extra>
               </Item.Content>
             </Item>

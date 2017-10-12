@@ -14,8 +14,6 @@ app.use(cors());
 //Serve up static html
 app.use(Express.static(__dirname + '/../client'));
 
-
-
 app.get('/events', (req, res) => {
   var requestBody = Object.keys(req.body).length ? req.body : {
     lat: 37.788799,
@@ -101,6 +99,10 @@ app.post('/events', (req, res) => {
      res.send(events)
    })
 })
+
+app.post('/favEvent', (req, res) => {
+  //call db _addNewVenue & saveToFavVenues
+});
 
 app.listen(process.env.PORT || 3000, () => {
   console.log('Listening on Port 3000!');

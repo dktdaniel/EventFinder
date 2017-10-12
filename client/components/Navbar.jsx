@@ -18,7 +18,7 @@ class Navbar extends React.Component {
       </Menu.Item>
 
       <Menu.Item position='right'>
-        <FacebookButton fb={FB} updateName={this.props.updateName}/>
+        <FacebookButton fb={FB} getUser={this.props.getUser}/>
       </Menu.Item>
 
       </Menu>

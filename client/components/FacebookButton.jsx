@@ -7,7 +7,6 @@ class FacebookButton extends React.Component {
       this.state = {
          name: ''
       };
-
    }
 
    componentDidMount() {
@@ -19,13 +18,13 @@ class FacebookButton extends React.Component {
       
    onStatusChange(response) {
       var self = this;
-      if( response.status === "connected" ) {
+      if (response.status === "connected") {
          this.FB.api('/me', function(response) {
             console.log(response)
             self.setState({
                name: response.name
             });
-            self.props.updateName(response.name);
+            self.props.getUser(response);
          })
       }
    }

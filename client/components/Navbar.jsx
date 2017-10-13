@@ -1,6 +1,6 @@
 import React from 'react';
 import Search from './Search.jsx';
-import { Menu, Icon, Header, Transition, Button } from 'semantic-ui-react';
+import { Menu, Icon, Header, Transition, Button, Radio } from 'semantic-ui-react';
 import FacebookButton from './FacebookButton.jsx';
 
 class Navbar extends React.Component {
@@ -18,7 +18,7 @@ class Navbar extends React.Component {
       </Menu.Item>
 
       <Menu.Item>
-        <Button onClick={() => this.props.changeView('dashboard')}>Dashboard</Button>
+        <Radio slider label='Dashboard' onClick={() => this.props.changeView()}/>
       </Menu.Item>
 
       <Menu.Item position='right'>

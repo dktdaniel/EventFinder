@@ -7,6 +7,7 @@ import actions from './utils/sendLocation.js';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
+import Dashboard from './components/Dashboard.jsx';
 import { Transition, Container, Image, Header, Grid, Icon } from 'semantic-ui-react';
 
 
@@ -19,7 +20,8 @@ class App extends React.Component {
       name: '',
       userId: '',
       venue: '',
-      selectedEvent: {}
+      selectedEvent: {},
+      view: 'home'
     }
   }
 
@@ -99,34 +101,47 @@ class App extends React.Component {
     this.setState({selectedEvent}, this.addEventToSchedule);
   }
 
+  changeView(view) {
+    this.setState({view})
+  }
+
   render() {
     return (
       <Transition animation='fade up' duration={2000} transitionOnMount={true}>
-        <div id="app-container">
-          <Navbar getUser={this.getUser.bind(this)}/>
-          <Container fluid style={{ backgroundImage: "url('http://i64.tinypic.com/2r7stqh.jpg')", height: '550px'}}>
-              <Header size='huge' id='welcome'>Welcome {this.state.name}</Header>
-              <p></p>
-              <div><Icon name='arrow down' size='mini'/></div>
-              <div><Icon name='arrow down' size='tiny'/></div>
-              <div><Icon name='arrow down' size='small'/></div>
-              <div><Icon name='arrow down' size='large'/></div>
-              <div><Icon name='arrow down' size='big'/></div>
-              <div><Icon name='arrow down' size='huge'/></div>
-              <Search />
-              <div><Icon name='arrow up' size='huge'/></div>
-              <div><Icon name='arrow up' size='big'/></div>
-              <div><Icon name='arrow up' size='large'/></div>
-              <div><Icon name='arrow up' size='small'/></div>
-              <div><Icon name='arrow up' size='tiny'/></div>
-              <div><Icon name='arrow up' size='mini'/></div>
-          </Container>
-          <Legend markers={window.eventTypes}/>
-          <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
-          { this.state.display &&
-            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} favVenue={this.favVenue.bind(this)} selectEvent={this.selectEvent.bind(this)}/>
-          }
+      {this.state.view === 'home' 
+      ?
+      <div id="app-container">
+        <Navbar getUser={this.getUser.bind(this)} changeView={this.changeView.bind(this)}/>
+        <Container fluid style={{ backgroundImage: "url('http://i64.tinypic.com/2r7stqh.jpg')", height: '550px'}}>
+            <Header size='huge' id='welcome'>Welcome {this.state.name}</Header>
+            <p></p>
+            <div><Icon name='arrow down' size='mini'/></div>
+            <div><Icon name='arrow down' size='tiny'/></div>
+            <div><Icon name='arrow down' size='small'/></div>
+            <div><Icon name='arrow down' size='large'/></div>
+            <div><Icon name='arrow down' size='big'/></div>
+            <div><Icon name='arrow down' size='huge'/></div>
+            <Search />
+            <div><Icon name='arrow up' size='huge'/></div>
+            <div><Icon name='arrow up' size='big'/></div>
+            <div><Icon name='arrow up' size='large'/></div>
+            <div><Icon name='arrow up' size='small'/></div>
+            <div><Icon name='arrow up' size='tiny'/></div>
+            <div><Icon name='arrow up' size='mini'/></div>
+        </Container>
+        <Legend markers={window.eventTypes}/>
+        <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
+        { this.state.display &&
+          <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} favVenue={this.favVenue.bind(this)} selectEvent={this.selectEvent.bind(this)}/>
+        }
         </div>
+        :
+        <div>
+          <Navbar getUser={this.getUser.bind(this)} changeView={this.changeView.bind(this)}/>
+          <Dashboard/>
+        </div>
+       }
+        
       </Transition>
     )
   }

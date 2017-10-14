@@ -3,8 +3,9 @@ import { Container } from 'semantic-ui-react';
 
 class Search extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
+
 
   render() {
     return (

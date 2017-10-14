@@ -35,9 +35,10 @@ class FacebookButton extends React.Component {
       });
    }
 
-   render() {
-      return (<div>
-        <div id="fb-root"></div>
+  render() {
+    
+    return (<div>
+      <div id="fb-root"></div>
         <div
         className="fb-login-button" 
         data-max-rows="1" 
@@ -47,8 +48,8 @@ class FacebookButton extends React.Component {
         data-auto-logout-link="true" 
         >
         </div>
-        </div>);
-   }
+      </div>);
+  }
 }
 
 export default FacebookButton;

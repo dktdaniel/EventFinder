@@ -1,25 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import GoogleMapsLoader from 'google-maps';
+import mapStyles from './utils/mapStyles.js';
 import Search from './components/Search.jsx';
 import Map from './components/Map.jsx';
 import actions from './utils/sendLocation.js';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
+import KEY from '../config.js';
+import { Transition, Container, Image, Header, Grid, Icon } from 'semantic-ui-react';
 import Dashboard from './components/Dashboard.jsx';
-import { Container, Image, Header, Grid, Icon, Transition } from 'semantic-ui-react';
+
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.markers = null;
     this.state = {
+      list: {},
       events: [],
       display: false,
       name: '',
       userId: '',
       venue: '',
+      long: 0,
+      lat: 0,
       selectedEvent: {},
       dashboard: false,
       loggedIn: false
@@ -28,6 +36,7 @@ class App extends React.Component {
 
   displayEvents(data, id) {
     var events = actions.formatEvents(data, id);
+    console.log('here are the events', events)
     this.setState({
       events: events,
       venue: events[0].venue,
@@ -51,6 +60,110 @@ class App extends React.Component {
     this.setState({name, userId: id, loggedIn: true});
   }
 
+  showInfo(long, lat) {
+    this.setState({
+      long: long,
+      lat: lat
+    })
+
+    
+  }
+
+  sortMarkers(type){
+    console.log('CLICKED!!!', type);
+    console.log(this.state.long)
+    console.log(this.state.lat)
+    GoogleMapsLoader.KEY = KEY.KEY;
+    GoogleMapsLoader.LIBRARIES = ['places'];
+
+    GoogleMapsLoader.load(google => {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: new google.maps.LatLng(this.state.long, this.state.lat),
+        disableDefaultUI: false,
+        styles: mapStyles
+      });
+      var currentLat = this.state.lat;
+      var currentLng = this.state.long
+      var input = document.getElementById('search-input');
+      var searchBox = new google.maps.places.SearchBox(input);
+
+      map.addListener('dragend', () => {
+        console.log('i was dragged!');
+        searchBox.setBounds(map.getBounds());
+        var newLat = map.getBounds().getCenter().lat();
+        var newLng = map.getBounds().getCenter().lng();
+        currentLat = newLat;
+        currentLng = newLng;
+        var newLocation = { lat: newLat, lng: newLng };
+        var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch({
+          location: newLocation,
+          radius: 500
+        }, (places, service, pagination) => {
+          this.search(places, google, map);
+          console.log(currentLat, currentLng)
+        });
+      });
+
+      searchBox.addListener('places_changed', () => {
+        console.log('holla')
+        this.search(searchBox.getPlaces(), google, map);
+      });
+
+      var results = actions.get(google, map, type, this.displayEvents.bind(this))
+      .then((results) => {
+        this.showInfo(currentLat, currentLng)
+        console.log(this.state.lat, this.state.long)
+        this.markers = results.markers
+        actions.addInfowindowClose(this.markers);
+      });
+    });
+
+    this.changeDisplay();
+
+  }
+
+  search(places, google, map) {
+    console.log('dsaodqwoijd')
+    var bounds = new google.maps.LatLngBounds();
+    console.log('bounds in the index', bounds)
+    var searchLat;
+    var searchLng;
+    places.forEach(place => {
+      console.log(place)
+      if (place.geometry.viewport) {
+        bounds.union(place.geometry.viewport);
+        searchLat = place.geometry.location.lat();
+        searchLng = place.geometry.location.lng();
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+
+    this.showInfo(searchLat, searchLng)
+
+    map.fitBounds(bounds);
+    map.setCenter({lat: searchLat, lng: searchLng})
+    map.setZoom(14);
+
+    actions.post(searchLat, searchLng, null, google, map, this.displayEvents.bind(this))
+    .then((results) => {
+      console.log('herro', results)
+      this.markers = results.markers;
+      actions.addInfowindowClose(this.markers);
+      this.setState({
+        long: searchLng,
+        lat: searchLat
+      })
+    });
+
+    // Hide sidebar display upon new location search
+    this.changeDisplay();
+  }
+
+
+  
   addToMyVenues() {
     // if they are not logged in, give an error message
     if (!this.state.name) {
@@ -133,8 +246,8 @@ class App extends React.Component {
           <div><Icon name='arrow up' size='tiny'/></div>
           <div><Icon name='arrow up' size='mini'/></div>
         </Container>
-        <Legend markers={window.eventTypes}/>
-        <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
+        <Legend sort={this.sortMarkers.bind(this)} markers={window.eventTypes}/>
+        <Map information={this.state.list} retreiveInfo={this.showInfo.bind(this)} displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
         { this.state.display &&
           <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} addToMyVenues={this.addToMyVenues.bind(this)} selectEvent={this.selectEvent.bind(this)}/>
         }

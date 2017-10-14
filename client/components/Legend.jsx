@@ -11,7 +11,7 @@ class Legend extends React.Component {
 			<div id="legend">
 				<ul id="legendList">
 					{this.markers.map((type, key) =>
-						<li key={key}><img src={this.props.markers[type]} /> {type} </li>
+						<li onClick={() => this.props.sort(type)} key={key}><img src={this.props.markers[type]} /> {type} </li>
 					)}
 				</ul>
 			</div>

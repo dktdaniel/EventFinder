@@ -2,27 +2,45 @@ import $ from 'jquery';
 import KEY from '../../config.js';
 
 window.eventTypes = {
+  'all': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
   'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
   'Arts & Theatre': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
   'Film': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
   'Sports': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-  'Miscellaneous': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
-  'Undefined': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+  'Miscellaneous': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+  
 }
 
 var actions = {
-  get: function(google, map, cb) {
+  get: function(google, map, type, cb) {
     return $.ajax('/events')
     .then(data => {
-      console.log('events', data)
-      return this._prepMarkers(data, cb, google, map)
-      .then(markers => {
-        return {events: data, markers: markers}
-      });
-    });
+      console.log('data', data)
+      console.log(type)
+      if (type === null || type === 'all') {
+        return this._prepMarkers(data, cb, google, map)
+        .then(markers => {
+          return {events: data, markers: markers}
+        });
+      } else {
+        var info = [];
+        data.forEach(el => {
+          console.log(el)
+          console.log(type)
+          if (el.event.category === type){
+            info.push(el);
+          }
+        })
+        console.log(info)
+        return this._prepMarkers(info, cb, google, map)
+          .then(markers => {
+          return {events: data, markers: markers}
+        });
+      }
+    })
   },
 
-  post: (lat, lng, google, map, cb) => {
+  post: (lat, lng, type, google, map, cb) => {
     return $.ajax({
       method: 'POST',
       url: '/events',
@@ -30,16 +48,33 @@ var actions = {
         data: JSON.stringify({
           lat: lat,
           lng: lng,
+          type: type,
           rad: 4
         })
       }
     })
     .then(data => {
-      console.log('after', data)
-      return this.a._prepMarkers(data, cb, google, map)
-      .then(markers => {
-        return {events: data, markers: markers}
-      });
+      console.log('data', data)
+      console.log(type)
+      if (type === null || type === 'all') {
+        console.log('adhdalkfhadfhakdshflaksdhfla', this.a)
+        return this.a._prepMarkers(data, cb, google, map)
+        .then(markers => {
+          return {events: data, markers: markers}
+        });
+      } else {
+        var info = [];
+        data.forEach(el => {
+          if (el.event.category === type){
+            info.push(el);
+          }
+        })
+        return this.a._prepMarkers(info, cb, google, map)
+          .then(markers => {
+          console.log(markers)
+          return {events: data, markers: markers}
+        });
+      }
     })
     .fail((err) => {
       console.log('here')
@@ -57,7 +92,9 @@ var actions = {
   },
 
   _prepMarkers: (data, cb, google, map) => {
+    console.log(data)
     return Promise.all(data.map(event => {
+      console.log(event)
       return this.a.getCoordinate(event.venue.address, event.venue.postalCode)
       .then(({lat, lng}) => {
         var marker = this.a._pinMarker(lat, lng, event, google, map);
@@ -111,8 +148,6 @@ var actions = {
         return event.event;
       }
     }).sort(function(event1, event2){
-      console.log('first event', event1)
-      console.log('second event', event2)
       return new Date(event1.event.startDate) - new Date(event2.event.startDate);
     });
   },
@@ -124,8 +159,6 @@ var actions = {
         var lng = event.latLng.lng();
         for (var venue of markers) {
           if (venue.position.lat() !== lat && venue.position.lng()) {
-            console.log('VENUE:', venue);
-            console.log('INFO:', venue.info);
             venue.info.close();
           }
         }

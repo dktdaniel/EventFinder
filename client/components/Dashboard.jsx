@@ -30,6 +30,38 @@ export default class Dashboard extends Component {
     }
   }
 
+  formatTime(time) {
+    var hours = Number(time.slice(0, 2));
+    var mins = Number(time.slice(3,5));
+    var ampm;
+
+    if(hours > 12) {
+        hours = (hours - 12).toString();
+        ampm = 'pm';
+    } else if (hours < 0) {
+        hours = (12).toString();
+        ampm = 'am';
+    } else if (hours < 12){
+        ampm = 'am';
+    } else if (hours === 12) {
+        ampm = 'pm';
+    }
+
+    if (mins < 10) {
+        mins = "0" + mins;
+    }
+
+  return hours + ":" + mins + ampm
+  };
+
+  formatDate(date) {
+    var month = date.slice(5, 7);
+    var day = date.slice(8, 10);
+    var year = date.slice(0, 4);
+
+  return month + "/" + day + "/" + year
+  }
+
   componentDidMount() {
     //make ajax call to get events
     $.ajax({
@@ -96,8 +128,8 @@ export default class Dashboard extends Component {
               <ul style={{listStyle: 'none'}}>
                 <li>Category: {event.category}</li>
                 <li>Venue: {event.venueName}</li>
-                <li>Start date: {event.startDate}</li>
-                <li>Start time: {event.startTime}</li>
+                <li>Start date: {this.formatDate(event.startDate)}</li>
+                <li>Start time: {this.formatTime(event.startTime)}</li>
               </ul>
             </List.Content>
           </List.Item>

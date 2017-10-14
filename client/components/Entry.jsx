@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Item, Button, Icon, Label } from 'semantic-ui-react';
+import { Image, Item, Button, Icon, Label, Divider } from 'semantic-ui-react';
 
 class Entry extends React.Component {
 	constructor(props) {
@@ -56,24 +56,26 @@ class Entry extends React.Component {
 
 	render() {
 		return (<div id="entrydiv">
-            <Item id='entry'>
-              <Item.Image src={this.props.event.event.image} size='small'/>
+      <Item id='entry'>
+        <Item.Image src={this.props.event.event.image} size='small' centered={true}/>
 
-              <Item.Content>
-                <Item.Header as='a' href={this.props.event.event.url}>{this.props.event.event.name}</Item.Header>
-                <Item.Description>{this.state.formattedDate} - {this.state.formattedTime}</Item.Description>
-                <Item.Extra>
-                  <Button primary size='tiny' onClick={() => this.props.selectEvent(this.props.event.event)}>
-                    Add event
-                    <Icon name='right chevron' />
-                  </Button>
-                  <Button secondary size='tiny' onClick={() => this.props.addToMyVenues()}>
-                    Add venue
-                    <Icon name='right chevron' />
-                  </Button>
-                </Item.Extra>
-              </Item.Content>
-            </Item>
+        <Item.Content>
+          <Item.Header as='a' href={this.props.event.event.url}>{this.props.event.event.name}</Item.Header>
+          <Item.Description>{this.state.formattedDate} - {this.state.formattedTime}</Item.Description>
+          <p></p>
+          <Item.Extra>
+            <Button circular inverted color='violet' size='tiny' onClick={() => this.props.selectEvent(this.props.event.event)}>
+              Add event
+              <Icon name='right chevron' />
+            </Button>
+            <Button circular inverted color='blue' size='tiny' onClick={() => this.props.addToMyVenues()}>
+              Add venue
+              <Icon name='right chevron' />
+            </Button>
+          </Item.Extra>
+        <Divider horizontal inverted></Divider>
+        </Item.Content>
+      </Item>
 		</div>)
 	}
 }

@@ -7,7 +7,8 @@ import actions from './utils/sendLocation.js';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
-import { Transition, Container, Image, Header, Grid, Icon } from 'semantic-ui-react';
+import Dashboard from './components/Dashboard.jsx';
+import { Container, Image, Header, Grid, Icon, Transition } from 'semantic-ui-react';
 
 
 class App extends React.Component {
@@ -19,7 +20,9 @@ class App extends React.Component {
       name: '',
       userId: '',
       venue: '',
-      selectedEvent: {}
+      selectedEvent: {},
+      dashboard: false,
+      loggedIn: false
     }
   }
 
@@ -45,10 +48,10 @@ class App extends React.Component {
   }
 
   getUser({name, id}) {
-    this.setState({name, userId: id});
+    this.setState({name, userId: id, loggedIn: true});
   }
 
-  favVenue() {
+  addToMyVenues() {
     // if they are not logged in, give an error message
     if (!this.state.name) {
       alert('Please login')
@@ -56,7 +59,7 @@ class App extends React.Component {
     //make ajax call to server and send user ID and venue info
       $.ajax({
         method: 'POST',
-        url: '/favVenue',
+        url: '/addToMyVenues',
         contentType: 'application/json',
         data: JSON.stringify({
           userId: this.state.userId,
@@ -74,7 +77,7 @@ class App extends React.Component {
     }
   }
 
-  addEventToSchedule() {
+  addToMyEvents() {
     console.log(this.state.selectedEvent)
     // if they are not logged in, give an error message
     if (!this.state.name) {
@@ -83,7 +86,7 @@ class App extends React.Component {
     //make ajax call to server and send user ID and venue info
       $.ajax({
         method: 'POST',
-        url: '/addSchedule',
+        url: '/addToMyEvents',
         contentType: 'application/json',
         data: JSON.stringify({
           userId: this.state.userId,
@@ -96,38 +99,50 @@ class App extends React.Component {
   }
 
   selectEvent(selectedEvent) {
-    this.setState({selectedEvent}, this.addEventToSchedule);
+    this.setState({selectedEvent}, this.addToMyEvents);
+  }
+
+  changeView() {
+    if (!this.state.userId) {
+      alert('Please log in');
+    } else {
+      this.setState({dashboard: !this.state.dashboard});
+    }
   }
 
   render() {
-    return (
-      <Transition animation='fade up' duration={2000} transitionOnMount={true}>
-        <div id="app-container">
-          <Navbar getUser={this.getUser.bind(this)}/>
-          <Container fluid style={{ backgroundImage: "url('http://i64.tinypic.com/2r7stqh.jpg')", height: '550px'}}>
-              <Header size='huge' id='welcome'>Welcome {this.state.name}</Header>
-              <p></p>
-              <div><Icon name='arrow down' size='mini'/></div>
-              <div><Icon name='arrow down' size='tiny'/></div>
-              <div><Icon name='arrow down' size='small'/></div>
-              <div><Icon name='arrow down' size='large'/></div>
-              <div><Icon name='arrow down' size='big'/></div>
-              <div><Icon name='arrow down' size='huge'/></div>
-              <Search />
-              <div><Icon name='arrow up' size='huge'/></div>
-              <div><Icon name='arrow up' size='big'/></div>
-              <div><Icon name='arrow up' size='large'/></div>
-              <div><Icon name='arrow up' size='small'/></div>
-              <div><Icon name='arrow up' size='tiny'/></div>
-              <div><Icon name='arrow up' size='mini'/></div>
-          </Container>
-          <Legend markers={window.eventTypes}/>
-          <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
-          { this.state.display &&
-            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} favVenue={this.favVenue.bind(this)} selectEvent={this.selectEvent.bind(this)}/>
-          }
-        </div>
-      </Transition>
+    return (<div>
+      <Navbar getUser={this.getUser.bind(this)} changeView={this.changeView.bind(this)} loggedIn={this.state.loggedIn}/>
+      {this.state.dashboard === false
+      ?
+      <div id="app-container">
+        <Container fluid style={{ backgroundImage: "url('http://i64.tinypic.com/2r7stqh.jpg')", height: '550px'}}>
+          <Header size='huge' id='welcome'>Welcome {this.state.name}</Header>
+          <p></p>
+          <div><Icon name='arrow down' size='mini'/></div>
+          <div><Icon name='arrow down' size='tiny'/></div>
+          <div><Icon name='arrow down' size='small'/></div>
+          <div><Icon name='arrow down' size='large'/></div>
+          <div><Icon name='arrow down' size='big'/></div>
+          <div><Icon name='arrow down' size='huge'/></div>
+          <Search />
+          <div><Icon name='arrow up' size='huge'/></div>
+          <div><Icon name='arrow up' size='big'/></div>
+          <div><Icon name='arrow up' size='large'/></div>
+          <div><Icon name='arrow up' size='small'/></div>
+          <div><Icon name='arrow up' size='tiny'/></div>
+          <div><Icon name='arrow up' size='mini'/></div>
+        </Container>
+        <Legend markers={window.eventTypes}/>
+        <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
+        { this.state.display &&
+          <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} addToMyVenues={this.addToMyVenues.bind(this)} selectEvent={this.selectEvent.bind(this)}/>
+        }
+      </div>
+      :
+      <Dashboard userId={this.state.userId}/>
+      }
+      </div>
     )
   }
 }

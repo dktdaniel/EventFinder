@@ -19,7 +19,8 @@ class Navbar extends React.Component {
 	render () {
 		return (
       
-      <Menu id="nav" widths={4} secondary >
+      <Menu id="nav" secondary >
+
         <Menu.Item>
           <Header as='h1' onClick={() => this.props.changeView('home')}><Icon name='search' verticalAlign='center'/>EventFinder</Header>
         </Menu.Item>
@@ -31,6 +32,7 @@ class Navbar extends React.Component {
         <Menu.Item position='right'>
           <FacebookButton fb={FB} getUser={this.props.getUser}/>
         </Menu.Item>
+
       </Menu>
     )
 	}

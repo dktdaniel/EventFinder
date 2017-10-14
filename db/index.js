@@ -165,7 +165,7 @@ const addNewEvents = (eventObj) => {
 }
 
 const _saveToMyVenues = (venueObj) => {
-  return connection.queryAsync(`INSERT INTO favVenues (userId, venueId) VALUES ("${venueObj.userId}", "${venueObj.givenId}")`)
+  return connection.queryAsync(`INSERT INTO myvenues (userId, venueId) VALUES ("${venueObj.userId}", "${venueObj.givenId}")`)
   .then(success => success)
   .catch((err) => {
     console.error(err);
@@ -218,12 +218,23 @@ const searchOrCreateMyEvents = (eventObj) => {
 //   console.log('The solution is: ', results[0].solution);
 // });
 
-const searchForUser = (userId) => {
+const searchForUserMyEvents = (userId) => {
   return connection.queryAsync(`SELECT myevents.*, events.*, venues.givenId, venues.name AS venueName, venues.address, venues.lat, venues.lng, venues.url, venues.postalCode, venues.image AS venueImage from myevents INNER JOIN events ON events.givenId = myevents.eventId INNER JOIN venues ON venues.givenId = events.venueId WHERE myevents.userId = ${userId}`)
   .then((data) => {
     if (data) {
       return data;
     }
+  })
+  .catch((err) => {
+    console.error(err);
+    return err;
+  })
+}
+
+const searchForUserMyVenues = (userId) => {
+  return connection.queryAsync(`SELECT * from venues INNER JOIN myvenues ON venues.givenId = myvenues.venueId WHERE myvenues.userId = ${userId}`)
+  .then((data) => {
+    return data;
   })
   .catch((err) => {
     console.error(err);
@@ -237,5 +248,6 @@ module.exports = {
   addNewEvents,
   searchOrCreateMyVenues,
   searchOrCreateMyEvents,
-  searchForUser
+  searchForUserMyEvents,
+  searchForUserMyVenues
 }

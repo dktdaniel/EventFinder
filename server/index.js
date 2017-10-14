@@ -102,13 +102,13 @@ app.post('/events', (req, res) => {
    })
 })
 
-app.post('/favVenue', (req, res) => {
+app.post('/addToMyVenues', (req, res) => {
   var venueObj = req.body;
   return new Promise((resolve, reject) => resolve(db.searchOrCreateMyVenues(venueObj)))
     .then(success => res.send(success))
 });
 
-app.post('/addSchedule', (req, res) => {
+app.post('/addToMyEvents', (req, res) => {
   var eventObj = req.body;
   return new Promise((resolve, reject) => resolve(db.searchOrCreateMyEvents(eventObj)))
     .then(success => res.send(success))
@@ -117,7 +117,16 @@ app.post('/addSchedule', (req, res) => {
 app.post('/dashboard', (req, res) => {
   var userId = req.body.userId;
   return new Promise((resolve, reject) => {
-    resolve(db.searchForUser(userId));
+    resolve(db.searchForUserMyEvents(userId));
+  })
+  .then(success => res.send(success))
+  .catch(err => res.send(err))
+});
+
+app.post('/dashboardVenues', (req, res) => {
+  var userId = req.body.userId;
+  return new Promise((resolve, reject) => {
+    resolve(db.searchForUserMyVenues(userId));
   })
   .then(success => res.send(success))
   .catch(err => res.send(err))

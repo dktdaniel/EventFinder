@@ -51,7 +51,7 @@ class App extends React.Component {
     this.setState({name, userId: id, loggedIn: true});
   }
 
-  favVenue() {
+  addToMyVenues() {
     // if they are not logged in, give an error message
     if (!this.state.name) {
       alert('Please login')
@@ -59,7 +59,7 @@ class App extends React.Component {
     //make ajax call to server and send user ID and venue info
       $.ajax({
         method: 'POST',
-        url: '/favVenue',
+        url: '/addToMyVenues',
         contentType: 'application/json',
         data: JSON.stringify({
           userId: this.state.userId,
@@ -77,7 +77,7 @@ class App extends React.Component {
     }
   }
 
-  addEventToSchedule() {
+  addToMyEvents() {
     console.log(this.state.selectedEvent)
     // if they are not logged in, give an error message
     if (!this.state.name) {
@@ -86,7 +86,7 @@ class App extends React.Component {
     //make ajax call to server and send user ID and venue info
       $.ajax({
         method: 'POST',
-        url: '/addSchedule',
+        url: '/addToMyEvents',
         contentType: 'application/json',
         data: JSON.stringify({
           userId: this.state.userId,
@@ -99,7 +99,7 @@ class App extends React.Component {
   }
 
   selectEvent(selectedEvent) {
-    this.setState({selectedEvent}, this.addEventToSchedule);
+    this.setState({selectedEvent}, this.addToMyEvents);
   }
 
   changeView() {
@@ -136,7 +136,7 @@ class App extends React.Component {
         <Legend markers={window.eventTypes}/>
         <Map displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
         { this.state.display &&
-          <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} favVenue={this.favVenue.bind(this)} selectEvent={this.selectEvent.bind(this)}/>
+          <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} addToMyVenues={this.addToMyVenues.bind(this)} selectEvent={this.selectEvent.bind(this)}/>
         }
       </div>
       :

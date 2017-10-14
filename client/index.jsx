@@ -10,7 +10,7 @@ import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
 import KEY from '../config.js';
-import { Transition, Container, Image, Header, Grid, Icon } from 'semantic-ui-react';
+import { Transition, Container, Image, Header, Grid, Icon, Dimmer, Segment } from 'semantic-ui-react';
 import Dashboard from './components/Dashboard.jsx';
 
 
@@ -30,8 +30,25 @@ class App extends React.Component {
       lat: 0,
       selectedEvent: {},
       dashboard: false,
-      loggedIn: false
+      loggedIn: false,
+      addVenueOrEventDimmerActive: false,
+      logInDimmerActive: false
     }
+  }
+
+  toggleDimmer(){
+    this.setState({ addVenueOrEventDimmerActive: !this.state.addVenueOrEventDimmerActive })
+  }
+
+  togglelogInDimmer(){
+    this.setState({ logInDimmerActive: !this.state.logInDimmerActive })
+  }
+
+  handleShowLoginMsg(){
+    this.setState({ active: true })
+  }
+  handleHideLoginMsg(){
+    this.setState({ active: false })
   }
 
   displayEvents(data, id) {
@@ -167,7 +184,7 @@ class App extends React.Component {
   addToMyVenues() {
     // if they are not logged in, give an error message
     if (!this.state.name) {
-      alert('Please login')
+      this.togglelogInDimmer()
     } else {
     //make ajax call to server and send user ID and venue info
       $.ajax({
@@ -185,7 +202,7 @@ class App extends React.Component {
           // postalCode: this.state.venue.postalCode, 
           // image: this.state.venue.image
         }),
-        success: data => alert('Added to favorite venues!')
+        success: data => this.toggleDimmer()
       });
     }
   }
@@ -194,7 +211,7 @@ class App extends React.Component {
     console.log(this.state.selectedEvent)
     // if they are not logged in, give an error message
     if (!this.state.name) {
-      alert('Please login')
+      this.togglelogInDimmer()
     } else {
     //make ajax call to server and send user ID and venue info
       $.ajax({
@@ -205,7 +222,7 @@ class App extends React.Component {
           userId: this.state.userId,
           eventId: this.state.selectedEvent.givenId
         }),
-        success: data => alert('Added to favorite events!')
+        success: data => this.toggleDimmer()
       });
     }
     // need to save to both event and schedule tables
@@ -217,14 +234,38 @@ class App extends React.Component {
 
   changeView() {
     if (!this.state.userId) {
-      alert('Please log in');
+      this.togglelogInDimmer();
     } else {
       this.setState({dashboard: !this.state.dashboard});
     }
   }
 
   render() {
+    const { active } = this.state
     return (<div>
+
+      <Dimmer
+          active={this.state.addVenueOrEventDimmerActive}
+          onClick={this.toggleDimmer.bind(this)}
+          page
+        >
+      <Header as='h2' icon inverted>
+            <Icon name='check circle' />
+            Added to your dashboard!
+          </Header>
+        </Dimmer>
+
+      <Dimmer
+        active={this.state.logInDimmerActive}
+        onClick={this.togglelogInDimmer.bind(this)}
+        page
+      >
+        <Header as='h2' icon inverted>
+            <Icon name='facebook square' />
+            Please log in
+          </Header>
+      </Dimmer>
+
       <Navbar getUser={this.getUser.bind(this)} changeView={this.changeView.bind(this)} loggedIn={this.state.loggedIn}/>
       {this.state.dashboard === false
       ?

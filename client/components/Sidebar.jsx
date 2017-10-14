@@ -13,7 +13,7 @@ class Sidebar extends React.Component {
 				<Button circular icon='close' floated='right' onClick={() => this.props.hideEvents()}/>
 				<Item.Group divided style={{clear:'both'}}/>
 					{this.props.events.map((event, key) =>
-						<Entry event={event} key={key} favVenue={this.props.favVenue}/>
+						<Entry event={event} key={key} addToMyVenues={this.props.addToMyVenues} selectEvent={this.props.selectEvent}/>
 					)}
 				<Item.Group/>
 		  </div>

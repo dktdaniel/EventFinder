@@ -15,7 +15,6 @@ app.use(cors());
 app.use(Express.static(__dirname + '/../client'));
 
 app.get('/events', (req, res) => {
-  console.log('there')
   var requestBody = Object.keys(req.body).length ? req.body : {
     lat: 37.788799,
     lng: -122.394798,
@@ -103,8 +102,35 @@ app.post('/events', (req, res) => {
    })
 })
 
-app.post('/favEvent', (req, res) => {
-  //call db _addNewVenue & saveToFavVenues
+
+app.post('/addToMyVenues', (req, res) => {
+  var venueObj = req.body;
+  return new Promise((resolve, reject) => resolve(db.searchOrCreateMyVenues(venueObj)))
+    .then(success => res.send(success))
+});
+
+app.post('/addToMyEvents', (req, res) => {
+  var eventObj = req.body;
+  return new Promise((resolve, reject) => resolve(db.searchOrCreateMyEvents(eventObj)))
+    .then(success => res.send(success))
+});
+
+app.post('/dashboard', (req, res) => {
+  var userId = req.body.userId;
+  return new Promise((resolve, reject) => {
+    resolve(db.searchForUserMyEvents(userId));
+  })
+  .then(success => res.send(success))
+  .catch(err => res.send(err))
+});
+
+app.post('/dashboardVenues', (req, res) => {
+  var userId = req.body.userId;
+  return new Promise((resolve, reject) => {
+    resolve(db.searchForUserMyVenues(userId));
+  })
+  .then(success => res.send(success))
+  .catch(err => res.send(err))
 });
 
 app.listen(process.env.PORT || 3000, () => {

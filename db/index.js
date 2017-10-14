@@ -12,11 +12,7 @@ var cbMysql = mysql.createConnection({
   database : 'eventfinder'
 });
 
-//
-
-
 // var cbMysql = mysql.createConnection(JAWSDB_URL);
-
 
 cbMysql.connect();
 var connection = Promise.promisifyAll(cbMysql);
@@ -168,8 +164,8 @@ const addNewEvents = (eventObj) => {
   });
 }
 
-const _saveToFavVenues = (venueObj) => {
-  return connection.queryAsync(`INSERT INTO favVenues (userId, venueId) VALUES ("${venueObj.userId}", "${venueObj.givenId}")`)
+const _saveToMyVenues = (venueObj) => {
+  return connection.queryAsync(`INSERT INTO myvenues (userId, venueId) VALUES ("${venueObj.userId}", "${venueObj.givenId}")`)
   .then(success => success)
   .catch((err) => {
     console.error(err);
@@ -177,13 +173,38 @@ const _saveToFavVenues = (venueObj) => {
   })
 }
 
-const searchOrCreateFavVenue = (venueObj) => {
-  return connection.queryAsync(`SELECT * FROM favvenues WHERE venueId="${venueObj.givenId}" AND userId="${venueObj.userId}"`)
+const searchOrCreateMyVenues = (venueObj) => {
+  return connection.queryAsync(`SELECT * FROM myvenues WHERE venueId="${venueObj.givenId}" AND userId="${venueObj.userId}"`)
   .then((data) => {
     if (data.length) {
       return data[0].givenId;
     } else {
-      return _saveToFavVenues(venueObj);
+      return _saveToMyVenues(venueObj);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+    return err;
+  })
+}
+
+
+const _saveToMyEvents = (eventObj) => {
+  return connection.queryAsync(`INSERT INTO myevents (userId, eventId) VALUES ("${eventObj.userId}", "${eventObj.eventId}")`)
+  .then(success => success)
+  .catch((err) => {
+    console.error(err);
+    return err;
+  })
+}
+
+const searchOrCreateMyEvents = (eventObj) => {
+  return connection.queryAsync(`SELECT * FROM myevents WHERE eventId="${eventObj.eventId}" AND userId="${eventObj.userId}"`)
+  .then((data) => {
+    if (data.length) {
+      return data[0].eventId;
+    } else {
+      return _saveToMyEvents(eventObj);
     }
   })
   .catch((err) => {
@@ -197,9 +218,36 @@ const searchOrCreateFavVenue = (venueObj) => {
 //   console.log('The solution is: ', results[0].solution);
 // });
 
+const searchForUserMyEvents = (userId) => {
+  return connection.queryAsync(`SELECT myevents.*, events.*, venues.givenId, venues.name AS venueName, venues.address, venues.lat, venues.lng, venues.url, venues.postalCode, venues.image AS venueImage from myevents INNER JOIN events ON events.givenId = myevents.eventId INNER JOIN venues ON venues.givenId = events.venueId WHERE myevents.userId = ${userId}`)
+  .then((data) => {
+    if (data) {
+      return data;
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+    return err;
+  })
+}
+
+const searchForUserMyVenues = (userId) => {
+  return connection.queryAsync(`SELECT * from venues INNER JOIN myvenues ON venues.givenId = myvenues.venueId WHERE myvenues.userId = ${userId}`)
+  .then((data) => {
+    return data;
+  })
+  .catch((err) => {
+    console.error(err);
+    return err;
+  })
+}
+
 module.exports = {
   searchEvents,
   searchOrCreateVenue,
   addNewEvents,
-  searchOrCreateFavVenue
+  searchOrCreateMyVenues,
+  searchOrCreateMyEvents,
+  searchForUserMyEvents,
+  searchForUserMyVenues
 }

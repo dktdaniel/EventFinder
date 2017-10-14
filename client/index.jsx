@@ -11,6 +11,8 @@ import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
 import KEY from '../config.js';
 import { Transition, Container, Image, Header, Grid, Icon } from 'semantic-ui-react';
+import Dashboard from './components/Dashboard.jsx';
+
 
 
 class App extends React.Component {
@@ -25,7 +27,10 @@ class App extends React.Component {
       userId: '',
       venue: '',
       long: 0,
-      lat: 0
+      lat: 0,
+      selectedEvent: {},
+      dashboard: false,
+      loggedIn: false
     }
   }
 
@@ -36,7 +41,7 @@ class App extends React.Component {
       events: events,
       venue: events[0].venue,
       display: true
-    }, () => console.log('index venue', this.state.venue));
+    }, () => console.log('index events', this.state.events));
   }
 
   hideEvents() {
@@ -52,7 +57,7 @@ class App extends React.Component {
   }
 
   getUser({name, id}) {
-    this.setState({name, userId: id});
+    this.setState({name, userId: id, loggedIn: true});
   }
 
   showInfo(long, lat) {
@@ -158,7 +163,8 @@ class App extends React.Component {
   }
 
 
-  favVenue() {
+  
+  addToMyVenues() {
     // if they are not logged in, give an error message
     if (!this.state.name) {
       alert('Please login')
@@ -166,53 +172,90 @@ class App extends React.Component {
     //make ajax call to server and send user ID and venue info
       $.ajax({
         method: 'POST',
-        url: '/favVenue',
+        url: '/addToMyVenues',
         contentType: 'application/json',
         data: JSON.stringify({
           userId: this.state.userId,
           givenId: this.state.venue.givenId,
-          venueName: this.state.venue.name,
-          address: this.state.venue.address, 
-          lat: this.state.venue.lat,
-          lng: this.state.venue.lng, 
-          url: this.state.venue.url,
-          postalCode: this.state.venue.postalCode, 
-          image: this.state.venue.image
+          venueName: this.state.venue.name
+          // address: this.state.venue.address, 
+          // lat: this.state.venue.lat,
+          // lng: this.state.venue.lng, 
+          // url: this.state.venue.url,
+          // postalCode: this.state.venue.postalCode, 
+          // image: this.state.venue.image
         }),
         success: data => alert('Added to favorite venues!')
       });
     }
   }
 
+  addToMyEvents() {
+    console.log(this.state.selectedEvent)
+    // if they are not logged in, give an error message
+    if (!this.state.name) {
+      alert('Please login')
+    } else {
+    //make ajax call to server and send user ID and venue info
+      $.ajax({
+        method: 'POST',
+        url: '/addToMyEvents',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          userId: this.state.userId,
+          eventId: this.state.selectedEvent.givenId
+        }),
+        success: data => alert('Added to favorite events!')
+      });
+    }
+    // need to save to both event and schedule tables
+  }
+
+  selectEvent(selectedEvent) {
+    this.setState({selectedEvent}, this.addToMyEvents);
+  }
+
+  changeView() {
+    if (!this.state.userId) {
+      alert('Please log in');
+    } else {
+      this.setState({dashboard: !this.state.dashboard});
+    }
+  }
+
   render() {
-    return (
-      <Transition animation='fade up' duration={2000} transitionOnMount={true}>
-        <div id="app-container">
-          <Navbar getUser={this.getUser.bind(this)}/>
-          <Container fluid style={{ backgroundImage: "url('http://i64.tinypic.com/2r7stqh.jpg')", height: '550px'}}>
-              <Header size='huge' id='welcome'>Welcome {this.state.name}</Header>
-              <p></p>
-              <div><Icon name='arrow down' size='mini'/></div>
-              <div><Icon name='arrow down' size='tiny'/></div>
-              <div><Icon name='arrow down' size='small'/></div>
-              <div><Icon name='arrow down' size='large'/></div>
-              <div><Icon name='arrow down' size='big'/></div>
-              <div><Icon name='arrow down' size='huge'/></div>
-              <Search />
-              <div><Icon name='arrow up' size='huge'/></div>
-              <div><Icon name='arrow up' size='big'/></div>
-              <div><Icon name='arrow up' size='large'/></div>
-              <div><Icon name='arrow up' size='small'/></div>
-              <div><Icon name='arrow up' size='tiny'/></div>
-              <div><Icon name='arrow up' size='mini'/></div>
-          </Container>
-          <Legend sort={this.sortMarkers.bind(this)} markers={window.eventTypes}/>
-          <Map information={this.state.list} retreiveInfo={this.showInfo.bind(this)} displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
-          { this.state.display &&
-            <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} favVenue={this.favVenue.bind(this)}/>
-          }
-        </div>
-      </Transition>
+    return (<div>
+      <Navbar getUser={this.getUser.bind(this)} changeView={this.changeView.bind(this)} loggedIn={this.state.loggedIn}/>
+      {this.state.dashboard === false
+      ?
+      <div id="app-container">
+        <Container fluid style={{ backgroundImage: "url('http://i64.tinypic.com/2r7stqh.jpg')", height: '550px'}}>
+          <Header size='huge' id='welcome'>Welcome {this.state.name}</Header>
+          <p></p>
+          <div><Icon name='arrow down' size='mini'/></div>
+          <div><Icon name='arrow down' size='tiny'/></div>
+          <div><Icon name='arrow down' size='small'/></div>
+          <div><Icon name='arrow down' size='large'/></div>
+          <div><Icon name='arrow down' size='big'/></div>
+          <div><Icon name='arrow down' size='huge'/></div>
+          <Search />
+          <div><Icon name='arrow up' size='huge'/></div>
+          <div><Icon name='arrow up' size='big'/></div>
+          <div><Icon name='arrow up' size='large'/></div>
+          <div><Icon name='arrow up' size='small'/></div>
+          <div><Icon name='arrow up' size='tiny'/></div>
+          <div><Icon name='arrow up' size='mini'/></div>
+        </Container>
+        <Legend sort={this.sortMarkers.bind(this)} markers={window.eventTypes}/>
+        <Map information={this.state.list} retreiveInfo={this.showInfo.bind(this)} displayEvents={this.displayEvents.bind(this)} changeDisplay={this.changeDisplay.bind(this)}/>
+        { this.state.display &&
+          <Sidebar events={this.state.events} hideEvents={this.hideEvents.bind(this)} addToMyVenues={this.addToMyVenues.bind(this)} selectEvent={this.selectEvent.bind(this)}/>
+        }
+      </div>
+      :
+      <Dashboard userId={this.state.userId}/>
+      }
+      </div>
     )
   }
 }

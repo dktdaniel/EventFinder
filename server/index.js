@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const app = Express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -31,7 +31,7 @@ app.get('/events', (req, res) => {
 
   db.searchEvents(options)
     .then(events => {
-      // console.log('blargh', events)
+      console.log('blargh', events)
       if (events.length !== 0) {
         throw events;
       }
@@ -66,8 +66,8 @@ app.get('/events', (req, res) => {
 })
 
 app.post('/events', (req, res) => {
+  console.log('here')
   var params = JSON.parse(req.body.data);
-  console.log('params are here', params)
   var range = 0.0145 * params.rad;
   var options = {
     center_lat: params.lat,
@@ -103,11 +103,8 @@ app.post('/events', (req, res) => {
    })
 })
 
-app.post('/favVenue', (req, res) => {
-  var venueData = req.body;
-  return new Promise((resolve, reject) => resolve(db.searchOrCreateFavVenue(venueData)))
-    .then(success => res.send(success))
-
+app.post('/favEvent', (req, res) => {
+  //call db _addNewVenue & saveToFavVenues
 });
 
 app.listen(process.env.PORT || 3000, () => {

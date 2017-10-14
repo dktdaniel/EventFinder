@@ -25,7 +25,6 @@ const getEvents = ({lat, lng, rad = '10'}) => {
   .then(data => {
     data = JSON.parse(data);
     var events = data._embedded.events;
-    console.log('here are the events!', events)
     return events.map( event => {
       return {
         event: {

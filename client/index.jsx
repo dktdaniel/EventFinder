@@ -53,7 +53,6 @@ class App extends React.Component {
 
   displayEvents(data, id) {
     var events = actions.formatEvents(data, id);
-    console.log('here are the events', events)
     this.setState({
       events: events,
       venue: events[0].venue,
@@ -87,9 +86,6 @@ class App extends React.Component {
   }
 
   sortMarkers(type){
-    console.log('CLICKED!!!', type);
-    console.log(this.state.long)
-    console.log(this.state.lat)
     GoogleMapsLoader.KEY = KEY.KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 
@@ -124,7 +120,6 @@ class App extends React.Component {
       });
 
       searchBox.addListener('places_changed', () => {
-        console.log('holla')
         this.search(searchBox.getPlaces(), google, map);
       });
 
@@ -142,13 +137,10 @@ class App extends React.Component {
   }
 
   search(places, google, map) {
-    console.log('dsaodqwoijd')
     var bounds = new google.maps.LatLngBounds();
-    console.log('bounds in the index', bounds)
     var searchLat;
     var searchLng;
     places.forEach(place => {
-      console.log(place)
       if (place.geometry.viewport) {
         bounds.union(place.geometry.viewport);
         searchLat = place.geometry.location.lat();
@@ -166,7 +158,6 @@ class App extends React.Component {
 
     actions.post(searchLat, searchLng, null, google, map, this.displayEvents.bind(this))
     .then((results) => {
-      console.log('herro', results)
       this.markers = results.markers;
       actions.addInfowindowClose(this.markers);
       this.setState({
@@ -208,7 +199,6 @@ class App extends React.Component {
   }
 
   addToMyEvents() {
-    console.log(this.state.selectedEvent)
     // if they are not logged in, give an error message
     if (!this.state.name) {
       this.togglelogInDimmer()

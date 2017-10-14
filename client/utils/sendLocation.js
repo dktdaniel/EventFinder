@@ -2,7 +2,7 @@ import $ from 'jquery';
 import KEY from '../../config.js';
 
 window.eventTypes = {
-  'all': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+  'All': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
   'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
   'Arts & Theatre': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
   'Film': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
@@ -15,9 +15,7 @@ var actions = {
   get: function(google, map, type, cb) {
     return $.ajax('/events')
     .then(data => {
-      console.log('data', data)
-      console.log(type)
-      if (type === null || type === 'all') {
+      if (type === null || type.toLowerCase() === 'all') {
         return this._prepMarkers(data, cb, google, map)
         .then(markers => {
           return {events: data, markers: markers}
@@ -25,13 +23,10 @@ var actions = {
       } else {
         var info = [];
         data.forEach(el => {
-          console.log(el)
-          console.log(type)
           if (el.event.category === type){
             info.push(el);
           }
         })
-        console.log(info)
         return this._prepMarkers(info, cb, google, map)
           .then(markers => {
           return {events: data, markers: markers}
@@ -54,10 +49,7 @@ var actions = {
       }
     })
     .then(data => {
-      console.log('data', data)
-      console.log(type)
       if (type === null || type === 'all') {
-        console.log('adhdalkfhadfhakdshflaksdhfla', this.a)
         return this.a._prepMarkers(data, cb, google, map)
         .then(markers => {
           return {events: data, markers: markers}
@@ -71,13 +63,11 @@ var actions = {
         })
         return this.a._prepMarkers(info, cb, google, map)
           .then(markers => {
-          console.log(markers)
           return {events: data, markers: markers}
         });
       }
     })
     .fail((err) => {
-      console.log('here')
       console.error(err);
     });
   },
@@ -92,9 +82,7 @@ var actions = {
   },
 
   _prepMarkers: (data, cb, google, map) => {
-    console.log(data)
     return Promise.all(data.map(event => {
-      console.log(event)
       return this.a.getCoordinate(event.venue.address, event.venue.postalCode)
       .then(({lat, lng}) => {
         var marker = this.a._pinMarker(lat, lng, event, google, map);

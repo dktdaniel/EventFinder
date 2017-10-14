@@ -104,14 +104,23 @@ app.post('/events', (req, res) => {
 
 app.post('/favVenue', (req, res) => {
   var venueObj = req.body;
-  return new Promise((resolve, reject) => resolve(db.searchOrCreateFavVenue(venueObj)))
+  return new Promise((resolve, reject) => resolve(db.searchOrCreateMyVenues(venueObj)))
     .then(success => res.send(success))
 });
 
 app.post('/addSchedule', (req, res) => {
   var eventObj = req.body;
-  return new Promise((resolve, reject) => resolve(db.searchOrCreateSchedule(eventObj)))
+  return new Promise((resolve, reject) => resolve(db.searchOrCreateMyEvents(eventObj)))
     .then(success => res.send(success))
+});
+
+app.post('/dashboard', (req, res) => {
+  var userId = req.body.userId;
+  return new Promise((resolve, reject) => {
+    resolve(db.searchForUser(userId));
+  })
+  .then(success => res.send(success))
+  .catch(err => res.send(err))
 });
 
 app.listen(process.env.PORT || 3000, () => {

@@ -29,7 +29,7 @@ CREATE TABLE events (
   FOREIGN KEY (venueId) REFERENCES venues(givenId)
 );
 
-CREATE TABLE favvenues (
+CREATE TABLE myvenues (
   id int AUTO_INCREMENT NOT NULL,
   userId VARCHAR(25),
   venueId VARCHAR(200) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE favvenues (
   FOREIGN KEY (venueId) REFERENCES venues(givenId)
 );
 
-CREATE TABLE schedule (
+CREATE TABLE myevents (
   id int AUTO_INCREMENT NOT NULL,
   userId VARCHAR(25),
   eventId VARCHAR(200),

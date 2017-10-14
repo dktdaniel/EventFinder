@@ -21,7 +21,8 @@ class App extends React.Component {
       userId: '',
       venue: '',
       selectedEvent: {},
-      dashboard: false
+      dashboard: false,
+      loggedIn: false
     }
   }
 
@@ -47,7 +48,7 @@ class App extends React.Component {
   }
 
   getUser({name, id}) {
-    this.setState({name, userId: id});
+    this.setState({name, userId: id, loggedIn: true});
   }
 
   favVenue() {
@@ -102,12 +103,16 @@ class App extends React.Component {
   }
 
   changeView() {
-    this.setState({dashboard: !this.state.dashboard})
+    if (!this.state.userId) {
+      alert('Please log in');
+    } else {
+      this.setState({dashboard: !this.state.dashboard});
+    }
   }
 
   render() {
     return (<div>
-      <Navbar getUser={this.getUser.bind(this)} changeView={this.changeView.bind(this)}/>
+      <Navbar getUser={this.getUser.bind(this)} changeView={this.changeView.bind(this)} loggedIn={this.state.loggedIn}/>
       {this.state.dashboard === false
       ?
       <div id="app-container">
@@ -135,7 +140,7 @@ class App extends React.Component {
         }
       </div>
       :
-      <Dashboard/>
+      <Dashboard userId={this.state.userId}/>
       }
       </div>
     )

@@ -8,7 +8,7 @@ class Legend extends React.Component {
 
 	render() {
 		return (
-			<div id="legend">
+			<div id="legend"> Sort By These:
 				<ul id="legendList">
 					{this.markers.map((type, key) =>
 						<li onClick={() => this.props.sort(type)} key={key}><img src={this.props.markers[type]} /> {type} </li>

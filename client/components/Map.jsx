@@ -51,7 +51,6 @@ class Map extends React.Component {
       });
 
       searchBox.addListener('places_changed', () => {
-        console.log('HOOWAH')
         this.search(searchBox.getPlaces(), google, map);
       });
 
@@ -65,9 +64,7 @@ class Map extends React.Component {
   }
 
   search(places, google, map) {
-    console.log('sdjfhs')
     var bounds = new google.maps.LatLngBounds();
-    console.log('bounds', bounds)
     var searchLat;
     var searchLng;
     places.forEach(place => {

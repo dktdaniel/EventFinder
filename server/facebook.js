@@ -12,7 +12,7 @@ const getFBEvents = ({lat, lng, rad = '10'}) => {
     lat: lat,
     lng: lng,
     categories: types,
-    accessToken: token
+    accessToken: process.env.token
   };
 
   return FBSearch.search(

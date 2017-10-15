@@ -1,13 +1,13 @@
 import $ from 'jquery';
-import KEY from '../../config.js';
+// import KEY from '../../config.js';
 
 window.eventTypes = {
-  'All': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
-  'Music': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-  'Arts & Theatre': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
-  'Film': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-  'Sports': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-  'Miscellaneous': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+  'All': 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+  'Music': 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+  'Arts & Theatre': 'https://maps.google.com/mapfiles/ms/icons/purple-dot.png',
+  'Film': 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+  'Sports': 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
+  'Miscellaneous': 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
   
 }
 
@@ -133,7 +133,7 @@ var actions = {
 
   getCoordinate(address, postalCode) {
     return $.ajax({
-      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address+postalCode},+CA&key=${KEY.KEY}`,
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address+postalCode},+CA&key=${process.env.KEY}`,
       type: "GET",
       format: 'application/JSON'
     })

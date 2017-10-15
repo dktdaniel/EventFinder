@@ -13,7 +13,7 @@ const getEvents = ({lat, lng, rad = '10'}) => {
 
   const options = {
     method: 'GET',
-    uri: 'https://app.ticketmaster.com/discovery/v2/events.json?apikey=' + api +
+    uri: 'https://app.ticketmaster.com/discovery/v2/events.json?apikey=' + process.env.api +
           '&latlong=' + lat + ',' + lng +
           '&radius=' + rad +
           '&unit=miles' +

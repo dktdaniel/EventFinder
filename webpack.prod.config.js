@@ -15,5 +15,10 @@ module.exports = {
         loader: 'babel-loader'
       }
     ]
-  }
+  },
+  plugins: [    
+    new webpack.DefinePlugin({           
+      KEY: JSON.stringify(process.env.KEY)
+    })
+  ]
 };

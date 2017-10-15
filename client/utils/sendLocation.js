@@ -133,7 +133,7 @@ var actions = {
 
   getCoordinate(address, postalCode) {
     return $.ajax({
-      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address+postalCode},+CA&key=${process.env.KEY}`,
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address+postalCode},+CA&key=${KEY}`,
       type: "GET",
       format: 'application/JSON'
     })

@@ -86,7 +86,7 @@ class App extends React.Component {
   }
 
   sortMarkers(type){
-    GoogleMapsLoader.KEY = process.env.KEY;
+    GoogleMapsLoader.KEY = KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 
     GoogleMapsLoader.load(google => {

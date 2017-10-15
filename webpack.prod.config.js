@@ -16,9 +16,9 @@ module.exports = {
       }
     ]
   },
-  plugins: [    
-    new webpack.DefinePlugin({           
-      KEY: JSON.stringify(process.env.KEY)
-    })
+  plugins: [
+  new webpack.EnvironmentPlugin([
+    'KEY'
+    ])
   ]
 };

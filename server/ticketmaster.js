@@ -1,5 +1,5 @@
 // make GET requests to ticketmaster API
-const api = require('../config.js').API_KEY;
+// const api = require('../config.js').API_KEY;
 const request = require('request-promise');
 
 const getEvents = ({lat, lng, rad = '10'}) => {

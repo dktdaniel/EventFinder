@@ -9,7 +9,7 @@ import actions from './utils/sendLocation.js';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Legend from './components/Legend.jsx';
-import KEY from '../config.js';
+// import KEY from '../config.js';
 import { Transition, Container, Image, Header, Grid, Icon, Dimmer, Segment } from 'semantic-ui-react';
 import Dashboard from './components/Dashboard.jsx';
 
@@ -86,7 +86,7 @@ class App extends React.Component {
   }
 
   sortMarkers(type){
-    GoogleMapsLoader.KEY = KEY.KEY;
+    GoogleMapsLoader.KEY = KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 
     GoogleMapsLoader.load(google => {

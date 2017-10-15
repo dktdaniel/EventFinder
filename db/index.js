@@ -5,14 +5,14 @@ var Promise = require('bluebird');
 // var DATABASE_URL = require('../config.js').DATABASE_URL;
 
 // Local connection, development purposes only
-var cbMysql = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'eventfinder'
-});
+// var cbMysql = mysql.createConnection({
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : '',
+//   database : 'eventfinder'
+// });
 
-// var cbMysql = mysql.createConnection(JAWSDB_URL);
+var cbMysql = mysql.createConnection(process.env.JAWSDB_URL);
 
 cbMysql.connect();
 var connection = Promise.promisifyAll(cbMysql);

@@ -1,5 +1,5 @@
 // make GET requests to facebook Graph API
-const token = require('../config.js').FB_TOKEN;
+// const token = require('../config.js').FB_TOKEN;
 const EventSearch = require("facebook-events-by-location-core");
 const request = require('request-promise');
 

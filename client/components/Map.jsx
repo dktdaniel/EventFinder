@@ -16,6 +16,8 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
+    var KEY = KEY || process.env.KEY;
+    console.log(KEY);
     GoogleMapsLoader.KEY = KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 

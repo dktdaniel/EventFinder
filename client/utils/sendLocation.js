@@ -13,7 +13,7 @@ window.eventTypes = {
 
 var actions = {
   get: function(google, map, type, cb) {
-    return $.ajax('/events')
+    return $.ajax('https://hr-eventfinder.herokuapp.com/events')
     .then(data => {
       var info = [];
       data.forEach(el => {
@@ -46,7 +46,7 @@ var actions = {
   post: (lat, lng, type, google, map, cb) => {
     return $.ajax({
       method: 'POST',
-      url: '/events',
+      url: 'https://hr-eventfinder.herokuapp.com/events',
       data: {
         data: JSON.stringify({
           lat: lat,

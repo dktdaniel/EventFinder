@@ -1,6 +1,6 @@
 import React from 'react';
 import GoogleMapsLoader from 'google-maps';
-import KEY from '../../config.js';
+// import KEY from '../../config.js';
 import mapStyles from '../utils/mapStyles.js';
 import sampleData from '../utils/sampleData.js';
 import $ from 'jquery';
@@ -16,7 +16,7 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    GoogleMapsLoader.KEY = KEY.KEY;
+    GoogleMapsLoader.KEY = process.env.KEY;
     GoogleMapsLoader.LIBRARIES = ['places'];
 
     GoogleMapsLoader.load(google => {
